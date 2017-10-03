@@ -3,7 +3,6 @@ from IPython.display import display
 from ipywidgets import interact, interactive, fixed, interact_manual
 import ipywidgets as widgets
 
-import matplotlib.gridspec as gridspec
 import mpl_toolkits.axes_grid.axes_size as Size
 from mpl_toolkits.axes_grid import Divider
 import matplotlib.pyplot as plt
@@ -13,18 +12,25 @@ from FFBP.utils import retrieve_loss, retrieve_array
 from PDPATH import PDPATH
 
 
-
-
 def _return_(x):
     return x
 
 
-def matricize(x):
-    return x.reshape(x.shape[0],1)
-
-
-def matricize_row(x):
-    return x.reshape(1,x.shape[0])
+def _hide_ticks(ax):
+    ax.tick_params(
+        axis='x',
+        which='both',
+        bottom='off',
+        top='off',
+        labelbottom='off',
+        labeltop='off')
+    ax.tick_params(
+        axis='y',
+        which='both',
+        left='off',
+        right='off',
+        labelleft='off',
+        labelright='off')
 
 
 class Logdir(object):
@@ -45,26 +51,9 @@ class Logdir(object):
 def view_error(logdir):
     data = retrieve_loss(logdir.log_path())
     plt.plot(data[:,0], data[:,1])
-        
-
-def _hide_ticks(ax):
-    ax.tick_params(
-        axis='x',
-        which='both',
-        bottom='off',
-        top='off',
-        labelbottom='off',
-        labeltop='off')
-    ax.tick_params(
-        axis='y',
-        which='both',
-        left='off',
-        right='off',
-        labelleft='off',
-        labelright='off')
 
     
-def _draw_layer(fig, data, colormap, step_ind, pat_ind, vrange):
+def _draw_layer_(fig, data, colormap, step_ind, pat_ind, vrange):
     rect = (0.1, 0.1, 0.8, 0.8) 
     axs = [fig.add_axes(rect, label='{}'.format(i)) for i in range(len(data.keys()))]
     
@@ -83,20 +72,19 @@ def _draw_layer(fig, data, colormap, step_ind, pat_ind, vrange):
     divider = Divider(fig, rect, col_widths, row_heights, aspect=True)
     
     params = {
-        'input':{'locs':(0,0),'funct':matricize_row,'two_inds':True},
-        'weights':{'locs':(0,2),'funct':np.transpose,'two_inds':False},
-        'biases':{'locs':(2,2),'funct':matricize,'two_inds':False},
-        'net_input':{'locs':(4,2),'funct':matricize,'two_inds':True},
-        'activations':{'locs':(6,2),'funct':matricize,'two_inds':True}
+        'input':{'locs':(0,0), 'two_inds':True},
+        'weights':{'locs':(0,2),'two_inds':False},
+        'biases':{'locs':(2,2),'two_inds':False},
+        'net_input':{'locs':(4,2), 'two_inds':True},
+        'activations':{'locs':(6,2), 'two_inds':True}
     }
     
     axs = {}
     for i, (key, val) in enumerate(data.items()):
-        axs[key] = fig.add_axes(rect, label=key)
+        axs[key] = fig.add_axes(rect, label=key, xticks=[], yticks=[])
         axs[key].set_axes_locator(divider.new_locator(nx=params[key]['locs'][0], ny=params[key]['locs'][1]))
         x = val[step_ind][pat_ind] if params[key]['two_inds'] else val[step_ind]
-        axs[key].imshow(params[key]['funct'](x), cmap=colormap, vmin=vrange[0], vmax=vrange[1])
-        _hide_ticks(axs[key])
+        axs[key].imshow(x, cmap=colormap, vmin=vrange[0], vmax=vrange[1])
     plt.draw()
     plt.show()
 
@@ -106,9 +94,9 @@ def view_layer(logdir, layer_name, _target=False):
     data = {'weights': None, 'net_input': None, 'biases': None, 'activations': None}
     for key in data.keys():
         data[key], steps = retrieve_array(path, layer_name, key)
-        print('retrieving {}:\n{}'.format(key, data[key]))
+        # print('retrieving {}:\n{}'.format(key, data[key]))
     print('Fake input of length:',data['weights'][0].shape[1])
-    data['input'] = [np.zeros([4, data['weights'][0].shape[1]]) for i in steps]
+    data['input'] = [np.zeros([4, data['weights'][0].shape[0]]) for i in steps]
     fig = plt.figure()
 
     # Axes grid is a rectangle placed inside a figure. specify the position of the rectange in the figure: 
@@ -126,32 +114,31 @@ def view_layer(logdir, layer_name, _target=False):
                    Size.Scaled(max_height)]
 
     # divide the axes rectangle into grid whose size is specified by horiz * vert
-    divider = Divider(fig, rect, col_widths, row_heights, aspect=True)
+    Divider(fig, rect, col_widths, row_heights, aspect=True)
     
     cmap_widget = widgets.Dropdown(
-        options = sorted(['coolwarm','gray','hot','bwr','RdBu']),  
-        description = 'Color map:', 
-        value = 'RdBu',  disabled = False
-    )
-    
-    step_widget = widgets.IntSlider(
-        value = steps[0],
-        min = 0,
-        max = len(steps)-1,
-        step = 1,
-        description='Step index:'
-    )
+        options = sorted(['BrBG', 'bwr', 'coolwarm', 'PiYG', 'PRGn', 'PuOr', 'RdBu', 'RdGy', 'RdYlBu', 'RdYlGn', 'seismic']),  
+        description = 'Colors: ', 
+        value = 'RdBu',  disabled = False)
     
     vrange_widget = widgets.IntRangeSlider(
         value=[-1, 1],
         min=-5,
         max=5,
         step=1,
-        description='V-range:',
-    )
+        description='V-range: ',
+        continuous_update=False)
+    
+    step_widget = widgets.IntSlider(
+        value = steps[0],
+        min = 0,
+        max = len(steps)-1,
+        step = 1,
+        description='Step index: ',
+        continuous_update=False)
     
     interact(
-        _draw_layer,
+        _draw_layer_,
         fig = fixed(fig),
         data = fixed(data),
         step_ind = step_widget,
