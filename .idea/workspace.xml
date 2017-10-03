@@ -2,21 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="48f9a037-4084-4270-80cb-2eed832ba810" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/xor/exercise_params/checkpoint" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/xor/exercise_params/exercise_params.data-00000-of-00001" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/xor/exercise_params/exercise_params.index" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/xor/exercise_params/exercise_params.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/xor/train/log0/events.out.tfevents.1506466267.Alexs-MacBook-Pro.local" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/pdpyflow.iml" afterPath="$PROJECT_DIR$/.idea/pdpyflow.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FFBP/utils.py" afterPath="$PROJECT_DIR$/FFBP/utils.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FFBP/vis_utils.py" afterPath="$PROJECT_DIR$/FFBP/vis_utils.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/xor/.ipynb_checkpoints/xor_exercise-checkpoint.ipynb" afterPath="$PROJECT_DIR$/xor/.ipynb_checkpoints/xor_exercise-checkpoint.ipynb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/xor/temp/.ipynb_checkpoints/datamining_example-checkpoint.ipynb" afterPath="$PROJECT_DIR$/xor/temp/.ipynb_checkpoints/datamining_example-checkpoint.ipynb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/xor/temp/datamining_example.ipynb" afterPath="$PROJECT_DIR$/xor/temp/datamining_example.ipynb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/xor/xor_exercise.ipynb" afterPath="$PROJECT_DIR$/xor/xor_exercise.ipynb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/xor/xor_viewer.ipynb" afterPath="$PROJECT_DIR$/xor/xor_viewer.ipynb" />
     </list>
     <ignored path="pdpyflow.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -40,8 +27,8 @@
       <file leaf-file-name="utils.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/FFBP/utils.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="660">
-              <caret line="44" column="30" selection-start-line="44" selection-start-column="30" selection-end-line="44" selection-end-column="30" />
+            <state relative-caret-position="371">
+              <caret line="36" column="32" selection-start-line="36" selection-start-column="32" selection-end-line="36" selection-end-column="32" />
               <folding>
                 <element signature="e#0#83#0" expanded="true" />
               </folding>
@@ -371,9 +358,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1419" height="877" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15522175" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15522175" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3299363" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -809,8 +796,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/FFBP/utils.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="660">
-          <caret line="44" column="30" selection-start-line="44" selection-start-column="30" selection-end-line="44" selection-end-column="30" />
+        <state relative-caret-position="371">
+          <caret line="36" column="32" selection-start-line="36" selection-start-column="32" selection-end-line="36" selection-end-column="32" />
           <folding>
             <element signature="e#0#83#0" expanded="true" />
           </folding>
