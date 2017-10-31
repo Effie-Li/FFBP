@@ -24,7 +24,7 @@ def use_exercise_params(use):
         output_W = [v for v in all_vars if 'output_layer/weights' in v.name][0]
         output_b = [v for v in all_vars if 'output_layer/biases' in v.name][0]
         restore_dict = {'w_1': hidden_W,'b_1': hidden_b,'w_2': output_W,'b_2': output_b}
-        tf.train.Saver(restore_dict).restore(tf.get_default_session(), 'exercise_params/exercise_params')
+        tf.train.Saver(restore_dict).restore(tf.get_default_session(), 'exercise_params_old/exercise_params_old')
 
 
 class BasicLayer(object):

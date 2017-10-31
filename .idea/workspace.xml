@@ -2,24 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="48f9a037-4084-4270-80cb-2eed832ba810" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/FFBP/dump.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/FFBP/model.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/FFBP/reader.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/FFBP/tester.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/FFBP/trainer.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/xor/temp/.ipynb_checkpoints/input_pipeline-checkpoint.ipynb" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/xor/temp/.ipynb_checkpoints/np_data_mining-checkpoint.ipynb" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/xor/temp/input_pipeline.ipynb" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/xor/temp/np_data_mining.ipynb" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/xor/train/np_log_000/events.out.tfevents.1508602147.Alexs-MacBook-Pro.local" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/xor/train/np_log_000/snap.pkl" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/xor/xor_utils.py" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.ipynb_checkpoints/eight_things-checkpoint.ipynb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/eight_things.ipynb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/xor/train_data_A.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/xor/train_data_C.txt" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/xor/exercise_params/checkpoint" afterPath="$PROJECT_DIR$/xor/temp/exercise_params_old/checkpoint" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/xor/exercise_params/exercise_params.data-00000-of-00001" afterPath="$PROJECT_DIR$/xor/temp/exercise_params_old/exercise_params.data-00000-of-00001" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/xor/exercise_params/exercise_params.index" afterPath="$PROJECT_DIR$/xor/temp/exercise_params_old/exercise_params.index" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/xor/exercise_params/exercise_params.meta" afterPath="$PROJECT_DIR$/xor/temp/exercise_params_old/exercise_params.meta" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/xor/temp1.py" afterPath="$PROJECT_DIR$/xor/temp/temp1.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FFBP/utils.py" afterPath="$PROJECT_DIR$/FFBP/utils.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/xor/.ipynb_checkpoints/xor_exercise_np_summaries-checkpoint.ipynb" afterPath="$PROJECT_DIR$/xor/.ipynb_checkpoints/xor_exercise_np_summaries-checkpoint.ipynb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/xor/train_data_B.txt" afterPath="$PROJECT_DIR$/xor/train_data_B.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/xor/xor_exercise.ipynb" afterPath="$PROJECT_DIR$/xor/xor_exercise.ipynb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/xor/xor_exercise_np_summaries.ipynb" afterPath="$PROJECT_DIR$/xor/xor_exercise_np_summaries.ipynb" />
     </list>
     <ignored path="pdpyflow.iws" />
@@ -61,21 +54,9 @@
         <entry file="file://$PROJECT_DIR$/FFBP/constructors.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="428">
-              <caret line="248" column="25" lean-forward="true" selection-start-line="248" selection-start-column="25" selection-end-line="248" selection-end-column="25" />
+              <caret line="248" column="25" lean-forward="false" selection-start-line="248" selection-start-column="25" selection-end-line="248" selection-end-column="25" />
               <folding>
                 <element signature="e#0#23#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="temp.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/temp.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1656">
-              <caret line="308" column="39" lean-forward="false" selection-start-line="308" selection-start-column="39" selection-end-line="308" selection-end-column="39" />
-              <folding>
-                <element signature="e#0#38#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -84,13 +65,49 @@
       <file leaf-file-name="vis_utils.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/FFBP/vis_utils.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="378">
-              <caret line="76" column="42" lean-forward="true" selection-start-line="76" selection-start-column="42" selection-end-line="76" selection-end-column="42" />
+            <state relative-caret-position="495">
+              <caret line="162" column="0" lean-forward="true" selection-start-line="162" selection-start-column="0" selection-end-line="162" selection-end-column="0" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
                 <element signature="e#364#372#0" expanded="false" />
                 <element signature="e#400#699#0" expanded="false" />
+                <element signature="e#773#958#0" expanded="false" />
+                <element signature="e#987#1690#0" expanded="false" />
                 <element signature="e#1721#1816#0" expanded="false" />
+                <element signature="e#1910#3874#0" expanded="false" />
+                <element signature="e#3931#5691#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="train_data_B.txt" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/xor/train_data_B.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="60">
+              <caret line="4" column="18" lean-forward="true" selection-start-line="4" selection-start-column="18" selection-end-line="4" selection-end-column="18" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="temp.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/temp.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="380">
+              <caret line="280" column="5" lean-forward="false" selection-start-line="280" selection-start-column="5" selection-end-line="280" selection-end-column="5" />
+              <folding>
+                <element signature="e#844#866#0" expanded="false" />
+                <element signature="e#890#907#0" expanded="false" />
+                <element signature="e#938#1073#0" expanded="false" />
+                <element signature="e#976#1073#0" expanded="false" />
+                <element signature="e#1125#1937#0" expanded="false" />
+                <element signature="e#2005#2818#0" expanded="false" />
+                <element signature="e#2906#3920#0" expanded="false" />
+                <element signature="e#3993#5853#0" expanded="false" />
+                <element signature="e#5903#6111#0" expanded="false" />
+                <element signature="e#6296#7792#0" expanded="false" />
+                <element signature="e#7959#10229#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -164,6 +181,11 @@
               <item name="pdpyflow" type="b2602c69:ProjectViewProjectNode" />
               <item name="pdpyflow" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="pdpyflow" type="b2602c69:ProjectViewProjectNode" />
+              <item name="pdpyflow" type="462c0819:PsiDirectoryNode" />
+              <item name="xor" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -177,6 +199,9 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/xor/temp" />
+      <recent name="$PROJECT_DIR$/xor/exercise_params" />
+      <recent name="$PROJECT_DIR$/xor" />
       <recent name="$PROJECT_DIR$/FFBP" />
       <recent name="$PROJECT_DIR$" />
     </key>
@@ -351,7 +376,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="pdpyflow" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/xor/temp1.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/xor/temp/temp1.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -406,11 +431,12 @@
       <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1595136" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32889965" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3686747" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3286445" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2841596" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2841596" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -419,7 +445,6 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3299363" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -441,10 +466,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/FFBP/reader.py" />
-    <entry file="file://$PROJECT_DIR$/FFBP/trainer.py" />
-    <entry file="file://$PROJECT_DIR$/FFBP/tester.py" />
-    <entry file="file://$PROJECT_DIR$/FFBP/model.py" />
     <entry file="file://$PROJECT_DIR$/FFBP/utils.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -602,13 +623,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/xor/temp1.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="481">
-          <caret line="99" column="44" lean-forward="false" selection-start-line="99" selection-start-column="44" selection-end-line="99" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/FFBP/utils.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -625,14 +639,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/xor/train_data_B.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" column="18" lean-forward="true" selection-start-line="4" selection-start-column="18" selection-end-line="4" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/eight_things-train_data.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="480">
@@ -641,36 +647,96 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/FFBP/vis_utils.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="378">
-          <caret line="76" column="42" lean-forward="true" selection-start-line="76" selection-start-column="42" selection-end-line="76" selection-end-column="42" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-            <element signature="e#364#372#0" expanded="false" />
-            <element signature="e#400#699#0" expanded="false" />
-            <element signature="e#1721#1816#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/FFBP/constructors.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="428">
-          <caret line="248" column="25" lean-forward="true" selection-start-line="248" selection-start-column="25" selection-end-line="248" selection-end-column="25" />
+          <caret line="248" column="25" lean-forward="false" selection-start-line="248" selection-start-column="25" selection-end-line="248" selection-end-column="25" />
           <folding>
             <element signature="e#0#23#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/xor/temp/temp1.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="99" column="44" lean-forward="false" selection-start-line="99" selection-start-column="44" selection-end-line="99" selection-end-column="44" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/xor/xor_exercise_np_summaries.ipynb">
+      <provider selected="true" editor-type-id="ipnb-editor">
+        <state>
+          <selected id="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/eight_things_model (needs clean up).ipynb">
+      <provider selected="true" editor-type-id="ipnb-editor">
+        <state>
+          <selected id="0" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/temp.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1656">
-          <caret line="308" column="39" lean-forward="false" selection-start-line="308" selection-start-column="39" selection-end-line="308" selection-end-column="39" />
+        <state relative-caret-position="380">
+          <caret line="280" column="5" lean-forward="false" selection-start-line="280" selection-start-column="5" selection-end-line="280" selection-end-column="5" />
           <folding>
-            <element signature="e#0#38#0" expanded="true" />
+            <element signature="e#844#866#0" expanded="false" />
+            <element signature="e#890#907#0" expanded="false" />
+            <element signature="e#938#1073#0" expanded="false" />
+            <element signature="e#976#1073#0" expanded="false" />
+            <element signature="e#1125#1937#0" expanded="false" />
+            <element signature="e#2005#2818#0" expanded="false" />
+            <element signature="e#2906#3920#0" expanded="false" />
+            <element signature="e#3993#5853#0" expanded="false" />
+            <element signature="e#5903#6111#0" expanded="false" />
+            <element signature="e#6296#7792#0" expanded="false" />
+            <element signature="e#7959#10229#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/FFBP/vis_utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="495">
+          <caret line="162" column="0" lean-forward="true" selection-start-line="162" selection-start-column="0" selection-end-line="162" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+            <element signature="e#364#372#0" expanded="false" />
+            <element signature="e#400#699#0" expanded="false" />
+            <element signature="e#773#958#0" expanded="false" />
+            <element signature="e#987#1690#0" expanded="false" />
+            <element signature="e#1721#1816#0" expanded="false" />
+            <element signature="e#1910#3874#0" expanded="false" />
+            <element signature="e#3931#5691#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/xor/train_data_C.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/xor/train_data_A.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/xor/train_data_B.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="18" lean-forward="true" selection-start-line="4" selection-start-column="18" selection-end-line="4" selection-end-column="18" />
+          <folding />
         </state>
       </provider>
     </entry>
