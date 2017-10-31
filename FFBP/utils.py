@@ -132,3 +132,16 @@ def display_model_data(data_dict):
         for x in data.targets: print(x)
         print('  data:')
         for x in data.data: print(x)
+            
+
+def snap2pickle(logdir, snap):
+    path = '/'.join([logdir,'snap.pkl'])
+    try:
+        with open(path, 'rb') as old_file:
+            old_snap = pickle.load(old_file)
+        with open(path, 'wb') as old_file:
+            old_snap.append(snap)
+            pickle.dump(old_snap, old_file)
+    except FileNotFoundError:
+        with open(path, 'wb') as new_file:
+            out = pickle.dump([snap], new_file)
