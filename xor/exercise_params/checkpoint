@@ -1,2 +1,2 @@
-model_checkpoint_path: "/Users/alexten/Projects/pdpyflow/xor/exercise_params/exercise_params"
-all_model_checkpoint_paths: "/Users/alexten/Projects/pdpyflow/xor/exercise_params/exercise_params"
+model_checkpoint_path: "/Users/alexten/Projects/pdpyflow/xor/logdirs/ffbp_logdir_000/checkpoint_files/xor_model-0"
+all_model_checkpoint_paths: "/Users/alexten/Projects/pdpyflow/xor/logdirs/ffbp_logdir_000/checkpoint_files/xor_model-0"
