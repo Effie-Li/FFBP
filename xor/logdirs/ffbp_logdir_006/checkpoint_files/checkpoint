@@ -1,0 +1,2 @@
+model_checkpoint_path: "/Users/alexten/Projects/pdpyflow/xor/logdirs/ffbp_logdir_006/checkpoint_files/xor_model-100"
+all_model_checkpoint_paths: "/Users/alexten/Projects/pdpyflow/xor/logdirs/ffbp_logdir_006/checkpoint_files/xor_model-100"

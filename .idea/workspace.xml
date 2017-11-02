@@ -2,16 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="48f9a037-4084-4270-80cb-2eed832ba810" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.ipynb_checkpoints/eight_things-checkpoint.ipynb" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/eight_things.ipynb" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/xor/train_data_A.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/xor/train_data_C.txt" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/xor/exercise_params/checkpoint" afterPath="$PROJECT_DIR$/xor/temp/exercise_params_old/checkpoint" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/xor/exercise_params/exercise_params.data-00000-of-00001" afterPath="$PROJECT_DIR$/xor/temp/exercise_params_old/exercise_params.data-00000-of-00001" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/xor/exercise_params/exercise_params.index" afterPath="$PROJECT_DIR$/xor/temp/exercise_params_old/exercise_params.index" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/xor/exercise_params/exercise_params.meta" afterPath="$PROJECT_DIR$/xor/temp/exercise_params_old/exercise_params.meta" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/xor/temp1.py" afterPath="$PROJECT_DIR$/xor/temp/temp1.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/xor/logdirs/ffbp_logdir_000/snap.pkl" afterPath="$PROJECT_DIR$/xor/logdirs/ffbp_logdir_000/snap.pkl" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FFBP/constructors.py" afterPath="$PROJECT_DIR$/FFBP/constructors.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/xor/.ipynb_checkpoints/xor_exercise_np_summaries-checkpoint.ipynb" afterPath="$PROJECT_DIR$/xor/.ipynb_checkpoints/xor_exercise_np_summaries-checkpoint.ipynb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/xor/xor_exercise_np_summaries.ipynb" afterPath="$PROJECT_DIR$/xor/xor_exercise_np_summaries.ipynb" />
     </list>
@@ -50,13 +42,17 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="constructors.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="constructors.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/FFBP/constructors.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="428">
-              <caret line="248" column="25" lean-forward="false" selection-start-line="248" selection-start-column="25" selection-end-line="248" selection-end-column="25" />
+            <state relative-caret-position="195">
+              <caret line="258" column="17" lean-forward="false" selection-start-line="258" selection-start-column="17" selection-end-line="258" selection-end-column="17" />
               <folding>
                 <element signature="e#0#23#0" expanded="true" />
+                <element signature="e#74#2186#0" expanded="false" />
+                <element signature="e#2219#4929#0" expanded="false" />
+                <element signature="e#4961#10521#0" expanded="false" />
+                <element signature="e#10553#12965#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -66,7 +62,7 @@
         <entry file="file://$PROJECT_DIR$/FFBP/vis_utils.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="495">
-              <caret line="162" column="0" lean-forward="true" selection-start-line="162" selection-start-column="0" selection-end-line="162" selection-end-column="0" />
+              <caret line="162" column="0" lean-forward="false" selection-start-line="162" selection-start-column="0" selection-end-line="162" selection-end-column="0" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
                 <element signature="e#364#372#0" expanded="false" />
@@ -77,16 +73,6 @@
                 <element signature="e#1910#3874#0" expanded="false" />
                 <element signature="e#3931#5691#0" expanded="false" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="train_data_B.txt" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/xor/train_data_B.txt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="4" column="18" lean-forward="true" selection-start-line="4" selection-start-column="18" selection-end-line="4" selection-end-column="18" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -148,8 +134,8 @@
         <option value="$PROJECT_DIR$/FFBP/vis_utils.py" />
         <option value="$PROJECT_DIR$/FFBP/utils.py" />
         <option value="$PROJECT_DIR$/eight_things-train_data.txt" />
-        <option value="$PROJECT_DIR$/FFBP/constructors.py" />
         <option value="$PROJECT_DIR$/temp.py" />
+        <option value="$PROJECT_DIR$/FFBP/constructors.py" />
       </list>
     </option>
   </component>
@@ -427,8 +413,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1595136" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1595136" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32889965" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -647,16 +634,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/FFBP/constructors.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="428">
-          <caret line="248" column="25" lean-forward="false" selection-start-line="248" selection-start-column="25" selection-end-line="248" selection-end-column="25" />
-          <folding>
-            <element signature="e#0#23#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/xor/temp/temp1.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="391">
@@ -699,23 +676,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/FFBP/vis_utils.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="495">
-          <caret line="162" column="0" lean-forward="true" selection-start-line="162" selection-start-column="0" selection-end-line="162" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-            <element signature="e#364#372#0" expanded="false" />
-            <element signature="e#400#699#0" expanded="false" />
-            <element signature="e#773#958#0" expanded="false" />
-            <element signature="e#987#1690#0" expanded="false" />
-            <element signature="e#1721#1816#0" expanded="false" />
-            <element signature="e#1910#3874#0" expanded="false" />
-            <element signature="e#3931#5691#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/xor/train_data_C.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -735,8 +695,39 @@
     <entry file="file://$PROJECT_DIR$/xor/train_data_B.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
-          <caret line="4" column="18" lean-forward="true" selection-start-line="4" selection-start-column="18" selection-end-line="4" selection-end-column="18" />
+          <caret line="4" column="18" lean-forward="false" selection-start-line="4" selection-start-column="18" selection-end-line="4" selection-end-column="18" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/FFBP/vis_utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="495">
+          <caret line="162" column="0" lean-forward="false" selection-start-line="162" selection-start-column="0" selection-end-line="162" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+            <element signature="e#364#372#0" expanded="false" />
+            <element signature="e#400#699#0" expanded="false" />
+            <element signature="e#773#958#0" expanded="false" />
+            <element signature="e#987#1690#0" expanded="false" />
+            <element signature="e#1721#1816#0" expanded="false" />
+            <element signature="e#1910#3874#0" expanded="false" />
+            <element signature="e#3931#5691#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/FFBP/constructors.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="258" column="17" lean-forward="false" selection-start-line="258" selection-start-column="17" selection-end-line="258" selection-end-column="17" />
+          <folding>
+            <element signature="e#0#23#0" expanded="true" />
+            <element signature="e#74#2186#0" expanded="false" />
+            <element signature="e#2219#4929#0" expanded="false" />
+            <element signature="e#4961#10521#0" expanded="false" />
+            <element signature="e#10553#12965#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
