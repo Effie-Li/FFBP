@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="48f9a037-4084-4270-80cb-2eed832ba810" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/xor/logdirs/ffbp_logdir_000/snap.pkl" afterPath="$PROJECT_DIR$/xor/logdirs/ffbp_logdir_000/snap.pkl" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FFBP/constructors.py" afterPath="$PROJECT_DIR$/FFBP/constructors.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/xor/.ipynb_checkpoints/xor_exercise_np_summaries-checkpoint.ipynb" afterPath="$PROJECT_DIR$/xor/.ipynb_checkpoints/xor_exercise_np_summaries-checkpoint.ipynb" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/temp.py" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/xor/xor_exercise_np_summaries.ipynb" afterPath="$PROJECT_DIR$/xor/xor_exercise_np_summaries.ipynb" />
     </list>
     <ignored path="pdpyflow.iws" />
@@ -27,7 +25,7 @@
       <file leaf-file-name="utils.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/FFBP/utils.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
+            <state relative-caret-position="525">
               <caret line="147" column="0" lean-forward="false" selection-start-line="147" selection-start-column="0" selection-end-line="147" selection-end-column="0" />
               <folding>
                 <element signature="e#0#47#0" expanded="true" />
@@ -42,7 +40,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="constructors.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="constructors.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/FFBP/constructors.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="195">
@@ -58,10 +56,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="vis_utils.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="vis_utils.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/FFBP/vis_utils.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="495">
+            <state relative-caret-position="1048">
               <caret line="162" column="0" lean-forward="false" selection-start-line="162" selection-start-column="0" selection-end-line="162" selection-end-column="0" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
@@ -70,30 +68,6 @@
                 <element signature="e#773#958#0" expanded="false" />
                 <element signature="e#987#1690#0" expanded="false" />
                 <element signature="e#1721#1816#0" expanded="false" />
-                <element signature="e#1910#3874#0" expanded="false" />
-                <element signature="e#3931#5691#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="temp.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/temp.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="380">
-              <caret line="280" column="5" lean-forward="false" selection-start-line="280" selection-start-column="5" selection-end-line="280" selection-end-column="5" />
-              <folding>
-                <element signature="e#844#866#0" expanded="false" />
-                <element signature="e#890#907#0" expanded="false" />
-                <element signature="e#938#1073#0" expanded="false" />
-                <element signature="e#976#1073#0" expanded="false" />
-                <element signature="e#1125#1937#0" expanded="false" />
-                <element signature="e#2005#2818#0" expanded="false" />
-                <element signature="e#2906#3920#0" expanded="false" />
-                <element signature="e#3993#5853#0" expanded="false" />
-                <element signature="e#5903#6111#0" expanded="false" />
-                <element signature="e#6296#7792#0" expanded="false" />
-                <element signature="e#7959#10229#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -610,22 +584,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/FFBP/utils.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="147" column="0" lean-forward="false" selection-start-line="147" selection-start-column="0" selection-end-line="147" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#47#0" expanded="true" />
-            <element signature="e#169#906#0" expanded="false" />
-            <element signature="e#1005#3463#0" expanded="false" />
-            <element signature="e#3517#4006#0" expanded="false" />
-            <element signature="e#4083#5557#0" expanded="false" />
-            <element signature="e#5603#5964#0" expanded="false" />
-            <element signature="e#6006#6334#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/eight_things-train_data.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="480">
@@ -660,19 +618,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="380">
           <caret line="280" column="5" lean-forward="false" selection-start-line="280" selection-start-column="5" selection-end-line="280" selection-end-column="5" />
-          <folding>
-            <element signature="e#844#866#0" expanded="false" />
-            <element signature="e#890#907#0" expanded="false" />
-            <element signature="e#938#1073#0" expanded="false" />
-            <element signature="e#976#1073#0" expanded="false" />
-            <element signature="e#1125#1937#0" expanded="false" />
-            <element signature="e#2005#2818#0" expanded="false" />
-            <element signature="e#2906#3920#0" expanded="false" />
-            <element signature="e#3993#5853#0" expanded="false" />
-            <element signature="e#5903#6111#0" expanded="false" />
-            <element signature="e#6296#7792#0" expanded="false" />
-            <element signature="e#7959#10229#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -700,19 +646,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/FFBP/vis_utils.py">
+    <entry file="file://$PROJECT_DIR$/FFBP/utils.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="495">
-          <caret line="162" column="0" lean-forward="false" selection-start-line="162" selection-start-column="0" selection-end-line="162" selection-end-column="0" />
+        <state relative-caret-position="525">
+          <caret line="147" column="0" lean-forward="false" selection-start-line="147" selection-start-column="0" selection-end-line="147" selection-end-column="0" />
           <folding>
-            <element signature="e#0#9#0" expanded="true" />
-            <element signature="e#364#372#0" expanded="false" />
-            <element signature="e#400#699#0" expanded="false" />
-            <element signature="e#773#958#0" expanded="false" />
-            <element signature="e#987#1690#0" expanded="false" />
-            <element signature="e#1721#1816#0" expanded="false" />
-            <element signature="e#1910#3874#0" expanded="false" />
-            <element signature="e#3931#5691#0" expanded="false" />
+            <element signature="e#0#47#0" expanded="true" />
+            <element signature="e#169#906#0" expanded="false" />
+            <element signature="e#1005#3463#0" expanded="false" />
+            <element signature="e#3517#4006#0" expanded="false" />
+            <element signature="e#4083#5557#0" expanded="false" />
+            <element signature="e#5603#5964#0" expanded="false" />
+            <element signature="e#6006#6334#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -727,6 +672,21 @@
             <element signature="e#2219#4929#0" expanded="false" />
             <element signature="e#4961#10521#0" expanded="false" />
             <element signature="e#10553#12965#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/FFBP/vis_utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1048">
+          <caret line="162" column="0" lean-forward="false" selection-start-line="162" selection-start-column="0" selection-end-line="162" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+            <element signature="e#364#372#0" expanded="false" />
+            <element signature="e#400#699#0" expanded="false" />
+            <element signature="e#773#958#0" expanded="false" />
+            <element signature="e#987#1690#0" expanded="false" />
+            <element signature="e#1721#1816#0" expanded="false" />
           </folding>
         </state>
       </provider>
