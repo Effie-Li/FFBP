@@ -1,3 +1,4 @@
+import pickle
 from collections import OrderedDict, namedtuple
 
 import tensorflow as tf
@@ -145,3 +146,20 @@ def snap2pickle(logdir, snap):
     except FileNotFoundError:
         with open(path, 'wb') as new_file:
             out = pickle.dump([snap], new_file)
+
+
+def unpickle_snap(snap_path):
+    with open(snap_path, 'rb') as snap_file:
+        snap = pickle.load(snap_file)
+    return snap
+
+
+def get_epochs(snap_path):
+    with open(snap_path, 'rb') as snap_file:
+        snaps = pickle.load(snap_file)
+    return [snap['enum'] for snap in snaps]
+
+def get_layer_dims(snap_path, layer_name):
+    with open(snap_path, 'rb') as snap_file:
+        snaps = pickle.load(snap_file)
+    return snaps[0][layer_name]['weights'].shape

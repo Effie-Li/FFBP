@@ -97,7 +97,7 @@ class BasicLayer(object):
             with tf.name_scope('net_input'):
                 self.net_input = tf.matmul(self.input_, self.weights, a_is_sparse=sparse_inp) + self.biases
 
-            with tf.name_scope('activations'):
+            with tf.name_scope('output'):
                 self.nonlin = nonlin
                 if nonlin:
                     self.output = nonlin(self.net_input)
@@ -106,7 +106,7 @@ class BasicLayer(object):
 
     def add_gradient_ops(self, loss):
         with tf.name_scope(self.name):
-            item_keys = ['net_input', 'activation', 'weights']
+            item_keys = ['net_input', 'output', 'weights']
             items = [self.net_input, self.output, self.weights]
             if self.biases:
                 item_keys.append('biases')
@@ -119,8 +119,8 @@ class BasicLayer(object):
                 self.__dict__['g{}'.format(str_key)] = grad_op
 
     def fetch_test_ops(self):
-        fetch_items = ['weights', 'biases', 'net_input', 'activation',
-                       'gweights', 'gbiases', 'gnet_input', 'gactivation']
+        fetch_items = ['input_', 'weights', 'biases', 'net_input', 'output',
+                       'gweights', 'gbiases', 'gnet_input', 'goutput']
         fetch_ops = {}
         for fi in fetch_items:
             if fi in self.__dict__.keys():
