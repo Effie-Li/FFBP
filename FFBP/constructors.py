@@ -1,5 +1,9 @@
+import pickle
+
 import tensorflow as tf
 import numpy as np
+
+from FFBP.utils import new_logdir
 
 
 class InputData(object):
@@ -278,7 +282,7 @@ class FFBPSaver(object):
 
     def restore_model(self, logdir_path, make_new_logdir=False):
         self.ckptdir = os.path.join(os.getcwd(), logdir_path, 'checkpoint_files')
-        print('FFBP Saver: initializing local variables and restoring global variables from {}'.format(checkpoint_dir))
+        print('FFBP Saver: initializing local variables and restoring global variables from {}'.format(self.ckptdir))
         saved_files = os.listdir(self.ckptdir)
         for file in saved_files:
             if '.meta' in file:
