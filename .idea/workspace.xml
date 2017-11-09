@@ -2,22 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="48f9a037-4084-4270-80cb-2eed832ba810" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.ipynb_checkpoints/Viewer-checkpoint.ipynb" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.ipynb_checkpoints/eight_things_model (needs clean up)-checkpoint.ipynb" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.ipynb_checkpoints/getting_started-checkpoint.ipynb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/FFBP/axes_grid_temp.py" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/getting_started/.ipynb_checkpoints/getting_started-checkpoint.ipynb" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/tutorials/.ipynb_checkpoints/AxesGrid1-checkpoint.ipynb" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/tutorials/.ipynb_checkpoints/queueing-checkpoint.ipynb" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/xor/.ipynb_checkpoints/xor_exercise-checkpoint.ipynb" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/xor/.ipynb_checkpoints/xor_exercise_np_summaries-checkpoint.ipynb" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/xor/.ipynb_checkpoints/xor_viewer-checkpoint.ipynb" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/xor/temp/.ipynb_checkpoints/dashboards_example-checkpoint.ipynb" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/xor/temp/.ipynb_checkpoints/datamining_example-checkpoint.ipynb" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/xor/temp/.ipynb_checkpoints/input_pipeline_example-checkpoint.ipynb" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/xor/temp/.ipynb_checkpoints/model_restore_example-checkpoint.ipynb" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/xor/temp/.ipynb_checkpoints/np_data_mining_example-checkpoint.ipynb" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/FFBP/axes_grid_temp.py" afterPath="$PROJECT_DIR$/FFBP/dump.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FFBP/constructors.py" afterPath="$PROJECT_DIR$/FFBP/constructors.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FFBP/utils.py" afterPath="$PROJECT_DIR$/FFBP/utils.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FFBP/vis_utils.py" afterPath="$PROJECT_DIR$/FFBP/vis_utils.py" />
@@ -59,11 +47,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="constructors.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="constructors.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/FFBP/constructors.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="255">
-              <caret line="317" column="51" lean-forward="false" selection-start-line="317" selection-start-column="51" selection-end-line="317" selection-end-column="51" />
+              <caret line="317" column="51" lean-forward="true" selection-start-line="317" selection-start-column="51" selection-end-line="317" selection-end-column="51" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
                 <element signature="e#124#2236#0" expanded="false" />
@@ -91,7 +79,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="dump.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="dump.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/FFBP/dump.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="111">
@@ -437,8 +425,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1595136" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1595136" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32889965" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -699,6 +688,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/FFBP/constructors.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="317" column="51" lean-forward="true" selection-start-line="317" selection-start-column="51" selection-end-line="317" selection-end-column="51" />
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
+            <element signature="e#124#2236#0" expanded="false" />
+            <element signature="e#2269#4972#0" expanded="false" />
+            <element signature="e#5004#10564#0" expanded="false" />
+            <element signature="e#10596#13006#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/FFBP/dump.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="111">
@@ -715,20 +718,6 @@
             <element signature="e#7822#8163#0" expanded="false" />
             <element signature="e#8205#8537#0" expanded="false" />
             <element signature="e#8605#9241#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/FFBP/constructors.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="317" column="51" lean-forward="false" selection-start-line="317" selection-start-column="51" selection-end-line="317" selection-end-column="51" />
-          <folding>
-            <element signature="e#0#13#0" expanded="true" />
-            <element signature="e#124#2236#0" expanded="false" />
-            <element signature="e#2269#4972#0" expanded="false" />
-            <element signature="e#5004#10564#0" expanded="false" />
-            <element signature="e#10596#13006#0" expanded="false" />
           </folding>
         </state>
       </provider>
