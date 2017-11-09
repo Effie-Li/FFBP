@@ -2,15 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="48f9a037-4084-4270-80cb-2eed832ba810" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/FFBP/axes_grid_temp.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/getting_started/.ipynb_checkpoints/getting_started-checkpoint.ipynb" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tutorials/.ipynb_checkpoints/AxesGrid1-checkpoint.ipynb" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/tutorials/.ipynb_checkpoints/queueing-checkpoint.ipynb" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FFBP/constructors.py" afterPath="$PROJECT_DIR$/FFBP/constructors.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FFBP/utils.py" afterPath="$PROJECT_DIR$/FFBP/utils.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FFBP/vis_utils.py" afterPath="$PROJECT_DIR$/FFBP/vis_utils.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Viewer.ipynb" afterPath="$PROJECT_DIR$/Viewer.ipynb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tutorials/AxesGrid1.ipynb" afterPath="$PROJECT_DIR$/tutorials/AxesGrid1.ipynb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/xor/xor_exercise_np_summaries.ipynb" afterPath="$PROJECT_DIR$/xor/xor_exercise_np_summaries.ipynb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/xor/xor_viewer.ipynb" afterPath="$PROJECT_DIR$/xor/xor_viewer.ipynb" />
     </list>
@@ -177,12 +172,7 @@
             <path>
               <item name="pdpyflow" type="b2602c69:ProjectViewProjectNode" />
               <item name="pdpyflow" type="462c0819:PsiDirectoryNode" />
-              <item name="FFBP" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="pdpyflow" type="b2602c69:ProjectViewProjectNode" />
-              <item name="pdpyflow" type="462c0819:PsiDirectoryNode" />
-              <item name="xor_" type="462c0819:PsiDirectoryNode" />
+              <item name="xor" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -425,9 +415,8 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
-    <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1595136" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1595136" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32889965" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
