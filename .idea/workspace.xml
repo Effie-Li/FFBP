@@ -2,11 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="48f9a037-4084-4270-80cb-2eed832ba810" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tutorials/.ipynb_checkpoints/queueing-checkpoint.ipynb" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FFBP/utils.py" afterPath="$PROJECT_DIR$/FFBP/utils.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FFBP/vis_utils.py" afterPath="$PROJECT_DIR$/FFBP/vis_utils.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Viewer.ipynb" afterPath="$PROJECT_DIR$/Viewer.ipynb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/xor/xor_exercise_np_summaries.ipynb" afterPath="$PROJECT_DIR$/xor/xor_exercise_np_summaries.ipynb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/xor/xor_viewer.ipynb" afterPath="$PROJECT_DIR$/xor/xor_viewer.ipynb" />
     </list>
     <ignored path="pdpyflow.iws" />
@@ -74,7 +69,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="dump.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="dump.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/FFBP/dump.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="111">
@@ -92,6 +87,16 @@
                 <element signature="e#8205#8537#0" expanded="false" />
                 <element signature="e#8605#9241#0" expanded="false" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -168,11 +173,6 @@
             <path>
               <item name="pdpyflow" type="b2602c69:ProjectViewProjectNode" />
               <item name="pdpyflow" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="pdpyflow" type="b2602c69:ProjectViewProjectNode" />
-              <item name="pdpyflow" type="462c0819:PsiDirectoryNode" />
-              <item name="xor" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -454,7 +454,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/FFBP/reader.py" />
     <entry file="file://$PROJECT_DIR$/FFBP/trainer.py" />
     <entry file="file://$PROJECT_DIR$/FFBP/tester.py" />
     <entry file="file://$PROJECT_DIR$/FFBP/model.py" />
@@ -708,6 +707,14 @@
             <element signature="e#8205#8537#0" expanded="false" />
             <element signature="e#8605#9241#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
