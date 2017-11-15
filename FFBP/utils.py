@@ -1,8 +1,11 @@
+import os
 import pickle
+import numpy as np
 
 
-def snap2pickle(logdir, snap):
-    path = '/'.join([logdir,'snap.pkl'])
+def snap2pickle(logdir, snap, run_index):
+    # Deprecated: this function is defined as ModelSaver method in FFBP.constructors
+    path = '/'.join([logdir,'snap_{}.pkl'.format(run_index)])
     try:
         with open(path, 'rb') as old_file:
             old_snap = pickle.load(old_file)
@@ -40,3 +43,20 @@ def get_layer_dims(snap_path, layer_name):
     with open(snap_path, 'rb') as snap_file:
         snaps = pickle.load(snap_file)
     return snaps[0][layer_name]['weights'].shape
+
+
+def get_pattern_options(snap_path, tind, input_dtype=int):
+    with open(snap_path, 'rb') as snap_file:
+        snap = pickle.load(snap_file)[tind]
+        labels, vectors = snap['labels'], snap['input']
+        del snap
+
+    pattern_labels, pattern_vectors = [], []
+
+    for label, vector in zip(labels, vectors):
+        pattern_labels.append(label.decode('utf-8'))
+
+        vector_string = np.array2string(vector.astype(input_dtype), separator=',', suppress_small=True)
+        pattern_vectors.append(vector_string.replace('[','').replace(']',''))
+
+    return ['{} | {}'.format(pl,pv) for pl, pv in zip(pattern_labels, pattern_vectors)]
