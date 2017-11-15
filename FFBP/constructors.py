@@ -1,9 +1,10 @@
+import os
+from os.path import join as pjoin
 import pickle
-
 import tensorflow as tf
 import numpy as np
 
-from FFBP.utils import new_logdir
+from .utils import new_logdir
 
 
 class InputData(object):
@@ -132,7 +133,7 @@ class BasicLayer(object):
         return fetch_ops, self.name
 
 
-class FFBPModel(object):
+class Model(object):
     '''
     DOCUMENTATION
     '''
@@ -156,7 +157,7 @@ class FFBPModel(object):
 
         self.data = {'Test': test_data, 'Train': train_data}
 
-        self._prev_param = {}
+        # self._prev_param = {}
 
         if train_data:
             self.data['Train'] = train_data
@@ -184,11 +185,11 @@ class FFBPModel(object):
             loss_sum = 0
             for example in zip(*all_examples):
 
-                # Put together lists of placeholders and values
+                # Align lists of placeholders and feed values
                 placeholders = [self.inp_labels] + self.inp + [self.targ]
                 values = [example[0]] + [np.expand_dims(vec, 0) for vec in example[1:]]
 
-                # Interleave the two lists to be comprehended by dict() constructor
+                # Interleave the two lists to be for dict() constructor
                 feed_list = [val for pair in zip(placeholders, values) for val in pair]
 
                 # Construct a feed_dict with appropriately paired placeholders and feed values
@@ -217,7 +218,6 @@ class FFBPModel(object):
                         fetches=layer_fetches,
                         feed_dict=feed_dict
                     )
-
                     for k, v in layer_out.items():
                         if k == 'weights' or k == 'biases':
                             snap[layer_name][k] = v
@@ -260,53 +260,51 @@ class FFBPModel(object):
         return epoch_loss
 
 
-class FFBPSaver(object):
+class ModelSaver(object):
     '''
     DOCUMENTATION
     '''
 
-    def __init__(self, session):
-        self.session = session
-        self.tf_saver = tf.train.Saver(write_version=tf.train.SaverDef.V2, name='saver')
-        self.logdir = None
-        self.ckptdir = None
+    def __init__(self, restore_path=None, make_new_logdir=False):
+        self.tf_saver = None
+        self.restdir = pjoin(restore_path,'checkpoint_files')
+        self.logdir = new_logdir() if make_new_logdir else restore_path
+        self.ckptdir = pjoin(os.getcwd(), self.logdir, 'checkpoint_files')
+        print('FFBP Saver: logdir path: {}'.format(self.logdir))
 
-    def init_model(self, global_vars=True, local_vars=True, init_epoch=0):
-        print('FFBP Saver: initializing local and global variables from scratch')
-        if global_vars: self.session.run(tf.local_variables_initializer())
-        if local_vars: self.session.run(tf.global_variables_initializer())
-        self.logdir = new_logdir()
-        self.ckptdir = self.logdir + '/checkpoint_files'
-        print('FFBP Saver: new logdir at {}'.format(self.logdir))
-        return init_epoch
+    def _get_tf_saver(self):
+        return self.tf_saver if self.tf_saver else tf.train.Saver(write_version=tf.train.SaverDef.V2, name='saver')
 
-    def restore_model(self, logdir_path, make_new_logdir=False):
-        self.ckptdir = os.path.join(os.getcwd(), logdir_path, 'checkpoint_files')
-        print('FFBP Saver: initializing local variables and restoring global variables from {}'.format(self.ckptdir))
-        saved_files = os.listdir(self.ckptdir)
-        for file in saved_files:
-            if '.meta' in file:
-                model_name = file.split(sep='.')[0]
-                self.tf_saver.restore(self.session, os.path.join(self.ckptdir, model_name))
-        self.session.run(tf.local_variables_initializer())
-
-        if make_new_logdir:
-            self.logdir = new_logdir()
-            self.ckptdir = self.logdir + '/checkpoint_files'
-            print('FFBP Saver: new logdir at {}'.format(self.logdir))
-        else:
-            self.logdir = checkpoint_dir
-
-        restored_epoch = [self.session.run(v) for v in tf.global_variables() if 'global_step' in v.name][0]
+    def _restore_model(self, session):
+        self.tf_saver = self._get_tf_saver()
+        print('FFBP Saver: initializing local variables and restoring global variables from: {}'.format(self.restdir))
+        saved_files = os.listdir(self.restdir)
+        saved_files.pop(saved_files.index('checkpoint'))
+        model_name = saved_files[0].split(sep='.')[0]
+        self.tf_saver.restore(session, pjoin(self.restdir, model_name))
+        restored_epoch = [session.run(v) for v in tf.global_variables() if 'global_step' in v.name][0]
         return restored_epoch
 
-    def save_model(self, model):
-        save_to = '/'.join([self.ckptdir, model.name])
-        save_path = self.tf_saver.save(self.session, save_to, global_step=model._global_step)
-        print("FFBP Saver: model saved at {}".format(save_to))
 
-    def snap2pickle(self, snap):
-        path = '/'.join([self.logdir, 'snap.pkl'])
+    def init_model(self, session, init_epoch=0):
+        if self.restdir:
+            restored_epoch = self._restore_model(session=session)
+            session.run(tf.local_variables_initializer())
+            return restored_epoch
+        else:
+            print('FFBP Saver: initializing local and global variables from scratch')
+            session.run(tf.local_variables_initializer())
+            session.run(tf.global_variables_initializer())
+            return init_epoch
+
+    def save_model(self, session, model):
+        self.tf_saver = self._get_tf_saver()
+        save_to = '/'.join([self.ckptdir, model.name])
+        save_path = self.tf_saver.save(session, save_to, global_step=model._global_step)
+        print("FFBP Saver: model saved to logdir")
+
+    def snap2pickle(self, snap, run_ind):
+        path = '/'.join([self.logdir, 'runlog_{}.pkl'.format(run_ind)])
         try:
             with open(path, 'rb') as old_file:
                 old_snap = pickle.load(old_file)
@@ -315,4 +313,4 @@ class FFBPSaver(object):
                 pickle.dump(old_snap, old_file)
         except FileNotFoundError:
             with open(path, 'wb') as new_file:
-                out = pickle.dump([snap], new_file)
+                pickle.dump([snap], new_file)
