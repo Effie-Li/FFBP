@@ -43,7 +43,7 @@ class Logdir(object):
 def _make_axes_grid(mpl_figure, layer_size, layer_inp_size, target=False):
 
     # make frame to place axes inside figure
-    frame = (0.1, 0.1, 0.8, 0.8)
+    frame = (0.1, 0.1, 0.8, 0.8) # (x1,y1, x2,y2)
 
     # define padding size
     _ = Scaled(.8)
@@ -176,14 +176,26 @@ def view_layers(logdir, layer_names, target_on_last=True):
         continuous_update=False
     )
 
+    pattern_options = utils.get_pattern_options(snap_path=path, tind=step_widget.value)
+    options_map = {}
+    for i, pattern_option in enumerate(pattern_options):
+        options_map[pattern_option] = i
+    pattern_widget = widgets.Select(
+        options=options_map,
+        value=0,
+        rows=8,
+        description='Pattern: ',
+        disabled=False
+    )
+
     interact(
         _draw_many_layers,
         snap_path = fixed(logdir.snap_path),
         figures = fixed(figures),
         img_dicts = fixed(axes_dicts),
         layer_names = fixed(layer_names),
-        colormap=cmap_widget,
-        vrange=vrange_widget,
+        colormap = cmap_widget,
+        vrange = vrange_widget,
         tind = step_widget,
-        pind = fixed(0),
+        pind = pattern_widget,
     )
