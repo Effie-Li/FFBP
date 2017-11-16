@@ -10,7 +10,19 @@ from matplotlib.cm import get_cmap
 from mpl_toolkits.axes_grid1 import SubplotDivider, LocatableAxes
 from mpl_toolkits.axes_grid1.axes_size import Scaled
 
-from .utils import get_layer_dims, get_epochs, get_pattern_options
+from .utils import get_layer_dims, get_epochs, get_pattern_options, get_layer_names
+
+def _make_logs_widget(log_path):
+    filenames = [filename for filename in os.listdir(log_path) if 'runlog_' in filename]
+    runlogs = {}
+    for filename in filenames:
+        runlogs[filename] = joinp(log_path, filename)
+    run_widget = widgets.Dropdown(
+        options=runlogs,
+        description='Run log: ',
+        value=runlogs[filenames[0]]
+    )
+    return run_widget
 
 
 def _make_ghost_axis(mpl_figure, rect, title):
@@ -208,3 +220,7 @@ def view_layers(log_path, layer_names, target_on_last=True):
         tind = step_widget,
         pind = pattern_widget,
     )
+
+
+def view_model(log_path):
+    pass

@@ -42,16 +42,6 @@ def get_epochs(snap_path):
     return [snap['enum'] for snap in snaps]
 
 
-def get_layer_dims(snap_path, layer_names):
-    layer_names = listify(layer_names)
-    layer_dims = {}
-    with open(snap_path, 'rb') as snap_file:
-        snaps = pickle.load(snap_file)
-    for layer_name in layer_names:
-        layer_dims[layer_name] = snaps[0][layer_name]['weights'].shape
-    return layer_dims
-
-
 def get_pattern_options(snap_path, tind, input_dtype=int):
     with open(snap_path, 'rb') as snap_file:
         snap = pickle.load(snap_file)[tind]
@@ -67,3 +57,23 @@ def get_pattern_options(snap_path, tind, input_dtype=int):
         pattern_vectors.append(vector_string.replace('[','').replace(']',''))
 
     return ['{} | {}'.format(pl,pv) for pl, pv in zip(pattern_labels, pattern_vectors)]
+
+
+def get_layer_dims(snap_path, layer_names):
+    layer_names = listify(layer_names)
+    layer_dims = {}
+    with open(snap_path, 'rb') as snap_file:
+        snaps = pickle.load(snap_file)
+    for layer_name in layer_names:
+        layer_dims[layer_name] = snaps[0][layer_name]['weights'].shape
+    return layer_dims
+
+
+def get_layer_names(snap_path):
+    with open(snap_path, 'rb') as snap_file:
+        snap = pickle.load(snap_file)[0]
+    names = []
+    for k,v in snap.values():
+        if isinstance(v, dict):
+            names.append(k)
+    return names

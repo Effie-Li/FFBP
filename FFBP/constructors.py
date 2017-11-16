@@ -265,10 +265,11 @@ class ModelSaver(object):
     DOCUMENTATION
     '''
 
-    def __init__(self, restore_path=None, make_new_logdir=False):
+    def __init__(self, restore_from=None, make_new_logdir=True):
         self.tf_saver = None
-        self.restdir = pjoin(restore_path,'checkpoint_files')
-        self.logdir = new_logdir() if make_new_logdir else restore_path
+        self.restdir = restore_from
+        self.restdir = pjoin(restore_from, 'checkpoint_files') if restore_from else None
+        self.logdir = new_logdir() if make_new_logdir else restore_from
         self.ckptdir = pjoin(os.getcwd(), self.logdir, 'checkpoint_files')
         print('FFBP Saver: logdir path: {}'.format(self.logdir))
 
