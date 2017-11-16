@@ -2,6 +2,9 @@ import os
 import pickle
 import numpy as np
 
+def listify(x):
+    return [x] if not isinstance(x, (list, tuple)) else x
+
 
 def snap2pickle(logdir, snap, run_index):
     # Deprecated: this function is defined as ModelSaver method in FFBP.constructors
@@ -39,10 +42,14 @@ def get_epochs(snap_path):
     return [snap['enum'] for snap in snaps]
 
 
-def get_layer_dims(snap_path, layer_name):
+def get_layer_dims(snap_path, layer_names):
+    layer_names = listify(layer_names)
+    layer_dims = {}
     with open(snap_path, 'rb') as snap_file:
         snaps = pickle.load(snap_file)
-    return snaps[0][layer_name]['weights'].shape
+    for layer_name in layer_names:
+        layer_dims[layer_name] = snaps[0][layer_name]['weights'].shape
+    return layer_dims
 
 
 def get_pattern_options(snap_path, tind, input_dtype=int):
