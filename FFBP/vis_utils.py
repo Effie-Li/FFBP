@@ -137,21 +137,12 @@ def _draw_layers(snap_path, img_dicts, layer_names, colormap, vrange, tind, pind
     plt.show()
 
 
-def view_layers(log_path, layer_names, target_on_last=True):
-    filenames = [filename for filename in os.listdir(log_path) if 'log' in filename]
-    runlogs = {}
-    for filename in filenames:
-        runlogs[filename] = joinp(log_path,filename)
-    run_widget = widgets.Dropdown(
-        options = runlogs,
-        description = 'Run log: ',
-        value = runlogs[filenames[0]]
-    )
-
-
+def view_layers(log_path, target_on_last=True):
+    run_widget = _make_logs_widget(log_path=log_path)
     path = run_widget.value
-    epochs = get_epochs(snap_path=path)
-    layer_dims = get_layer_dims(path, layer_names)
+    epochs = get_epochs(log_path=path)
+    layer_names = get_layer_names(log_path=path)
+    layer_dims = get_layer_dims(log_path=path, layer_names=layer_names)
 
     figure = plt.figure()
     num_layers = len(layer_names)
@@ -198,7 +189,7 @@ def view_layers(log_path, layer_names, target_on_last=True):
         continuous_update=False
     )
 
-    pattern_options = get_pattern_options(snap_path=path, tind=step_widget.value)
+    pattern_options = get_pattern_options(log_path=path, tind=step_widget.value)
     options_map = {}
     for i, pattern_option in enumerate(pattern_options):
         options_map[pattern_option] = i
@@ -220,7 +211,3 @@ def view_layers(log_path, layer_names, target_on_last=True):
         tind = step_widget,
         pind = pattern_widget,
     )
-
-
-def view_model(log_path):
-    pass
