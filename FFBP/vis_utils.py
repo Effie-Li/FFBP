@@ -1,5 +1,7 @@
 import os
 from os.path import join as joinp
+from collections import namedtuple
+
 from ipywidgets import interact, fixed
 import ipywidgets as widgets
 
@@ -13,7 +15,7 @@ from mpl_toolkits.axes_grid1.axes_size import Scaled
 from .utils import get_layer_dims, get_epochs, get_pattern_options, get_layer_names
 
 def _make_logs_widget(log_path):
-    filenames = [filename for filename in os.listdir(log_path) if 'runlog_' in filename]
+    filenames = [filename for filename in os.listdir(log_path) if '.pkl' in filename]
     runlogs = {}
     for filename in filenames:
         runlogs[filename] = joinp(log_path, filename)
@@ -33,55 +35,63 @@ def _make_ghost_axis(mpl_figure, rect, title):
     ghost_ax.set_title(title)
 
 
-def _make_axes_grid(mpl_figure, N, subplot_ind, layer_name, layer_size, layer_inp_size, target=False):
+def _make_axes_grid(mpl_figure, N, subplot_ind, layer_name, inp_size, layer_size, mode, target=False):
     '''
     DOCUMENTATION
     :param mpl_figure: an instance of matplotlib.figure.Figure
     :param N: number of layers
     :param i: layer index
-    :param layer_size: number units in the layer
-    :param layer_inp_size: number of sending units to the layer
+    :param inp_size: number units in the layer
+    :param layer_size: number of sending units to the layer
     :param target: include target
     :return:
     '''
+
+    # provide axes-grid coordinates, image sizes, and titles
+    t = int(target)
+    ax_params = {
+        'input_': ((0, 0), (1, inp_size), 'input'),
+        'weights': ((0, 2), (layer_size, inp_size), 'W'),
+        'biases': ((2, 2), (layer_size, 1), 'b'),
+        'net_input': ((4, 2), (layer_size, 1), 'net'),
+        'output': ((6, 2), (layer_size, 1), 'a')
+    }
+    if t: ax_params['targets'] = ((8, 2), (layer_size, 1), 't')
 
     # define padding size
     _ = Scaled(.8)
 
     # define grid column sizes (left to right): weights, biases, net_input, output, gweight, gbiases, gnet_input, goutput
-    mat_w, cvec_w = Scaled(layer_size), Scaled(1)
+    mat_w, cvec_w = Scaled(inp_size), Scaled(1)
     left_panel = [mat_w, _, cvec_w, _, cvec_w, _, cvec_w, _]
-    right_panel = [_, mat_w, _, cvec_w, _, cvec_w, _, cvec_w]
-    cols =  left_panel + [cvec_w,_] + right_panel if target else left_panel + right_panel
+    cols =  left_panel + [cvec_w,_] if target else left_panel
+
+    if mode > 0:
+        right_panel = [_, mat_w, _, cvec_w, _, cvec_w, _, cvec_w]
+        gax_params = {
+            'gweights': ((9 + 2 * t, 2), (layer_size, inp_size), 'W\''),
+            'gbiases': ((11 + 2 * t, 2), (layer_size, 1), 'b\''),
+            'gnet_input': ((13 + 2 * t, 2), (layer_size, 1), 'net\''),
+            'goutput': ((15 + 2 * t, 2), (layer_size, 1), 'a\'')
+        }
+        for k,v in gax_params.items(): ax_params[k] = v
+        if mode > 1:
+            right_panel += [_, mat_w, _, cvec_w]
+            ax_params['sgweights'] = ((17 + 2 * t, 2), (layer_size, inp_size), 'sW\'')
+            ax_params['sgbiases'] = ((19 + 2 * t, 2), (layer_size, 1), 'sb\'')
+        cols += right_panel
 
     # define grid row sizes (top to bottom): weights, input
-    mat_h, rvec_h = Scaled(layer_inp_size), Scaled(1)
+    mat_h, rvec_h = Scaled(layer_size), Scaled(1)
     rows = [rvec_h, _, mat_h]
 
     # make divider
-    divider = SubplotDivider(mpl_figure, N, 1, subplot_ind, aspect=True)
+    divider = SubplotDivider(mpl_figure, N, 1, subplot_ind, aspect=True, anchor='SW')
     divider.set_horizontal(cols)
     divider.set_vertical(rows)
 
     # set suptitle
     _make_ghost_axis(mpl_figure=mpl_figure, rect=divider.get_position(), title=layer_name)
-
-    # provide axes-grid coordinates, image sizes, and titles
-    mat_h, mat_w = layer_inp_size, layer_size
-    t = int(target)
-    ax_params = {
-        'input_':     ((0, 0),      (1, mat_w),     'input'),
-        'weights':    ((0, 2),      (mat_h, mat_w), 'W'    ),
-        'biases':     ((2, 2),      (mat_h, 1),     'b'    ),
-        'net_input':  ((4, 2),      (mat_h, 1),     'net'  ),
-        'output':     ((6, 2),      (mat_h, 1),     'a'    ),
-        'gweights':   ((9+2*t, 2),  (mat_h, mat_w), 'W\''  ),
-        'gbiases':    ((11+2*t, 2), (mat_h, 1),     'b\''  ),
-        'gnet_input': ((13+2*t, 2), (mat_h, 1),     'net\''),
-        'goutput':    ((15+2*t, 2), (mat_h, 1),     'a\''  )
-    }
-    if t:
-        ax_params['targets'] = ((8, 2), (mat_h, 1), 't')
 
     # create axes and locate appropriately
     img_dict = {}
@@ -137,7 +147,17 @@ def _draw_layers(snap_path, img_dicts, layer_names, colormap, vrange, tind, pind
     plt.show()
 
 
-def view_layers(log_path, target_on_last=True):
+def view_layers(log_path, mode=0):
+    '''
+    DOCUMENTATION
+    :param log_path: path to log directory that contains pickled run logs
+    :param mode: viewing mode. Must be an int between 0 and 2, or a keyword ('nog','g','sumg')
+        0 or 'nog' : limits the viewing to feedforward information only (weights, biases, net_input, output)
+        1 or 'g'   : same as 'nog', but also includes gradient information (gweights, gbiases, gnet_input, goutput)
+        2 or 'sumg': same as 'g', but also includes cumulative gradient information
+    :return:
+    '''
+
     run_widget = _make_logs_widget(log_path=log_path)
     path = run_widget.value
     epochs = get_epochs(log_path=path)
@@ -148,19 +168,18 @@ def view_layers(log_path, target_on_last=True):
     num_layers = len(layer_names)
     axes_dicts = []
 
-    disp_targs = [False for l in layer_names]
-    disp_targs[-1] = target_on_last
-
+    disp_targs = [False for l in layer_names[:-1]] + [True]
     for i, (layer_name, disp_targ) in enumerate(zip(layer_names, disp_targs)):
         axes_dicts.append(
             _make_axes_grid(
                 mpl_figure=figure,
                 N = num_layers,
                 subplot_ind = i,
-                layer_name=layer_name.upper().replace('_',' '),
-                layer_size=layer_dims[layer_name][0],
-                layer_inp_size=layer_dims[layer_name][1],
-                target=bool(disp_targ))
+                layer_name = layer_name.upper().replace('_',' '),
+                inp_size= layer_dims[layer_name][0],
+                layer_size= layer_dims[layer_name][1],
+                mode = mode,
+                target = bool(disp_targ))
         )
 
     cmap_widget = widgets.Dropdown(
