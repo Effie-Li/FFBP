@@ -1,8 +1,10 @@
 import os
-from os.path import join as pjoin
 import pickle
 import tensorflow as tf
 import numpy as np
+
+from os.path import join as pjoin
+from collections import OrderedDict
 
 from .utils import new_logdir
 
@@ -157,8 +159,6 @@ class Model(object):
 
         self.data = {'Test': test_data, 'Train': train_data}
 
-        # self._prev_param = {}
-
         if train_data:
             self.data['Train'] = train_data
             self._train_fetches = {
@@ -179,7 +179,7 @@ class Model(object):
     def test_epoch(self, session, verbose=False):
         assert self.data['Test'] is not None, 'Provide test data to run a test epoch'
         data = self.data['Test']
-        snap = {}
+        snap = OrderedDict()
         with tf.name_scope('Test'):
             all_examples = session.run(data.examples_batch)
             loss_sum = 0
@@ -221,18 +221,17 @@ class Model(object):
                     for k, v in layer_out.items():
                         if k == 'weights' or k == 'biases':
                             snap[layer_name][k] = v
-                            # TODO: Include dweights and dbiases (weight change applied without the momentum term)
-                            # if snap['enum'] == 0:
-                            #     self._prev_param[k] = v
-                            #     snap[layer_name]['d{}'.format(k)] = v*0
-                            # else:
-                            #     snap[layer_name]['d{}'.format(k)] =  v - self._prev_param[k]
                         elif k not in snap[layer_name].keys():
                             snap[layer_name][k] = np.expand_dims(v, axis=0)
                         else:
                             snap[layer_name][k] = np.concatenate([snap[layer_name][k], np.expand_dims(v, axis=0)],
                                                                  axis=0)
                 loss_sum += test_out['loss']
+
+            # Add cumulative gradients for weights and biases
+            for layer in self.layers:
+                snap[layer.name]['sgweights'] = np.sum(snap[layer.name]['gweights'], axis=0)
+                snap[layer.name]['sgbiases'] = np.sum(snap[layer.name]['gbiases'], axis=0)
 
             if verbose:
                 print('Epoch {}: {}'.format(tf.train.global_step(session, self._global_step), loss_sum))
