@@ -1,16 +1,21 @@
 import os
-import pickle
 from os.path import join as joinp
 
 import ipywidgets as widgets
 import matplotlib.pyplot as plt
 import numpy as np
-from IPython.display import display, clear_output
+from IPython.display import display
 from matplotlib.cm import get_cmap
 from mpl_toolkits.axes_grid1 import SubplotDivider, LocatableAxes
 from mpl_toolkits.axes_grid1.axes_size import Scaled
 
-from .utils import get_layer_dims, get_epochs, get_pattern_options, get_layer_names
+from .utils import (
+    load_test_data,
+    get_layer_dims,
+    get_epochs,
+    get_pattern_options,
+    get_layer_names
+)
 
 
 class Observer(object):
@@ -37,7 +42,7 @@ class Observer(object):
         self.gax.set_xlabel('')
 
 
-def _make_logs_widget(log_path):
+def _make_logs_widget(log_path, layout):
     filenames = [filename for filename in os.listdir(log_path) if '.pkl' in filename]
     runlogs = {}
     for filename in filenames:
@@ -45,7 +50,8 @@ def _make_logs_widget(log_path):
     run_widget = widgets.Dropdown(
         options=runlogs,
         description='Run log: ',
-        value=runlogs[filenames[0]]
+        value=runlogs[filenames[0]],
+        layout=layout
     )
     return run_widget
 
@@ -136,34 +142,23 @@ def _make_axes_grid(mpl_figure, N, subplot_ind, layer_name, inp_size, layer_size
     return img_dict
 
 
-def _interact_hookup(f, controls):
-    def observer(change):
-        clear_output()
-        kwargs = {k:v.value for k,v in controls.items()}
-        f(**kwargs)
-    for k, w in controls.items():
-        w.observe(observer, 'value')
-    observer(None)
-
-
-def _draw_layers(snap_path, img_dicts, layer_names, colormap, vrange, tind, pind):
+def _draw_layers(runlog_path, img_dicts, layer_names, colormap, vrange, tind, pind):
 
     # pull up required data
     snap_ldicts = {}
-    with open(snap_path, 'rb') as snap_file:
-        snap = pickle.load(snap_file)
+    snap = load_test_data(runlog_path=runlog_path)[tind]
 
-    enum = snap[tind]['enum']
-    loss = snap[tind]['loss'][pind]
-    targ = snap[tind]['target']
+    enum = snap['enum']
+    loss = snap['loss'][pind]
+    targ = snap['target']
 
     for layer_name in layer_names:
-        snap_ldicts[layer_name] = snap[tind][layer_name]
+        snap_ldicts[layer_name] = snap[layer_name]
         snap_ldicts[layer_name]['targets'] = targ
 
     del snap # clean up
 
-    # print('epoch {}, loss = {:.5f}'.format(enum, loss))
+    print('epoch {}, loss = {:.5f}'.format(enum, loss))
 
     for img_dict, layer_name in zip(img_dicts, layer_names):
         for k, img in img_dict.items():
@@ -181,8 +176,6 @@ def _draw_layers(snap_path, img_dicts, layer_names, colormap, vrange, tind, pind
             img.norm.vmin = vrange[0]
             img.norm.vmax = vrange[1]
 
-    plt.show()
-
 
 def view_layers(log_path, mode=0):
     '''
@@ -195,11 +188,13 @@ def view_layers(log_path, mode=0):
     :return:
     '''
 
-    run_widget = _make_logs_widget(log_path=log_path)
+    _widget_layout = widgets.Layout(width='100%')
+
+    run_widget = _make_logs_widget(log_path=log_path, layout=_widget_layout)
     runlog_path = run_widget.value
-    epochs = get_epochs(log_path=runlog_path)
-    layer_names = get_layer_names(log_path=runlog_path)
-    layer_dims = get_layer_dims(log_path=runlog_path, layer_names=layer_names)
+    epochs = get_epochs(runlog_path=runlog_path)
+    layer_names = get_layer_names(runlog_path=runlog_path)
+    layer_dims = get_layer_dims(runlog_path=runlog_path, layer_names=layer_names)
 
     figure = plt.figure()
     num_layers = len(layer_names)
@@ -224,16 +219,19 @@ def view_layers(log_path, mode=0):
                         'PRGn', 'PuOr', 'RdBu', 'RdGy',
                         'RdYlBu', 'RdYlGn', 'seismic']),
         description='Colors: ',
-        value='coolwarm', disabled=False
+        value='coolwarm',
+        disabled=False,
+        layout = _widget_layout
     )
 
     vrange_widget = widgets.IntRangeSlider(
         value=[-1, 1],
         min=-5,
         max=5,
-        step=1,
+        step=.5,
         description='V-range: ',
-        continuous_update=False
+        continuous_update=False,
+        layout = _widget_layout
     )
 
     step_widget = widgets.IntSlider(
@@ -242,10 +240,11 @@ def view_layers(log_path, mode=0):
         max=len(epochs) - 1,
         step=1,
         description='Step index: ',
-        continuous_update=False
+        continuous_update=False,
+        layout = _widget_layout
     )
 
-    pattern_options = get_pattern_options(log_path=runlog_path, tind=step_widget.value)
+    pattern_options = get_pattern_options(runlog_path=runlog_path, tind=step_widget.value)
     options_map = {}
     for i, pattern_option in enumerate(pattern_options):
         options_map[pattern_option] = i
@@ -254,11 +253,12 @@ def view_layers(log_path, mode=0):
         value=0,
         rows=min(10, len(pattern_options)),
         description='Pattern: ',
-        disabled=False
+        disabled=False,
+        layout = _widget_layout
     )
 
     controls_dict = dict(
-        snap_path=run_widget,
+        runlog_path=run_widget,
         img_dicts=widgets.fixed(axes_dicts),
         layer_names=widgets.fixed(layer_names),
         colormap=cmap_widget,
@@ -274,7 +274,7 @@ def view_layers(log_path, mode=0):
     )
 
     control_panel_rows = [
-        widgets.Box(children=[controls_dict['snap_path'], controls_dict['pind']], layout=row_layout),
+        widgets.Box(children=[controls_dict['runlog_path'], controls_dict['pind']], layout=row_layout),
         widgets.Box(children=[controls_dict['colormap'], controls_dict['vrange']], layout=row_layout),
         widgets.Box(children=[controls_dict['tind']], layout=row_layout),
     ]
@@ -286,7 +286,7 @@ def view_layers(log_path, mode=0):
             flex_flow='column',
             border='ridge 1px',
             align_items='stretch',
-            width='100%'
+            width='65%'
         )
     )
 

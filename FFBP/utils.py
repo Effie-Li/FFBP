@@ -2,9 +2,6 @@ import os
 import pickle
 import numpy as np
 
-def listify(x):
-    return [x] if not isinstance(x, (list, tuple)) else x
-
 
 def snap2pickle(logdir, snap, run_index):
     # Deprecated: this function is defined as ModelSaver method in FFBP.constructors
@@ -30,23 +27,21 @@ def new_logdir():
     return logdir
 
 
-def unpickle_snap(snap_path):
-    with open(snap_path, 'rb') as snap_file:
-        snap = pickle.load(snap_file)
-    return snap
+def load_test_data(runlog_path):
+    with open(runlog_path, 'rb') as snap_file:
+        test_data = pickle.load(snap_file)['test_data']
+    return test_data
 
 
-def get_epochs(log_path):
-    with open(log_path, 'rb') as snap_file:
-        snaps = pickle.load(snap_file)
+def get_epochs(runlog_path):
+    snaps = load_test_data(runlog_path)
     return [snap['enum'] for snap in snaps]
 
 
-def get_pattern_options(log_path, tind, input_dtype=int):
-    with open(log_path, 'rb') as snap_file:
-        snap = pickle.load(snap_file)[tind]
-        labels, vectors = snap['labels'], snap['input']
-        del snap
+def get_pattern_options(runlog_path, tind, input_dtype=int):
+    snap = load_test_data(runlog_path)[tind]
+    labels, vectors = snap['labels'], snap['input']
+    del snap
 
     pattern_labels, pattern_vectors = [], []
 
@@ -59,19 +54,17 @@ def get_pattern_options(log_path, tind, input_dtype=int):
     return ['{} | {}'.format(pl,pv) for pl, pv in zip(pattern_labels, pattern_vectors)]
 
 
-def get_layer_dims(log_path, layer_names):
-    layer_names = listify(layer_names)
+def get_layer_dims(runlog_path, layer_names):
+    layer_names = [layer_names] if not isinstance(layer_names, (list, tuple)) else layer_names
     layer_dims = {}
-    with open(log_path, 'rb') as snap_file:
-        snaps = pickle.load(snap_file)
+    snaps = load_test_data(runlog_path)
     for layer_name in layer_names:
         layer_dims[layer_name] = snaps[0][layer_name]['weights'].shape
     return layer_dims
 
 
-def get_layer_names(log_path):
-    with open(log_path, 'rb') as snap_file:
-        snap = pickle.load(snap_file)[0]
+def get_layer_names(runlog_path):
+    snap = load_test_data(runlog_path)[0]
     names = []
     for k,v in snap.items():
         if isinstance(v, dict):

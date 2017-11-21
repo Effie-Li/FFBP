@@ -224,8 +224,7 @@ class Model(object):
                         elif k not in snap[layer_name].keys():
                             snap[layer_name][k] = np.expand_dims(v, axis=0)
                         else:
-                            snap[layer_name][k] = np.concatenate([snap[layer_name][k], np.expand_dims(v, axis=0)],
-                                                                 axis=0)
+                            snap[layer_name][k] = np.concatenate([snap[layer_name][k], np.expand_dims(v, axis=0)], axis=0)
                 loss_sum += test_out['loss']
 
             # Add cumulative gradients for weights and biases
@@ -307,14 +306,26 @@ class ModelSaver(object):
         save_path = self.tf_saver.save(session, save_to, global_step=model._global_step)
         print("FFBP Saver: model saved to logdir")
 
-    def snap2pickle(self, snap, run_ind):
+    def save_test(self, snap, run_ind):
         path = '/'.join([self.logdir, 'runlog_{}.pkl'.format(run_ind)])
         try:
             with open(path, 'rb') as old_file:
-                old_snap = pickle.load(old_file)
+                runlog = pickle.load(old_file)
             with open(path, 'wb') as old_file:
-                old_snap.append(snap)
-                pickle.dump(old_snap, old_file)
+                runlog.setdefault('test_data', []).append(snap)
+                pickle.dump(runlog, old_file)
         except FileNotFoundError:
             with open(path, 'wb') as new_file:
-                pickle.dump([snap], new_file)
+                pickle.dump(dict(test_data=[snap]), new_file)
+
+    def save_loss(self, loss, run_ind):
+        path = '/'.join([self.logdir, 'runlog_{}.pkl'.format(run_ind)])
+        try:
+            with open(path, 'rb') as old_file:
+                runlog = pickle.load(old_file)
+            with open(path, 'wb') as old_file:
+                runlog.setdefault('loss_data', []).append(loss)
+                pickle.dump(runlog, old_file)
+        except FileNotFoundError:
+            with open(path, 'wb') as new_file:
+                pickle.dump(dict(loss_data=[loss]), new_file)
