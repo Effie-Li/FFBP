@@ -1,18 +1,41 @@
 import os
-from os.path import join as joinp
-from collections import namedtuple
-
-from ipywidgets import interact, fixed
-import ipywidgets as widgets
-
 import pickle
-import numpy as np
+from os.path import join as joinp
+
+import ipywidgets as widgets
 import matplotlib.pyplot as plt
+import numpy as np
+from IPython.display import display, clear_output
 from matplotlib.cm import get_cmap
 from mpl_toolkits.axes_grid1 import SubplotDivider, LocatableAxes
 from mpl_toolkits.axes_grid1.axes_size import Scaled
 
 from .utils import get_layer_dims, get_epochs, get_pattern_options, get_layer_names
+
+
+class Observer(object):
+    def __init__(self, img, gax):
+        self.fig = img.figure
+        self.ax = img.axes
+        self.img = img
+        self.gax = gax
+        self.fig.canvas.mpl_connect('motion_notify_event', self)
+
+    def __call__(self, event):
+        if event.inaxes == self.ax:
+            val = self.img.get_cursor_data(event)
+            self.update_label(val)
+            self.fig.canvas.draw_idle()
+        elif event.inaxes == self.gax:
+            self.clear_label()
+            self.fig.canvas.draw_idle()
+
+    def update_label(self, val):
+        self.gax.set_xlabel('{:.4f}'.format(val))
+
+    def clear_label(self):
+        self.gax.set_xlabel('')
+
 
 def _make_logs_widget(log_path):
     filenames = [filename for filename in os.listdir(log_path) if '.pkl' in filename]
@@ -32,7 +55,9 @@ def _make_ghost_axis(mpl_figure, rect, title):
     [ghost_ax.spines[side].set_visible(False) for side in ['right','top','bottom','left']]
     ghost_ax.set_xticks([])
     ghost_ax.set_yticks([])
-    ghost_ax.set_title(title)
+    ghost_ax.set_ylabel(title)
+    ghost_ax.xaxis.set_label_coords(1, 0)
+    return ghost_ax
 
 
 def _make_axes_grid(mpl_figure, N, subplot_ind, layer_name, inp_size, layer_size, mode, target=False):
@@ -86,12 +111,12 @@ def _make_axes_grid(mpl_figure, N, subplot_ind, layer_name, inp_size, layer_size
     rows = [rvec_h, _, mat_h]
 
     # make divider
-    divider = SubplotDivider(mpl_figure, N, 1, subplot_ind, aspect=True, anchor='SW')
+    divider = SubplotDivider(mpl_figure, N, 1, subplot_ind, aspect=True, anchor='W')
     divider.set_horizontal(cols)
     divider.set_vertical(rows)
 
     # set suptitle
-    _make_ghost_axis(mpl_figure=mpl_figure, rect=divider.get_position(), title=layer_name)
+    gax = _make_ghost_axis(mpl_figure=mpl_figure, rect=divider.get_position(), title=layer_name)
 
     # create axes and locate appropriately
     img_dict = {}
@@ -105,8 +130,20 @@ def _make_axes_grid(mpl_figure, N, subplot_ind, layer_name, inp_size, layer_size
         else:
             ax.set_title(ax_title)
         mpl_figure.add_axes(ax)
-        img_dict[k] = ax.imshow(np.zeros(img_dims))
+        img = ax.imshow(np.zeros(img_dims))
+        img_dict[k] = img
+        Observer(img, gax)
     return img_dict
+
+
+def _interact_hookup(f, controls):
+    def observer(change):
+        clear_output()
+        kwargs = {k:v.value for k,v in controls.items()}
+        f(**kwargs)
+    for k, w in controls.items():
+        w.observe(observer, 'value')
+    observer(None)
 
 
 def _draw_layers(snap_path, img_dicts, layer_names, colormap, vrange, tind, pind):
@@ -126,7 +163,7 @@ def _draw_layers(snap_path, img_dicts, layer_names, colormap, vrange, tind, pind
 
     del snap # clean up
 
-    print('epoch {}, loss = {:.5f}'.format(enum, loss))
+    # print('epoch {}, loss = {:.5f}'.format(enum, loss))
 
     for img_dict, layer_name in zip(img_dicts, layer_names):
         for k, img in img_dict.items():
@@ -151,18 +188,18 @@ def view_layers(log_path, mode=0):
     '''
     DOCUMENTATION
     :param log_path: path to log directory that contains pickled run logs
-    :param mode: viewing mode. Must be an int between 0 and 2, or a keyword ('nog','g','sumg')
-        0 or 'nog' : limits the viewing to feedforward information only (weights, biases, net_input, output)
-        1 or 'g'   : same as 'nog', but also includes gradient information (gweights, gbiases, gnet_input, goutput)
-        2 or 'sumg': same as 'g', but also includes cumulative gradient information
+    :param mode: viewing mode index. Must be an int between 0 and 2
+        0: limits the viewing to feedforward information only (weights, biases, net_input, output)
+        1: same as 0, but also includes gradient information (gweights, gbiases, gnet_input, goutput)
+        2: same as 2, but also includes cumulative gradient information
     :return:
     '''
 
     run_widget = _make_logs_widget(log_path=log_path)
-    path = run_widget.value
-    epochs = get_epochs(log_path=path)
-    layer_names = get_layer_names(log_path=path)
-    layer_dims = get_layer_dims(log_path=path, layer_names=layer_names)
+    runlog_path = run_widget.value
+    epochs = get_epochs(log_path=runlog_path)
+    layer_names = get_layer_names(log_path=runlog_path)
+    layer_dims = get_layer_dims(log_path=runlog_path, layer_names=layer_names)
 
     figure = plt.figure()
     num_layers = len(layer_names)
@@ -208,7 +245,7 @@ def view_layers(log_path, mode=0):
         continuous_update=False
     )
 
-    pattern_options = get_pattern_options(log_path=path, tind=step_widget.value)
+    pattern_options = get_pattern_options(log_path=runlog_path, tind=step_widget.value)
     options_map = {}
     for i, pattern_option in enumerate(pattern_options):
         options_map[pattern_option] = i
@@ -220,13 +257,38 @@ def view_layers(log_path, mode=0):
         disabled=False
     )
 
-    interact(
-        _draw_layers,
-        snap_path = run_widget,
-        img_dicts = fixed(axes_dicts),
-        layer_names = fixed(layer_names),
-        colormap = cmap_widget,
-        vrange = vrange_widget,
-        tind = step_widget,
-        pind = pattern_widget,
+    controls_dict = dict(
+        snap_path=run_widget,
+        img_dicts=widgets.fixed(axes_dicts),
+        layer_names=widgets.fixed(layer_names),
+        colormap=cmap_widget,
+        vrange=vrange_widget,
+        tind=step_widget,
+        pind=pattern_widget,
     )
+
+    row_layout = widgets.Layout(
+        display = 'flex',
+        flex_flow = 'row',
+        justify_content = 'center'
+    )
+
+    control_panel_rows = [
+        widgets.Box(children=[controls_dict['snap_path'], controls_dict['pind']], layout=row_layout),
+        widgets.Box(children=[controls_dict['colormap'], controls_dict['vrange']], layout=row_layout),
+        widgets.Box(children=[controls_dict['tind']], layout=row_layout),
+    ]
+
+    controls_panel = widgets.Box(
+        children=control_panel_rows,
+        layout = widgets.Layout(
+            display='flex',
+            flex_flow='column',
+            border='ridge 1px',
+            align_items='stretch',
+            width='100%'
+        )
+    )
+
+    widgets.interactive_output(f=_draw_layers, controls=controls_dict)
+    display(controls_panel)

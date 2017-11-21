@@ -268,7 +268,11 @@ class ModelSaver(object):
         self.tf_saver = None
         self.restdir = restore_from
         self.restdir = pjoin(restore_from, 'checkpoint_files') if restore_from else None
-        self.logdir = new_logdir() if make_new_logdir else restore_from
+        if make_new_logdir:
+            if isinstance(make_new_logdir, (bool, int)):
+                self.logdir = new_logdir()
+            else:
+                self.logdir = make_new_logdir
         self.ckptdir = pjoin(os.getcwd(), self.logdir, 'checkpoint_files')
         print('FFBP Saver: logdir path: {}'.format(self.logdir))
 

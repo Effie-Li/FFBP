@@ -275,6 +275,14 @@ def view_layers(log_path, layer_names, target_on_last=True):
     )
 
 
+class XY_formatter(object):
+    def __init__(self, label):
+        self.label = label
+
+    def __call__(self, x, y):
+        return '{0} ({2},{1}) |  '.format(self.label, int(x+.5), int(y+.5))
+
+
 # FFBP.utils
 # ========================
 def retrieve_model_params(path_to_event_file, layer_name, param_name):
@@ -431,4 +439,3 @@ def use_exercise_params(use):
         tf.train.Saver(restore_dict, name='xor_exercise_saver').restore(
             tf.get_default_session(), 'temp/exercise_params_old/exercise_params'
         )
-

@@ -2,6 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="48f9a037-4084-4270-80cb-2eed832ba810" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FFBP/constructors.py" afterPath="$PROJECT_DIR$/FFBP/constructors.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FFBP/dump.py" afterPath="$PROJECT_DIR$/FFBP/dump.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FFBP/vis_utils.py" afterPath="$PROJECT_DIR$/FFBP/vis_utils.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/xor/xor_exercise_np_summaries.ipynb" afterPath="$PROJECT_DIR$/xor/xor_exercise_np_summaries.ipynb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/xor/xor_viewer.ipynb" afterPath="$PROJECT_DIR$/xor/xor_viewer.ipynb" />
     </list>
     <ignored path="pdpyflow.iws" />
@@ -21,82 +26,41 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="utils.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/FFBP/utils.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="38" column="14" lean-forward="false" selection-start-line="38" selection-start-column="14" selection-end-line="38" selection-end-column="14" />
-              <folding>
-                <element signature="e#51#426#0" expanded="false" />
-                <element signature="e#451#677#0" expanded="false" />
-                <element signature="e#714#808#0" expanded="false" />
-                <element signature="e#842#965#0" expanded="false" />
-                <element signature="e#1015#1143#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="constructors.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/FFBP/constructors.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="317" column="51" lean-forward="true" selection-start-line="317" selection-start-column="51" selection-end-line="317" selection-end-column="51" />
-              <folding>
-                <element signature="e#0#13#0" expanded="true" />
-                <element signature="e#124#2236#0" expanded="false" />
-                <element signature="e#2269#4972#0" expanded="false" />
-                <element signature="e#5004#10564#0" expanded="false" />
-                <element signature="e#10596#13006#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="vis_utils.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/FFBP/vis_utils.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="14" column="0" lean-forward="false" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
+            <state relative-caret-position="300">
+              <caret line="261" column="25" lean-forward="false" selection-start-line="261" selection-start-column="25" selection-end-line="261" selection-end-column="25" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
-                <element signature="e#424#1523#0" expanded="false" />
-                <element signature="e#1606#3611#0" expanded="false" />
-                <element signature="e#3716#4847#0" expanded="false" />
-                <element signature="e#4914#6494#0" expanded="false" />
+                <element signature="e#200#2312#0" expanded="false" />
+                <element signature="e#2345#5048#0" expanded="false" />
+                <element signature="e#5076#10456#0" expanded="false" />
+                <element signature="e#10489#13031#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="dump.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/FFBP/dump.py">
+      <file leaf-file-name="vis_utils.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/FFBP/vis_utils.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="111">
-              <caret line="77" column="12" lean-forward="false" selection-start-line="77" selection-start-column="12" selection-end-line="77" selection-end-column="12" />
+            <state relative-caret-position="405">
+              <caret line="58" column="41" lean-forward="true" selection-start-line="58" selection-start-column="41" selection-end-line="58" selection-end-column="41" />
               <folding>
-                <element signature="e#134#774#0" expanded="false" />
-                <element signature="e#831#2040#0" expanded="false" />
-                <element signature="e#2071#2166#0" expanded="false" />
-                <element signature="e#2284#3021#0" expanded="false" />
-                <element signature="e#3120#5684#0" expanded="false" />
-                <element signature="e#3120#3410#1" expanded="false" />
-                <element signature="e#5738#6227#0" expanded="false" />
-                <element signature="e#6304#7776#0" expanded="false" />
-                <element signature="e#7822#8163#0" expanded="false" />
-                <element signature="e#8205#8537#0" expanded="false" />
-                <element signature="e#8605#9241#0" expanded="false" />
+                <element signature="e#0#9#0" expanded="true" />
+                <element signature="e#458#1102#0" expanded="false" />
+                <element signature="e#1142#1482#0" expanded="false" />
+                <element signature="e#1922#2225#1" expanded="false" />
+                <element signature="e#2324#2595#0" expanded="false" />
+                <element signature="e#3026#3711#0" expanded="false" />
+                <element signature="e#4817#5028#0" expanded="false" />
+                <element signature="e#5119#6160#0" expanded="false" />
+                <element signature="e#6202#9714#0" expanded="false" />
+                <element signature="e#6202#6659#1" expanded="false" />
+                <element signature="e#7160#7562#0" expanded="false" />
+                <element signature="e#7623#7769#0" expanded="false" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/.gitignore">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -117,6 +81,13 @@
       <find>print</find>
       <find>plt</find>
       <find>new</find>
+      <find>path.joi</find>
+      <find>log</find>
+      <find>run_lo</find>
+      <find>runl</find>
+      <find>event</find>
+      <find>coords</find>
+      <find>xy_form</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -138,17 +109,22 @@
         <option value="$PROJECT_DIR$/eight_things-train_data.txt" />
         <option value="$PROJECT_DIR$/temp.py" />
         <option value="$PROJECT_DIR$/FFBP/axes_grid_temp.py" />
-        <option value="$PROJECT_DIR$/FFBP/dump.py" />
-        <option value="$PROJECT_DIR$/FFBP/vis_utils.py" />
+        <option value="$PROJECT_DIR$/.gitignore" />
+        <option value="$PROJECT_DIR$/FFBP/__init__.py" />
         <option value="$PROJECT_DIR$/FFBP/utils.py" />
         <option value="$PROJECT_DIR$/FFBP/constructors.py" />
+        <option value="$PROJECT_DIR$/FFBP/_xLibs/__init__.py" />
+        <option value="$PROJECT_DIR$/FFBP/ddd.py" />
+        <option value="$PROJECT_DIR$/FFBP/vis_utils2.py" />
+        <option value="$PROJECT_DIR$/FFBP/dump.py" />
+        <option value="$PROJECT_DIR$/FFBP/vis_utils.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" fullScreen="true">
-    <option name="x" value="294" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="286" />
     <option name="y" value="23" />
-    <option name="width" value="1125" />
+    <option name="width" value="1168" />
     <option name="height" value="877" />
   </component>
   <component name="ProjectView">
@@ -174,6 +150,34 @@
               <item name="pdpyflow" type="b2602c69:ProjectViewProjectNode" />
               <item name="pdpyflow" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="pdpyflow" type="b2602c69:ProjectViewProjectNode" />
+              <item name="pdpyflow" type="462c0819:PsiDirectoryNode" />
+              <item name="FFBP" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="pdpyflow" type="b2602c69:ProjectViewProjectNode" />
+              <item name="pdpyflow" type="462c0819:PsiDirectoryNode" />
+              <item name="xor" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="pdpyflow" type="b2602c69:ProjectViewProjectNode" />
+              <item name="pdpyflow" type="462c0819:PsiDirectoryNode" />
+              <item name="xor_" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="pdpyflow" type="b2602c69:ProjectViewProjectNode" />
+              <item name="pdpyflow" type="462c0819:PsiDirectoryNode" />
+              <item name="xor_" type="462c0819:PsiDirectoryNode" />
+              <item name="logdirs" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="pdpyflow" type="b2602c69:ProjectViewProjectNode" />
+              <item name="pdpyflow" type="462c0819:PsiDirectoryNode" />
+              <item name="xor_" type="462c0819:PsiDirectoryNode" />
+              <item name="logdirs" type="462c0819:PsiDirectoryNode" />
+              <item name="ffbp_logdir_000" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -187,11 +191,14 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/FFBP/_xLibs/mpldatacursor" />
+      <recent name="$PROJECT_DIR$/xor_/logdirs/ffbp_logdir_000" />
       <recent name="$PROJECT_DIR$/xor/temp" />
       <recent name="$PROJECT_DIR$/xor/exercise_params" />
       <recent name="$PROJECT_DIR$/xor" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/FFBP" />
-      <recent name="$PROJECT_DIR$" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -206,7 +213,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.temp1">
+  <component name="RunManager" selected="Python.ddd">
     <configuration default="true" type="BashConfigurationType" factoryName="Bash">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="INTERPRETER_PATH" value="/bin/bash" />
@@ -352,6 +359,23 @@
       <option name="USE_KEYWORD" value="false" />
       <method />
     </configuration>
+    <configuration name="ddd" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/FFBP" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="pdpyflow" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/FFBP/ddd.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+    </configuration>
     <configuration name="temp1" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -386,14 +410,35 @@
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
     </configuration>
-    <list size="2">
+    <configuration name="utils" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/FFBP" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="pdpyflow" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/FFBP/utils.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+    </configuration>
+    <list size="4">
       <item index="0" class="java.lang.String" itemvalue="Python.tester" />
       <item index="1" class="java.lang.String" itemvalue="Python.temp1" />
+      <item index="2" class="java.lang.String" itemvalue="Python.utils" />
+      <item index="3" class="java.lang.String" itemvalue="Python.ddd" />
     </list>
     <recent_temporary>
-      <list size="2">
-        <item index="0" class="java.lang.String" itemvalue="Python.temp1" />
-        <item index="1" class="java.lang.String" itemvalue="Python.tester" />
+      <list size="4">
+        <item index="0" class="java.lang.String" itemvalue="Python.ddd" />
+        <item index="1" class="java.lang.String" itemvalue="Python.utils" />
+        <item index="2" class="java.lang.String" itemvalue="Python.temp1" />
+        <item index="3" class="java.lang.String" itemvalue="Python.tester" />
       </list>
     </recent_temporary>
   </component>
@@ -414,17 +459,18 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1440" height="900" extended-state="0" />
+    <frame x="286" y="23" width="1168" height="877" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1595136" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20603907" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32889965" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3686747" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3286445" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.22762148" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3286445" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3465473" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28295043" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23913044" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -449,12 +495,11 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="16" />
+      <option name="time" value="22" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/FFBP/trainer.py" />
     <entry file="file://$PROJECT_DIR$/FFBP/tester.py" />
     <entry file="file://$PROJECT_DIR$/FFBP/model.py" />
     <entry file="file://$PROJECT_DIR$/FFBP/utils.py">
@@ -462,29 +507,13 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#51#426#0" expanded="false" />
-            <element signature="e#451#677#0" expanded="false" />
-            <element signature="e#714#808#0" expanded="false" />
-            <element signature="e#842#965#0" expanded="false" />
-            <element signature="e#1015#1143#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/FFBP/reader.py" />
-    <entry file="file://$PROJECT_DIR$/FFBP/trainer.py" />
-    <entry file="file://$PROJECT_DIR$/FFBP/tester.py" />
-    <entry file="file://$PROJECT_DIR$/FFBP/model.py" />
-    <entry file="file://$PROJECT_DIR$/FFBP/utils.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#51#426#0" expanded="false" />
-            <element signature="e#451#677#0" expanded="false" />
-            <element signature="e#714#808#0" expanded="false" />
-            <element signature="e#842#965#0" expanded="false" />
-            <element signature="e#1015#1143#0" expanded="false" />
+            <element signature="e#0#9#0" expanded="true" />
+            <element signature="e#64#117#0" expanded="false" />
+            <element signature="e#166#647#0" expanded="false" />
+            <element signature="e#672#898#0" expanded="false" />
+            <element signature="e#935#1029#0" expanded="false" />
+            <element signature="e#1062#1184#0" expanded="false" />
+            <element signature="e#1249#1824#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -505,11 +534,13 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#51#426#0" expanded="false" />
-            <element signature="e#451#677#0" expanded="false" />
-            <element signature="e#714#808#0" expanded="false" />
-            <element signature="e#842#965#0" expanded="false" />
-            <element signature="e#1015#1143#0" expanded="false" />
+            <element signature="e#0#9#0" expanded="true" />
+            <element signature="e#64#117#0" expanded="false" />
+            <element signature="e#166#647#0" expanded="false" />
+            <element signature="e#672#898#0" expanded="false" />
+            <element signature="e#935#1029#0" expanded="false" />
+            <element signature="e#1062#1184#0" expanded="false" />
+            <element signature="e#1249#1824#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -530,11 +561,13 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#51#426#0" expanded="false" />
-            <element signature="e#451#677#0" expanded="false" />
-            <element signature="e#714#808#0" expanded="false" />
-            <element signature="e#842#965#0" expanded="false" />
-            <element signature="e#1015#1143#0" expanded="false" />
+            <element signature="e#0#9#0" expanded="true" />
+            <element signature="e#64#117#0" expanded="false" />
+            <element signature="e#166#647#0" expanded="false" />
+            <element signature="e#672#898#0" expanded="false" />
+            <element signature="e#935#1029#0" expanded="false" />
+            <element signature="e#1062#1184#0" expanded="false" />
+            <element signature="e#1249#1824#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -586,19 +619,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/eight_things-train_data.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
-          <caret line="32" column="113" lean-forward="false" selection-start-line="32" selection-start-column="113" selection-end-line="32" selection-end-column="113" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/eight_things-train_data.txt" />
     <entry file="file://$PROJECT_DIR$/xor/temp/temp1.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="391">
           <caret line="99" column="44" lean-forward="false" selection-start-line="99" selection-start-column="44" selection-end-line="99" selection-end-column="44" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -609,22 +634,33 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/eight_things_model (needs clean up).ipynb">
-      <provider selected="true" editor-type-id="ipnb-editor">
-        <state>
-          <selected id="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/temp.py">
+    <entry file="file://$PROJECT_DIR$/eight_things_model (needs clean up).ipynb" />
+    <entry file="file://$PROJECT_DIR$/temp.py" />
+    <entry file="file://$PROJECT_DIR$/xor/train_data_C.txt" />
+    <entry file="file://$PROJECT_DIR$/xor/train_data_A.txt" />
+    <entry file="file://$PROJECT_DIR$/xor/train_data_B.txt" />
+    <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="380">
-          <caret line="280" column="5" lean-forward="false" selection-start-line="280" selection-start-column="5" selection-end-line="280" selection-end-column="5" />
-          <folding />
+        <state relative-caret-position="45">
+          <caret line="3" column="5" lean-forward="false" selection-start-line="3" selection-start-column="5" selection-end-line="3" selection-end-column="5" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/xor/train_data_C.txt">
+    <entry file="file://$PROJECT_DIR$/PDPATH.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="10" column="31" lean-forward="false" selection-start-line="10" selection-start-column="31" selection-end-line="10" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/FFBP/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="29" lean-forward="false" selection-start-line="0" selection-start-column="29" selection-end-line="0" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/FFBP/_xLibs/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -632,7 +668,15 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/xor/train_data_A.txt">
+    <entry file="file://$PROJECT_DIR$/FFBP/_xLibs/mpldatacursor/mpldatacursor/datacursor.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3870">
+          <caret line="276" column="30" lean-forward="false" selection-start-line="276" selection-start-column="25" selection-end-line="276" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/FFBP/vis_utils2.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -640,81 +684,87 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/xor/train_data_B.txt">
+    <entry file="file://$PROJECT_DIR$/FFBP/ddd.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" column="18" lean-forward="false" selection-start-line="4" selection-start-column="18" selection-end-line="4" selection-end-column="18" />
+        <state relative-caret-position="345">
+          <caret line="23" column="10" lean-forward="false" selection-start-line="23" selection-start-column="10" selection-end-line="23" selection-end-column="10" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/FFBP/dump.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="390">
+          <caret line="284" column="4" lean-forward="true" selection-start-line="284" selection-start-column="4" selection-end-line="284" selection-end-column="4" />
+          <folding>
+            <element signature="e#134#774#0" expanded="false" />
+            <element signature="e#831#2040#0" expanded="false" />
+            <element signature="e#2071#2166#0" expanded="false" />
+            <element signature="e#2169#2180#0" expanded="false" />
+            <element signature="e#2690#5196#0" expanded="false" />
+            <element signature="e#5292#6331#0" expanded="false" />
+            <element signature="e#6399#8749#0" expanded="false" />
+            <element signature="e#8784#8947#0" expanded="false" />
+            <element signature="e#9062#9799#0" expanded="false" />
+            <element signature="e#9898#12462#0" expanded="false" />
+            <element signature="e#9898#10188#1" expanded="false" />
+            <element signature="e#12516#13005#0" expanded="false" />
+            <element signature="e#13082#14554#0" expanded="false" />
+            <element signature="e#14600#14941#0" expanded="false" />
+            <element signature="e#14983#15315#0" expanded="false" />
+            <element signature="e#15383#16019#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/FFBP/utils.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="38" column="14" lean-forward="false" selection-start-line="38" selection-start-column="14" selection-end-line="38" selection-end-column="14" />
-          <folding>
-            <element signature="e#51#426#0" expanded="false" />
-            <element signature="e#451#677#0" expanded="false" />
-            <element signature="e#714#808#0" expanded="false" />
-            <element signature="e#842#965#0" expanded="false" />
-            <element signature="e#1015#1143#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/FFBP/vis_utils.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" column="0" lean-forward="false" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
+        <state relative-caret-position="585">
+          <caret line="78" column="16" lean-forward="false" selection-start-line="78" selection-start-column="16" selection-end-line="78" selection-end-column="16" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
-            <element signature="e#424#1523#0" expanded="false" />
-            <element signature="e#1606#3611#0" expanded="false" />
-            <element signature="e#3716#4847#0" expanded="false" />
-            <element signature="e#4914#6494#0" expanded="false" />
+            <element signature="e#64#117#0" expanded="false" />
+            <element signature="e#166#647#0" expanded="false" />
+            <element signature="e#672#898#0" expanded="false" />
+            <element signature="e#935#1029#0" expanded="false" />
+            <element signature="e#1062#1184#0" expanded="false" />
+            <element signature="e#1249#1824#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/FFBP/constructors.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="317" column="51" lean-forward="true" selection-start-line="317" selection-start-column="51" selection-end-line="317" selection-end-column="51" />
+        <state relative-caret-position="300">
+          <caret line="261" column="25" lean-forward="false" selection-start-line="261" selection-start-column="25" selection-end-line="261" selection-end-column="25" />
           <folding>
-            <element signature="e#0#13#0" expanded="true" />
-            <element signature="e#124#2236#0" expanded="false" />
-            <element signature="e#2269#4972#0" expanded="false" />
-            <element signature="e#5004#10564#0" expanded="false" />
-            <element signature="e#10596#13006#0" expanded="false" />
+            <element signature="e#0#9#0" expanded="true" />
+            <element signature="e#200#2312#0" expanded="false" />
+            <element signature="e#2345#5048#0" expanded="false" />
+            <element signature="e#5076#10456#0" expanded="false" />
+            <element signature="e#10489#13031#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/FFBP/dump.py">
+    <entry file="file://$PROJECT_DIR$/FFBP/vis_utils.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="111">
-          <caret line="77" column="12" lean-forward="false" selection-start-line="77" selection-start-column="12" selection-end-line="77" selection-end-column="12" />
+        <state relative-caret-position="405">
+          <caret line="58" column="41" lean-forward="true" selection-start-line="58" selection-start-column="41" selection-end-line="58" selection-end-column="41" />
           <folding>
-            <element signature="e#134#774#0" expanded="false" />
-            <element signature="e#831#2040#0" expanded="false" />
-            <element signature="e#2071#2166#0" expanded="false" />
-            <element signature="e#2284#3021#0" expanded="false" />
-            <element signature="e#3120#5684#0" expanded="false" />
-            <element signature="e#3120#3410#1" expanded="false" />
-            <element signature="e#5738#6227#0" expanded="false" />
-            <element signature="e#6304#7776#0" expanded="false" />
-            <element signature="e#7822#8163#0" expanded="false" />
-            <element signature="e#8205#8537#0" expanded="false" />
-            <element signature="e#8605#9241#0" expanded="false" />
+            <element signature="e#0#9#0" expanded="true" />
+            <element signature="e#458#1102#0" expanded="false" />
+            <element signature="e#1142#1482#0" expanded="false" />
+            <element signature="e#1922#2225#1" expanded="false" />
+            <element signature="e#2324#2595#0" expanded="false" />
+            <element signature="e#3026#3711#0" expanded="false" />
+            <element signature="e#4817#5028#0" expanded="false" />
+            <element signature="e#5119#6160#0" expanded="false" />
+            <element signature="e#6202#9714#0" expanded="false" />
+            <element signature="e#6202#6659#1" expanded="false" />
+            <element signature="e#7160#7562#0" expanded="false" />
+            <element signature="e#7623#7769#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
