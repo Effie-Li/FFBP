@@ -11,6 +11,52 @@ In this class, we're going to use some special software, including [Python](http
 
 ## Windows
 
+### Python
+Go to <https://www.python.org/downloads/windows/> and download the newest version of Python 3 (3.6.3 as of this writing) executable installer for your operating system. Run the file. Check the box that says "Add python 3.x.x to the path" and then click install now.
+
+To test open your Command Prompt (search "cmd" on the start bar) and run
+```
+python --version
+```
+Make sure the version printed is 3.x.x, not 2.x.x.
+
+### TensorFlow
+
+To install [TensorFlow](https://www.tensorflow.org/), run the following command in your command prompt:
+```
+pip install tensorflow
+```
+To test the installation, run:
+```bash
+python -c "\
+import tensorflow as tf;\
+hello = tf.constant('Hello, TensorFlow!');\
+sess = tf.Session();\
+print(sess.run(hello));"
+```
+If you see something saying "Hello, TensorFlow!", you're good to go!
+
+### Jupyter
+
+Install [Jupyter Notebooks](http://jupyter.org/) using pip as follows:
+
+```
+pip install jupyter
+```
+
+### Our software
+
+To install our software (and also get the homeworks and other class materials), if you use [git](https://git-scm.com/), navigate to the directory where you want to keep your course materials and run
+```
+git clone https://github.com/alex-ten/pdpyflow.git
+```
+otherwise download <https://github.com/alex-ten/pdpyflow/archive/master.zip> and extract it in your desired class directory. 
+
+You should be all set now! To test out the last few installs, navigate to your course directory, and then run
+```bash
+cd pdpyflow; jupyter notebook
+```
+(If a browser window doesn't open automatically, you may need to copy and paste the link shown.) Use this browser to open some of the .ipynb files in the tutorials/getting_started folder and try them out!
 
 ## Mac
 
@@ -58,7 +104,7 @@ sudo pip3 install jupyter
 
 ### Our software
 
-To install our software (and also get the homeworks), first navigate to the directory where you will keep class materials, e.g.
+To install our software (and also get the homeworks and other class materials), first navigate to the directory where you will keep class materials, e.g.
 ```bash
 cd ~/Documents/Psych209/
 ```
