@@ -12,34 +12,57 @@ from mpl_toolkits.axes_grid1.axes_size import Scaled
 from .utils import (
     load_test_data,
     get_layer_dims,
-    get_epochs,
+    get_data_by_key,
     get_pattern_options,
     get_layer_names
 )
 
 
-class Observer(object):
-    def __init__(self, img, gax):
-        self.fig = img.figure
-        self.ax = img.axes
-        self.img = img
-        self.gax = gax
+class FigureObserver(object):
+    def __init__(self, mpl_figure):
+        self.fig = mpl_figure
+        self.axes = mpl_figure.get_axes()
+        self.widget = widgets.HTML(value='')
+        self.clear_labels()
         self.fig.canvas.mpl_connect('motion_notify_event', self)
 
     def __call__(self, event):
-        if event.inaxes == self.ax:
-            val = self.img.get_cursor_data(event)
+        ax = event.inaxes
+        if ax:
+            val = ax.get_images()[0].get_cursor_data(event)
             self.update_label(val)
-            self.fig.canvas.draw_idle()
-        elif event.inaxes == self.gax:
-            self.clear_label()
-            self.fig.canvas.draw_idle()
+        else:
+            self.clear_labels()
 
     def update_label(self, val):
-        self.gax.set_xlabel('{:.4f}'.format(val))
+        self.widget.value = '<center><samp> |{:11.5f}| </samp></center>'.format(val)
 
-    def clear_label(self):
-        self.gax.set_xlabel('')
+    def clear_labels(self):
+        self.widget.value = '<center><samp> |cursor data| </samp></center>'
+
+
+class LossDataObsever(object):
+    def __init__(self, epoch_list, loss_list, tind=0, pind=0,
+                 epoch_label='<center><samp> Epoch: {:4d} </samp></center>',
+                 loss_label='<center><samp> Loss: {:10.4} </samp></center>'):
+        self.tind, self.pind = tind, pind
+
+        self.epoch_list = epoch_list
+        self.epoch_label = epoch_label
+        self.epoch_widget = widgets.HTML(value=self.epoch_label.format(epoch_list[self.tind]))
+
+        self.loss_list = loss_list
+        self.loss_label = loss_label
+        self.loss_widget = widgets.HTML(value=self.loss_label.format(loss_list[self.tind][self.pind]))
+
+    def on_epoch_change(self, change):
+        self.tind = change['new']
+        self.epoch_widget.value = self.epoch_label.format(self.epoch_list[self.tind])
+        self.loss_widget.value = self.loss_label.format(self.loss_list[self.tind][self.pind])
+
+    def on_pattern_change(self, change):
+        self.pind = change['new']
+        self.loss_widget.value = self.loss_label.format(self.loss_list[self.tind][self.pind])
 
 
 def _make_logs_widget(log_path, layout):
@@ -66,7 +89,22 @@ def _make_ghost_axis(mpl_figure, rect, title):
     return ghost_ax
 
 
-def _make_axes_grid(mpl_figure, N, subplot_ind, layer_name, inp_size, layer_size, mode, target=False):
+def _make_figure(layer_dims, mode, ppc, dpi):
+    # Calculate figure size (in cell units)
+    hdims, vdims = zip(*list(layer_dims.values()))
+    max_width = max(hdims) + (1.8 * 4)
+    fig_width = max_width + int(mode > 0) * (.8 + max_width) + int(mode > 1) * (1.8 + (max(hdims)))
+    fig_height = sum(vdims) + (1.8 * len(vdims))
+
+    # Create figure, converting cell size into inches (clip width if it exceeds 11 inches)
+    fig_width, fig_height = [(dim * ppc) / dpi for dim in (fig_width, fig_height)]
+    ratio = min(fig_width / fig_height, 1.5)
+    fig_width = max(min(fig_width, 9), 6)
+    fig_height = fig_width / ratio
+    return plt.figure(figsize=[fig_width, fig_height])
+
+
+def _divide_axes_grid(mpl_figure, divider, layer_name, inp_size, layer_size, mode, target=False):
     '''
     DOCUMENTATION
     :param mpl_figure: an instance of matplotlib.figure.Figure
@@ -117,12 +155,8 @@ def _make_axes_grid(mpl_figure, N, subplot_ind, layer_name, inp_size, layer_size
     rows = [rvec_h, _, mat_h]
 
     # make divider
-    divider = SubplotDivider(mpl_figure, N, 1, subplot_ind, aspect=True, anchor='W')
     divider.set_horizontal(cols)
     divider.set_vertical(rows)
-
-    # set suptitle
-    gax = _make_ghost_axis(mpl_figure=mpl_figure, rect=divider.get_position(), title=layer_name)
 
     # create axes and locate appropriately
     img_dict = {}
@@ -131,14 +165,11 @@ def _make_axes_grid(mpl_figure, N, subplot_ind, layer_name, inp_size, layer_size
         ax.set_axes_locator(divider.new_locator(nx=ax_coords[0], ny=ax_coords[1]))
         ax.tick_params(labelbottom=False, labelleft=False)
         ax.set_xticks([]); ax.set_yticks([])
-        if k == 'input_':
-            ax.set_xlabel(ax_title)
-        else:
-            ax.set_title(ax_title)
+        ax.set_xlabel(ax_title) if k == 'input_' else ax.set_title(ax_title)
+        if k == 'weights': ax.set_ylabel(layer_name)
         mpl_figure.add_axes(ax)
         img = ax.imshow(np.zeros(img_dims))
         img_dict[k] = img
-        Observer(img, gax)
     return img_dict
 
 
@@ -163,7 +194,7 @@ def _draw_layers(runlog_path, img_dicts, layer_names, colormap, vrange, tind, pi
     for img_dict, layer_name in zip(img_dicts, layer_names):
         for k, img in img_dict.items():
             data = snap_ldicts[layer_name][k]
-            if k == 'weights':
+            if k == 'weights' or k=='sgweights':
                 data = data.T
             if 'biases' in k:
                 data = np.expand_dims(data, axis=1)
@@ -177,7 +208,7 @@ def _draw_layers(runlog_path, img_dicts, layer_names, colormap, vrange, tind, pi
             img.norm.vmax = vrange[1]
 
 
-def view_layers(log_path, mode=0):
+def view_layers(log_path, mode=0, ppc=20, dpi=96):
     '''
     DOCUMENTATION
     :param log_path: path to log directory that contains pickled run logs
@@ -192,27 +223,32 @@ def view_layers(log_path, mode=0):
 
     run_widget = _make_logs_widget(log_path=log_path, layout=_widget_layout)
     runlog_path = run_widget.value
-    epochs = get_epochs(runlog_path=runlog_path)
+    epochs, losses = get_data_by_key(runlog_path=runlog_path, keys=['enum','loss']).values()
     layer_names = get_layer_names(runlog_path=runlog_path)
+    layer_names.reverse()
     layer_dims = get_layer_dims(runlog_path=runlog_path, layer_names=layer_names)
 
-    figure = plt.figure()
+    figure = _make_figure(layer_dims=layer_dims, mode=mode, ppc=ppc, dpi=dpi)
+
     num_layers = len(layer_names)
     axes_dicts = []
-
-    disp_targs = [False for l in layer_names[:-1]] + [True]
+    disp_targs = [True] + [False for l in layer_names[1:]]
     for i, (layer_name, disp_targ) in enumerate(zip(layer_names, disp_targs)):
+        sp_divider = SubplotDivider(figure, num_layers, 1, i+1, aspect=True, anchor='NW')
+        vdims = [dim[1] for dim in layer_dims.values()]
+        sp_divider._subplotspec._gridspec._row_height_ratios = [vdim + 1.8 for vdim in vdims]
+
         axes_dicts.append(
-            _make_axes_grid(
+            _divide_axes_grid(
                 mpl_figure=figure,
-                N = num_layers,
-                subplot_ind = i,
+                divider = sp_divider,
                 layer_name = layer_name.upper().replace('_',' '),
-                inp_size= layer_dims[layer_name][0],
-                layer_size= layer_dims[layer_name][1],
+                inp_size = layer_dims[layer_name][0],
+                layer_size = layer_dims[layer_name][1],
                 mode = mode,
                 target = bool(disp_targ))
         )
+    plt.tight_layout()
 
     cmap_widget = widgets.Dropdown(
         options=sorted(['BrBG', 'bwr', 'coolwarm', 'PiYG',
@@ -228,14 +264,14 @@ def view_layers(log_path, mode=0):
         value=[-1, 1],
         min=-5,
         max=5,
-        step=.5,
+        step=1,
         description='V-range: ',
         continuous_update=False,
         layout = _widget_layout
     )
 
     step_widget = widgets.IntSlider(
-        value=epochs[0],
+        value=0,
         min=0,
         max=len(epochs) - 1,
         step=1,
@@ -257,6 +293,18 @@ def view_layers(log_path, mode=0):
         layout = _widget_layout
     )
 
+    loss_observer = LossDataObsever(
+        epoch_list=epochs,
+        loss_list=losses,
+        tind=step_widget.value,
+        pind=pattern_widget.value,
+    )
+
+    fig_observer = FigureObserver(mpl_figure=figure)
+
+    step_widget.observe(handler=loss_observer.on_epoch_change, names='value')
+    pattern_widget.observe(handler=loss_observer.on_pattern_change, names='value')
+
     controls_dict = dict(
         runlog_path=run_widget,
         img_dicts=widgets.fixed(axes_dicts),
@@ -273,10 +321,17 @@ def view_layers(log_path, mode=0):
         justify_content = 'center'
     )
 
+    stretch_layout = widgets.Layout(
+        display='flex',
+        flex_flow='row',
+        justify_content = 'space-around'
+    )
+
     control_panel_rows = [
         widgets.Box(children=[controls_dict['runlog_path'], controls_dict['pind']], layout=row_layout),
         widgets.Box(children=[controls_dict['colormap'], controls_dict['vrange']], layout=row_layout),
         widgets.Box(children=[controls_dict['tind']], layout=row_layout),
+        widgets.Box(children=[loss_observer.epoch_widget, loss_observer.loss_widget, fig_observer.widget], layout=stretch_layout)
     ]
 
     controls_panel = widgets.Box(
@@ -284,9 +339,10 @@ def view_layers(log_path, mode=0):
         layout = widgets.Layout(
             display='flex',
             flex_flow='column',
+            padding='5px',
             border='ridge 1px',
             align_items='stretch',
-            width='65%'
+            width='100%'
         )
     )
 
