@@ -1,6 +1,7 @@
 import os
 import pickle
 import numpy as np
+from collections import OrderedDict
 
 
 def snap2pickle(logdir, snap, run_index):
@@ -38,6 +39,16 @@ def get_epochs(runlog_path):
     return [snap['enum'] for snap in snaps]
 
 
+def get_data_by_key(runlog_path, keys):
+    if isinstance(keys, str):
+        keys = [keys]
+    snaps = load_test_data(runlog_path)
+    return_dict = OrderedDict()
+    for k in keys:
+        return_dict[k] = [snap[k] for snap in snaps]
+    return return_dict
+
+
 def get_pattern_options(runlog_path, tind, input_dtype=int):
     snap = load_test_data(runlog_path)[tind]
     labels, vectors = snap['labels'], snap['input']
@@ -66,7 +77,7 @@ def get_layer_dims(runlog_path, layer_names):
 def get_layer_names(runlog_path):
     snap = load_test_data(runlog_path)[0]
     names = []
-    for k,v in snap.items():
+    for k, v in snap.items():
         if isinstance(v, dict):
             names.append(k)
     return names
