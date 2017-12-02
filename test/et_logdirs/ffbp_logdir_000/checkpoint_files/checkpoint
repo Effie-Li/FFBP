@@ -1,0 +1,2 @@
+model_checkpoint_path: "/Users/alexten/Projects/pdpyflow/eight_things/logdirs/ffbp_logdir_000/checkpoint_files/eight_things_model-500"
+all_model_checkpoint_paths: "/Users/alexten/Projects/pdpyflow/eight_things/logdirs/ffbp_logdir_000/checkpoint_files/eight_things_model-500"
