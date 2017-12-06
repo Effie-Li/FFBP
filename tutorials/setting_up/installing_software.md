@@ -60,45 +60,46 @@ cd pdpyflow; jupyter notebook
 
 ## Mac
 
-Mac OS comes Python 2.7 and pip preinstalled. By downloading and installing a new version of Python (3.6.3) you end up with mutliple Python interpreters on your machine. This might create confusion when you use pip to install various requirements as each Python installation has its own pip executable associated with it. You can check the location of existing executables by running `which` command
+Mac OS comes Python 2.7 and pip preinstalled. By downloading and installing a new version of Python (3.6.3) you should end up with mutliple Python interpreters on your machine. This might create confusion when you use pip to install various requirements as each Python installation has its own pip executable associated with it. You can check the location(s) of existing interpreters by using `which -a` command, for example
 
 ```bash
-which python
+which -a python
 /usr/local/bin
 ```
 
 ### 1) Install Python 
-Go to <https://www.python.org/downloads/mac-osx/> and download the newest version of Python 3 (3.6.3 as of this writing) installer for your operating system. Run the file and follow through the steps to complete installation. A new interpreter will be added to your PATH variable. You can check the installation by running
+Go to <https://www.python.org/downloads/mac-osx/> and download the newest version of Python 3 (3.6.3 as of this writing) installer for your operating system. Run the file and follow through the steps to complete installation. Note that by default the installation will not override the existing Python builds, so a handle for the new interpreter will be added (`python3` as opposed to `python`). You can check the installation by running
 
 ```bash
 python3 --version
 ```
 
-in your terminal. Make sure the version printed is 3.6.3, not 2.7.x.
+in your terminal. Make sure the version printed is 3.6.3, not 2.7.x. Accordingly, `pip3` will install packages for Python 3.x.x, not the stock version of Python.
 
 ### 2) Set up virtual environment
-Install [virtualenv](https://virtualenv.pypa.io/en/stable/) using `pip` as follows:
+Install [virtualenv](https://virtualenv.pypa.io/en/stable/) using `pip3` as follows:
 
 ```bash
 sudo pip3 install virtualenv
 ```
 
-Once the installation is complete, create a new environment and link it with the correct version of Python:
+Once the installation is complete, create a new environment and **link it with the correct version** of Python, by providing the `--python` named argument:
 
 ```bash
 virtualenv --python=$(which python3) ~/Environments/pdpyflow_env
 ```
 
-Then, activate to the environment run
+In the example above, a virtual environment named `pdpyflow_env` is added to the `Environments` folder inside the user's home directory. 
+
+Activate the environment by running
 
 ```bash
 source ~/Environments/pdpyflow_env/bin/activate
 ```
 
-and you should see the prompt changing to indicate the name of the active environment in parentheses (e.g. `(pdpyflow_env)`). When a virtual environment is activated, `pip` installations will be made in the context of this environment. Thus, whenever you want to use the class software, you will need to make sure the associated environment is activated.
+and you should see the prompt changing to indicate the name of the active environment in parentheses (e.g. `(pdpyflow_env)`). When a virtual environment is activated, `pip` installations are made in the context of this environment. Thus, whenever you want to use the class software, you will need to make sure the associated environment is activated.
 
-To deactivate the environment simply enter `deactivate` in the terminal. 
-
+To deactivate the environment simply enter `deactivate` in the terminal.
 
 ### 3) Install software requirements within the virtual environment
 Make sure virtual environment is activated (see step 2). 
@@ -119,9 +120,9 @@ sess = tf.Session();\
 print(sess.run(hello));"
 ```
 
-If you see something saying "Hello, TensorFlow!", you're good to go!
+If you see something saying `Hello, TensorFlow!`, you're good to go!
 
-Install [Jupyter Notebooks](http://jupyter.org/), [Numpy](http://numpy.org/), and [Matplotlib](http://matplotlib.org/) using `pip` as follows:
+Next install [Jupyter](http://jupyter.org/), [Numpy](http://numpy.org/), and [Matplotlib](http://matplotlib.org/) using `pip3` as follows:
 
 ```bash
 sudo pip3 install jupyter
@@ -158,7 +159,7 @@ You need to add a `$PYTHONPATH` variable to your virtual environment sourse file
 echo 'export PYTHONPATH=$PATH:~/Documents/Psych209/pdpyflow' >> ~/Environments/pdpyflow_env/bin/activate
 ```
 
-which will append `export PYTHONPATH=$PATH:~/Documents/Psych209/pdpyflow` to the activation source file, which will in turn fix the `$PYTHONPATH` variable as needed. (Re)activate the environment to run the changes (see step 2) and you should be all set! To test out the last few installs, run
+which will append `export PYTHONPATH=$PATH:~/Documents/Psych209/pdpyflow` to the activation source file, which will in turn fix the `$PYTHONPATH` variable as needed. (Re)activate the environment to execute path changes (see step 2) and you should be all set. To test out the last few installs, run
 
 ```bash
 cd pdpyflow; jupyter notebook
