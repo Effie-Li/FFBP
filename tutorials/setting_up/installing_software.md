@@ -7,7 +7,7 @@
 
 ## Introduction 
 
-In this class, we're going to use some special software, including [Python](https://www.python.org/), [TensorFlow](https://www.tensorflow.org/), [Jupyter Notebooks](http://jupyter.org/), and some custom software we've developed to make understanding neural networks easier. This document provides some (hopefully relatively painless) instructions for setting these things up.
+In this class, we're going to use some special software, including [Python](https://www.python.org/), [TensorFlow](https://www.tensorflow.org/), [Jupyter Notebooks](http://jupyter.org/), and some custom software we've developed to make understanding neural networks easier. This document provides some (hopefully relatively painless) instructions for setting these things up. We highly recommend creating a [virtual environment](https://virtualenv.pypa.io/en/stable/) for the class software in order to prevent potential conflicts with whatever is already installed on your computer.
 
 ## Windows
 
@@ -60,7 +60,111 @@ cd pdpyflow; jupyter notebook
 
 ## Mac
 
-TODO
+Mac OS comes Python 2.7 and pip preinstalled. By downloading and installing a new version of Python (3.6.3) you end up with mutliple Python interpreters on your machine. This might create confusion when you use pip to install various requirements as each Python installation has its own pip executable associated with it. You can check the location of existing executables by running `which` command
+
+```bash
+which python
+/usr/local/bin
+```
+
+### 1) Install Python 
+Go to <https://www.python.org/downloads/mac-osx/> and download the newest version of Python 3 (3.6.3 as of this writing) installer for your operating system. Run the file and follow through the steps to complete installation. A new interpreter will be added to your PATH variable. You can check the installation by running
+
+```bash
+python3 --version
+```
+
+in your terminal. Make sure the version printed is 3.6.3, not 2.7.x.
+
+### 2) Set up virtual environment
+Install [virtualenv](https://virtualenv.pypa.io/en/stable/) using `pip` as follows:
+
+```bash
+sudo pip3 install virtualenv
+```
+
+Once the installation is complete, create a new environment and link it with the correct version of Python:
+
+```bash
+virtualenv --python=$(which python3) ~/Environments/pdpyflow_env
+```
+
+Then, activate to the environment run
+
+```bash
+source ~/Environments/pdpyflow_env/bin/activate
+```
+
+and you should see the prompt changing to indicate the name of the active environment in parentheses (e.g. `(pdpyflow_env)`). When a virtual environment is activated, `pip` installations will be made in the context of this environment. Thus, whenever you want to use the class software, you will need to make sure the associated environment is activated.
+
+To deactivate the environment simply enter `deactivate` in the terminal. 
+
+
+### 3) Install software requirements within the virtual environment
+Make sure virtual environment is activated (see step 2). 
+
+Then, install [TensorFlow](https://www.tensorflow.org/) by running the following command in your terminal:
+
+```bash
+sudo pip3 install tensorflow
+```
+
+To test the installation, run:
+
+```bash
+python3 -c "\
+import tensorflow as tf;\
+hello = tf.constant('Hello, TensorFlow!');\
+sess = tf.Session();\
+print(sess.run(hello));"
+```
+
+If you see something saying "Hello, TensorFlow!", you're good to go!
+
+Install [Jupyter Notebooks](http://jupyter.org/), [Numpy](http://numpy.org/), and [Matplotlib](http://matplotlib.org/) using `pip` as follows:
+
+```bash
+sudo pip3 install jupyter
+sudo pip3 install numpy
+sudo pip3 install matplotlib
+```
+
+### 4) Our software
+
+To install our software (and also get the homeworks and other class materials), first navigate to the directory where you will keep class materials, e.g.
+
+```bash
+cd ~/Documents/Psych209/
+```
+
+If you use [git](https://git-scm.com/), run
+
+```bash
+git clone https://github.com/alex-ten/pdpyflow.git
+```
+
+otherwise run
+
+```bash
+wget https://github.com/alex-ten/pdpyflow/archive/master.zip
+unzip master.zip
+rm master.zip
+mv pdpyflow-master pdpyflow
+```
+
+You need to add a `$PYTHONPATH` variable to your virtual environment sourse file and set it to be the path to where our software was installed. Run
+
+```bash
+echo 'export PYTHONPATH=$PATH:~/Documents/Psych209/pdpyflow' >> ~/Environments/pdpyflow_env/bin/activate
+```
+
+which will append `export PYTHONPATH=$PATH:~/Documents/Psych209/pdpyflow` to the activation source file, which will in turn fix the `$PYTHONPATH` variable as needed. (Re)activate the environment to run the changes (see step 2) and you should be all set! To test out the last few installs, run
+
+```bash
+cd pdpyflow; jupyter notebook
+```
+
+(If a browser window doesn't open automatically, you may need to copy and paste the link shown.) Use this browser to open some of the .ipynb files in the tutorials/getting_started folder and try them out!
 
 ## Linux
 
