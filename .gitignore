@@ -1,4 +1,6 @@
 *.pyc
 *.pkl
 *.xml
-*.ipynb_checkpoints
+.*
+!/.gitignore
+
