@@ -14,8 +14,7 @@ class InputData(object):
     DOCUMENTATION
     '''
 
-    def __init__(self, path_to_data_file, num_epochs, batch_size, inp_size, targ_size, data_len,
-                 shuffle=False, shuffle_seed=None):
+    def __init__(self, path_to_data_file, inp_size, targ_size, num_epochs, batch_size, data_len, shuffle_seed=None):
         # Store useful params
         self.path = path_to_data_file
         self.batch_size = batch_size
@@ -51,8 +50,8 @@ class InputData(object):
         examples_slice = tf.train.slice_input_producer(
             tensor_list=tensor_list,
             num_epochs=num_epochs,
-            shuffle=shuffle,
-            seed=shuffle_seed,
+            shuffle=True if shuffle_seed else False,
+            seed=shuffle_seed if shuffle_seed and shuffle_seed>=1 else None,
             capacity=data_len
         )
 
