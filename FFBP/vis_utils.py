@@ -208,7 +208,7 @@ def _draw_layers(runlog_path, img_dicts, layer_names, colormap, vrange, tind, pi
             img.norm.vmax = vrange[1]
 
 
-def view_layers(log_path, mode=0, ppc=20, dpi=96):
+def view_layers(log_path, mode=0, ppc=20):
     '''
     DOCUMENTATION
     :param log_path: path to log directory that contains pickled run logs
@@ -228,7 +228,7 @@ def view_layers(log_path, mode=0, ppc=20, dpi=96):
     layer_names.reverse()
     layer_dims = get_layer_dims(runlog_path=runlog_path, layer_names=layer_names)
 
-    figure = _make_figure(layer_dims=layer_dims, mode=mode, ppc=ppc, dpi=dpi)
+    figure = _make_figure(layer_dims=layer_dims, mode=mode, ppc=ppc, dpi=96)
 
     num_layers = len(layer_names)
     axes_dicts = []
