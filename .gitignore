@@ -1,6 +1,6 @@
 *.pyc
 *.pkl
-*.xml
 .*
 !/.gitignore
+.idea
 
