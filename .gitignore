@@ -1,4 +1,4 @@
 *.pyc
 *.pkl
-
 *.xml
+*.ipynb_checkpoints
