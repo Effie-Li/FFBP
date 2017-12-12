@@ -27,10 +27,10 @@ Install [virtualenv](https://virtualenv.pypa.io/en/stable/) using `pip3` as foll
 pip3 install virtualenv
 ```
 
-Once the installation is complete, create a new environment and **link it with the correct version** of Python, by providing the `--python` named argument:
+Once the installation is complete, create a new environment:
 
 ```bash
-virtualenv --python=$(which python3) %userprofile%\Environments\pdpyflow_env
+virtualenv %userprofile%\Environments\pdpyflow_env
 ```
 
 In the example above, a virtual environment named `pdpyflow_env` is added to the `Environments` folder inside the user's home directory. 
