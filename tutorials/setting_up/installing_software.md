@@ -11,7 +11,7 @@ In this class, we're going to use some special software, including [Python](http
 
 ## Windows
 
-### Python
+### 1) Python
 Go to <https://www.python.org/downloads/windows/> and download the newest version of Python 3 (3.6.3 as of this writing) executable installer for your operating system. Run the file. Check the box that says "Add python 3.x.x to the path" and then click install now.
 
 To test open your Command Prompt (search "cmd" on the start bar) and run
@@ -20,9 +20,34 @@ python --version
 ```
 Make sure the version printed is 3.x.x, not 2.x.x.
 
-### TensorFlow
+### 2) Set up a virtual environment
+Install [virtualenv](https://virtualenv.pypa.io/en/stable/) using `pip3` as follows:
 
-To install [TensorFlow](https://www.tensorflow.org/), run the following command in your command prompt:
+```bash
+pip3 install virtualenv
+```
+
+Once the installation is complete, create a new environment and **link it with the correct version** of Python, by providing the `--python` named argument:
+
+```bash
+virtualenv --python=$(which python3) %userprofile%\Environments\pdpyflow_env
+```
+
+In the example above, a virtual environment named `pdpyflow_env` is added to the `Environments` folder inside the user's home directory. 
+
+Activate the environment by running
+
+```bash
+%userprofile%\Environments\pdpyflow_env\bin\activate
+```
+
+and you should see the prompt changing to indicate the name of the active environment in parentheses (e.g. `(pdpyflow_env)`). When a virtual environment is activated, `pip` installations are made in the context of this environment. Thus, whenever you want to use the class software, you will need to make sure the associated environment is activated.
+
+To deactivate the environment simply enter `deactivate` in the terminal.
+
+### 3) TensorFlow
+
+To install [TensorFlow](https://www.tensorflow.org/), run the following command in your command prompt (after activating the virtual environment!):
 ```
 pip install tensorflow
 ```
@@ -36,7 +61,7 @@ print(sess.run(hello));"
 ```
 If you see something saying "Hello, TensorFlow!", you're good to go!
 
-### Jupyter
+### 4) Jupyter
 
 Install [Jupyter Notebooks](http://jupyter.org/) using pip as follows:
 
@@ -44,7 +69,7 @@ Install [Jupyter Notebooks](http://jupyter.org/) using pip as follows:
 pip install jupyter
 ```
 
-### Our software
+### 5) Our software
 
 To install our software (and also get the homeworks and other class materials), if you use [git](https://git-scm.com/), navigate to the directory where you want to keep your course materials and run
 ```
@@ -171,7 +196,7 @@ cd pdpyflow; jupyter notebook
 
 We give setup instructions for Ubuntu, but these should be easily generalizable to other Debian-based distros, and with not too much more effort to other distros. 
 
-### Python
+### 1) Python
 Ubuntu (like most modern linux distros) comes with Python 3, but you can check by running
 ```bash
 python3 --version
@@ -182,10 +207,35 @@ Install the python package index and development headers by running
 ```bash
 sudo apt-get install python3-{pip,dev} 
 ```
+### 2) Set up a virtual environment
+Install [virtualenv](https://virtualenv.pypa.io/en/stable/) using `pip3` as follows:
 
-### TensorFlow
+```bash
+sudo pip3 install virtualenv
+```
 
-To install [TensorFlow](https://www.tensorflow.org/), run the following command in your terminal:
+Once the installation is complete, create a new environment and **link it with the correct version** of Python, by providing the `--python` named argument:
+
+```bash
+virtualenv --python=$(which python3) ~/Environments/pdpyflow_env
+```
+
+In the example above, a virtual environment named `pdpyflow_env` is added to the `Environments` folder inside the user's home directory. 
+
+Activate the environment by running
+
+```bash
+source ~/Environments/pdpyflow_env/bin/activate
+```
+
+and you should see the prompt changing to indicate the name of the active environment in parentheses (e.g. `(pdpyflow_env)`). When a virtual environment is activated, `pip` installations are made in the context of this environment. Thus, whenever you want to use the class software, you will need to make sure the associated environment is activated.
+
+To deactivate the environment simply enter `deactivate` in the terminal.
+
+
+### 3) TensorFlow
+
+To install [TensorFlow](https://www.tensorflow.org/), run the following command in your terminal (after activating the virtual environment!):
 ```bash
 sudo pip3 install tensorflow
 ```
@@ -199,7 +249,7 @@ print(sess.run(hello));"
 ```
 If you see something saying "Hello, TensorFlow!", you're good to go!
 
-### Jupyter
+### 4) Jupyter
 
 Install [Jupyter Notebooks](http://jupyter.org/) using pip as follows:
 
@@ -207,7 +257,7 @@ Install [Jupyter Notebooks](http://jupyter.org/) using pip as follows:
 sudo pip3 install jupyter
 ```
 
-### Our software
+### 5) Our software
 
 To install our software (and also get the homeworks and other class materials), first navigate to the directory where you will keep class materials, e.g.
 ```bash
