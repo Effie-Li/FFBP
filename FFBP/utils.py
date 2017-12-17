@@ -40,8 +40,7 @@ def get_epochs(runlog_path):
 
 
 def get_data_by_key(runlog_path, keys):
-    if isinstance(keys, str):
-        keys = [keys]
+    if isinstance(keys, str): keys = [keys]
     snaps = load_test_data(runlog_path)
     return_dict = OrderedDict()
     for k in keys:
