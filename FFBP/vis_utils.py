@@ -53,16 +53,16 @@ class LossDataObsever(object):
 
         self.loss_list = loss_list
         self.loss_label = loss_label
-        self.loss_widget = widgets.HTML(value=self.loss_label.format(loss_list[self.tind][self.pind]))
+        self.loss_widget = widgets.HTML(value=self.loss_label.format(loss_list[self.tind][self.pind, 0]))
 
     def on_epoch_change(self, change):
         self.tind = change['new']
         self.epoch_widget.value = self.epoch_label.format(self.epoch_list[self.tind])
-        self.loss_widget.value = self.loss_label.format(self.loss_list[self.tind][self.pind])
+        self.loss_widget.value = self.loss_label.format(self.loss_list[self.tind][self.pind, 0])
 
     def on_pattern_change(self, change):
         self.pind = change['new']
-        self.loss_widget.value = self.loss_label.format(self.loss_list[self.tind][self.pind])
+        self.loss_widget.value = self.loss_label.format(self.loss_list[self.tind][self.pind, 0])
 
 
 def _make_logs_widget(log_path, layout):
@@ -125,7 +125,7 @@ def _divide_axes_grid(mpl_figure, divider, layer_name, inp_size, layer_size, mod
         'net_input': ((4, 2), (layer_size, 1), 'net'),
         'output': ((6, 2), (layer_size, 1), 'a')
     }
-    if t: ax_params['targets'] = ((8, 2), (layer_size, 1), 't')
+    if t: ax_params['target'] = ((8, 2), (layer_size, 1), 't')
 
     # define padding size
     _ = Scaled(.8)
@@ -174,22 +174,16 @@ def _divide_axes_grid(mpl_figure, divider, layer_name, inp_size, layer_size, mod
 
 
 def _draw_layers(runlog_path, img_dicts, layer_names, colormap, vrange, tind, pind):
-
-    # pull up required data
     snap_ldicts = {}
-    snap = load_test_data(runlog_path=runlog_path)[tind]
 
-    enum = snap['enum']
-    loss = snap['loss'][pind]
-    targ = snap['target']
+    # get required data
+    snap = load_test_data(runlog_path=runlog_path)[tind]
 
     for layer_name in layer_names:
         snap_ldicts[layer_name] = snap[layer_name]
-        snap_ldicts[layer_name]['targets'] = targ
+        snap_ldicts[layer_name]['target'] = np.expand_dims(snap['target'], axis=1)
 
     del snap # clean up
-
-    print('epoch {}, loss = {:.5f}'.format(enum, loss))
 
     for img_dict, layer_name in zip(img_dicts, layer_names):
         for k, img in img_dict.items():
@@ -348,3 +342,7 @@ def view_layers(log_path, mode=0, ppc=20):
 
     widgets.interactive_output(f=_draw_layers, controls=controls_dict)
     display(controls_panel)
+
+
+def view_error(log_path):
+    pass
