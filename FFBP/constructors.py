@@ -4,7 +4,7 @@ import tensorflow as tf
 import numpy as np
 
 from os.path import join as pjoin
-from collections import OrderedDict
+from collections import OrderedDict, defaultdict
 
 from .utils import new_logdir
 
@@ -88,7 +88,6 @@ class BasicLayer(object):
             )
             self.weights = tf.get_variable(name='weights', initializer=weight_init)
 
-            self.biases = 0
             if bias:
                 bias_init = tf.random_uniform(
                     minval=wrange[0],
@@ -98,6 +97,8 @@ class BasicLayer(object):
                     dtype=tf.float32
                 )
                 self.biases = tf.get_variable('biases', initializer=bias_init)
+            else:
+                self.biases = tf.zeros(shape=[size], dtype=tf.float32, name='biases')
 
         with tf.name_scope(layer_name):
             with tf.name_scope('net_input'):
@@ -114,15 +115,12 @@ class BasicLayer(object):
         with tf.name_scope(self.name):
             item_keys = ['net_input', 'output', 'weights']
             items = [self.net_input, self.output, self.weights]
-            if self.biases:
-                item_keys.append('biases')
-                items.append(self.biases)
             grad_list = tf.gradients(loss, items)
             grad_list_with_keys = [val for pair in zip(item_keys, grad_list) for val in pair]
             self.gradient = {k: v for k, v in zip(*[iter(grad_list_with_keys)] * 2)}
 
-            for grad_op, str_key in zip(grad_list, item_keys):
-                self.__dict__['g{}'.format(str_key)] = grad_op
+            for grad_op, key in zip(grad_list, item_keys):
+                self.__dict__['g{}'.format(key)] = grad_op
 
     def fetch_test_ops(self):
         fetch_items = ['input_', 'weights', 'biases', 'net_input', 'output',
@@ -131,7 +129,7 @@ class BasicLayer(object):
         for fi in fetch_items:
             if fi in self.__dict__.keys():
                 fetch_ops[fi] = self.__dict__[fi]
-        return fetch_ops, self.name
+        return fetch_ops
 
 
 class Model(object):
@@ -139,60 +137,83 @@ class Model(object):
     DOCUMENTATION
     '''
 
-    def __init__(self, name, loss, optimizer, layers, inp, targ, train_data=None, test_data=None):
+    def __init__(self, name, loss, layers, inp, targ, optimizer=None, train_data=None, test_data=None):
         self.name = name
         self.loss = loss
+        self.sum_loss = tf.reduce_sum(self.loss, name='train_loss')
+        self.layers = layers
 
-        self.optimizer = optimizer
         self._global_step = tf.Variable(0, name='global_step', trainable=False)
         self._step_incrementer = tf.assign_add(self._global_step, 1, name='global_step_incrementer')
-        self._train_step = self.optimizer.minimize(loss=self.loss, global_step=None)
+        if optimizer: self.set_optimizer(optimizer)
 
-        self.layers = layers
         for layer in self.layers:
             layer.add_gradient_ops(loss=self.loss)
 
         self.inp = [inp] if not isinstance(inp, (list, tuple)) else inp
         self.targ = targ
-        self.inp_labels = tf.placeholder(shape=(), dtype=tf.string)
+        self.inp_labels = tf.placeholder(dtype=tf.string, name='input_label')
+        self.placeholders = [self.inp_labels] + self.inp + [self.targ]
+
 
         self.data = {'Test': test_data, 'Train': train_data}
 
-        if train_data:
-            self.data['Train'] = train_data
-            self._train_fetches = {
-                'loss': self.loss,
-                'train_step': self._train_step,
-            }
+        if train_data: self.train_setup(train_data)
 
-        if test_data:
-            self.test_data = self.data['Test'] = test_data
-            self._test_fetches = {
-                'loss': self.loss,
-                'enum': self._global_step,
-                'labels': self.inp_labels,
-                'input': tf.concat(self.inp, axis=1) if len(self.inp) > 1 else self.inp[0],
-                'target': self.targ
-            }
+        if test_data: self.test_setup(test_data)
+
+    def set_optimizer(self, optimizer):
+        self.optimizer = optimizer
+        self._train_step = self.optimizer.minimize(loss=self.sum_loss, global_step=None)
+
+    def train_setup(self, data):
+        self.data['Train'] = data
+        self._train_fetches = {
+            'loss': self.sum_loss,
+            'train_step': self._train_step,
+        }
+
+    def test_setup(self, data):
+        self.test_data = self.data['Test'] = data
+        self._test_fetches = {
+            'enum': self._global_step,
+            'loss': self.loss,
+            'labels': self.inp_labels,
+            'input': tf.concat(self.inp, axis=1, name='concat_input') if len(self.inp) > 1 else self.inp[0],
+            'target': self.targ
+        }
+        for layer in self.layers:
+            self._test_fetches[layer.name] = layer.fetch_test_ops()
 
     def test_epoch(self, session, verbose=False):
         assert self.data['Test'] is not None, 'Provide test data to run a test epoch'
         data = self.data['Test']
-        snap = OrderedDict()
+        snap = defaultdict(list)
         with tf.name_scope('Test'):
-            all_examples = session.run(data.examples_batch)
             loss_sum = 0
-            for example in zip(*all_examples):
+            for i in range(data.data_len):
 
-                # Align lists of placeholders and feed values
-                placeholders = [self.inp_labels] + self.inp + [self.targ]
-                values = [example[0]] + [np.expand_dims(vec, 0) for vec in example[1:]]
+                # Make feed dict
+                test_item = session.run(data.examples_batch)
+                feed_dict = {}
+                for placeholder, value in zip(self.placeholders, test_item):
+                    feed_dict[placeholder] = value
 
-                # Interleave the two lists to be for dict() constructor
-                feed_list = [val for pair in zip(placeholders, values) for val in pair]
-
-                # Construct a feed_dict with appropriately paired placeholders and feed values
-                feed_dict = dict(feed_list[i:i + 2] for i in range(0, len(feed_list), 2))
+                # FOR DEBUGGING =============================
+                # print('FEED DICT ITEMS ***'*3)
+                # for k,v in feed_dict.items():
+                #     print('{}:  {}'.format(k,v))
+                #
+                # print('FETCHES ITEMS ***'*3)
+                # for k, v in self._test_fetches.items():
+                #     if not isinstance(v, dict):
+                #         print('{}:  {}'.format(k, v))
+                #     else:
+                #         print(k.replace('_',' ').upper())
+                #         for kk,vv in v.items():
+                #             print('{}:  {}'.format(kk, vv))
+                #     print()
+                # FOR DEBUGGING =============================
 
                 # Run graph to evaluate test fetches
                 test_out = session.run(
@@ -200,36 +221,36 @@ class Model(object):
                     feed_dict=feed_dict
                 )
 
-                # Store network-level snap items: enum, loss, labels, input, target
-                for k, v in test_out.items():
-                    if k == 'enum':
-                        snap[k] = v
-                    elif k not in snap.keys():
-                        snap[k] = np.expand_dims(v, axis=0)
-                    else:
-                        snap[k] = np.concatenate([snap[k], np.expand_dims(v, axis=0)], axis=0)
-
-                # Store layer-level snap items: weights, biases, net_input, activations and gradients
-                for layer in self.layers:
-                    layer_fetches, layer_name = layer.fetch_test_ops()
-                    snap.setdefault(layer_name, {})
-                    layer_out = session.run(
-                        fetches=layer_fetches,
-                        feed_dict=feed_dict
-                    )
-                    for k, v in layer_out.items():
-                        if k == 'weights' or k == 'biases':
-                            snap[layer_name][k] = v
-                        elif k not in snap[layer_name].keys():
-                            snap[layer_name][k] = np.expand_dims(v, axis=0)
+                # Store snap items
+                for K, V in test_out.items():
+                    if not isinstance(V, dict):
+                        if K == 'enum':
+                            snap['enum'] = V
                         else:
-                            snap[layer_name][k] = np.concatenate([snap[layer_name][k], np.expand_dims(v, axis=0)], axis=0)
-                loss_sum += test_out['loss']
+                            snap[K].append(V)
+                    else:
+                        layer_dict = snap.setdefault(K, defaultdict(list))
+                        for k, v in V.items():
+                            if k == 'weights' or k == 'biases':
+                                layer_dict[k] = v
+                            else:
+                                layer_dict[k].append(v)
+                loss_sum += np.squeeze(np.sum(test_out['loss']))
+            # Combine snap items into numpy array
+            for K, V in snap.items():
+                if K == 'enum': continue
+                elif isinstance(V, dict):
+                    for k, v in V.items():
+                        if k == 'weights' or k == 'biases': continue
+                        else: snap[K][k] = np.stack(v, axis=0)
+                else:
+                    snap[K] = np.concatenate(V, axis=0)
 
-            # Add cumulative gradients for weights and biases
+            # Store summary values
             for layer in self.layers:
                 snap[layer.name]['sgweights'] = np.sum(snap[layer.name]['gweights'], axis=0)
                 snap[layer.name]['sgbiases'] = np.sum(snap[layer.name]['gbiases'], axis=0)
+            snap['loss_sum'] = loss_sum
 
             if verbose:
                 print('Epoch {}: {}'.format(tf.train.global_step(session, self._global_step), loss_sum))
