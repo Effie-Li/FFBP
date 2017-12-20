@@ -145,7 +145,9 @@ class Model(object):
 
         self._global_step = tf.Variable(0, name='global_step', trainable=False)
         self._step_incrementer = tf.assign_add(self._global_step, 1, name='global_step_incrementer')
-        if optimizer: self.set_optimizer(optimizer)
+        if optimizer:
+            self.set_optimizer(optimizer)
+        else: self.optimizer = None
 
         for layer in self.layers:
             layer.add_gradient_ops(loss=self.loss)
@@ -166,7 +168,9 @@ class Model(object):
         self.optimizer = optimizer
         self._train_step = self.optimizer.minimize(loss=self.sum_loss, global_step=None)
 
-    def train_setup(self, data):
+    def train_setup(self, data, optimizer=None):
+        if optimizer: self.set_optimizer(optimizer)
+        if not self.optimizer: raise ValueError('optimizer is not provided')
         self.data['Train'] = data
         self._train_fetches = {
             'loss': self.sum_loss,
