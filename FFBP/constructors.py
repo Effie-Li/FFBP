@@ -4,9 +4,9 @@ import tensorflow as tf
 import numpy as np
 
 from os.path import join as pjoin
-from collections import OrderedDict, defaultdict
+from collections import defaultdict
 
-from .utils import new_logdir
+from .utils import new_logdir as _new_logdir
 
 
 class InputData(object):
@@ -287,15 +287,21 @@ class ModelSaver(object):
     DOCUMENTATION
     '''
 
-    def __init__(self, restore_from=None, make_new_logdir=True):
+    def __init__(self, restore_from=None, logdir=None):
         self.tf_saver = None
         self.restdir = restore_from
         self.restdir = pjoin(restore_from, 'checkpoint_files') if restore_from else None
-        if make_new_logdir:
-            if isinstance(make_new_logdir, (bool, int)):
-                self.logdir = new_logdir()
-            else:
-                self.logdir = make_new_logdir
+        if isinstance(logdir, str):
+            try:
+                os.mkdir(logdir)
+                self.logdir = logdir
+            except FileExistsError:
+                self.logdir = logdir
+        elif logdir is None:
+            self.logdir = _new_logdir()
+        else:
+            raise ValueError('logdir arguments must be either string path or Nones ')
+
         self.ckptdir = pjoin(os.getcwd(), self.logdir, 'checkpoint_files')
         print('FFBP Saver: logdir path: {}'.format(self.logdir))
 
@@ -312,7 +318,6 @@ class ModelSaver(object):
         restored_epoch = [session.run(v) for v in tf.global_variables() if 'global_step' in v.name][0]
         return restored_epoch
 
-
     def init_model(self, session, init_epoch=0):
         if self.restdir:
             restored_epoch = self._restore_model(session=session)
@@ -324,9 +329,9 @@ class ModelSaver(object):
             session.run(tf.global_variables_initializer())
             return init_epoch
 
-    def save_model(self, session, model):
+    def save_model(self, session, model, run_ind):
         self.tf_saver = self._get_tf_saver()
-        save_to = '/'.join([self.ckptdir, model.name])
+        save_to = '/'.join(['{}_{}'.format(self.ckptdir, run_ind), model.name])
         save_path = self.tf_saver.save(session, save_to, global_step=model._global_step)
         print("FFBP Saver: model saved to logdir")
 
