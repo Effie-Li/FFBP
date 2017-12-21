@@ -20,10 +20,10 @@ def snap2pickle(logdir, snap, run_index):
 
 def new_logdir():
     i=0
-    logdir = os.getcwd() + '/logdirs/ffbp_logdir_000'
+    logdir = os.getcwd() + '/logdirs/logdir_000'
     while os.path.exists(logdir):
         i+=.001
-        logdir = os.getcwd() + '/logdirs/ffbp_logdir_{}'.format(str(i)[2:5])
+        logdir = os.getcwd() + '/logdirs/logdir_{}'.format(str(i)[2:5])
     os.makedirs(logdir)
     return logdir
 
