@@ -14,7 +14,8 @@ from .utils import (
     get_layer_dims,
     get_data_by_key,
     get_pattern_options,
-    get_layer_names
+    get_layer_names,
+    load_runlog
 )
 
 
@@ -53,16 +54,86 @@ class LossDataObsever(object):
 
         self.loss_list = loss_list
         self.loss_label = loss_label
-        self.loss_widget = widgets.HTML(value=self.loss_label.format(loss_list[self.tind][self.pind, 0]))
+        self.loss_widget = widgets.HTML(value=self.loss_label.format(loss_list[self.tind][self.pind]))
 
     def on_epoch_change(self, change):
         self.tind = change['new']
         self.epoch_widget.value = self.epoch_label.format(self.epoch_list[self.tind])
-        self.loss_widget.value = self.loss_label.format(self.loss_list[self.tind][self.pind, 0])
+        self.loss_widget.value = self.loss_label.format(self.loss_list[self.tind][self.pind])
 
     def on_pattern_change(self, change):
         self.pind = change['new']
-        self.loss_widget.value = self.loss_label.format(self.loss_list[self.tind][self.pind, 0])
+        self.loss_widget.value = self.loss_label.format(self.loss_list[self.tind][self.pind])
+
+
+def prog_bar(sequence, every=None, size=None, name='Items'):
+
+    is_iterator = False
+    if size is None:
+        try:
+            size = len(sequence)
+        except TypeError:
+            is_iterator = True
+    if size is not None:
+        if every is None:
+            if size <= 200:
+                every = 1
+            else:
+                every = int(size / 200)     # every 0.5%
+    else:
+        assert every is not None, 'sequence is iterator, set every'
+
+    if is_iterator:
+        progress = widgets.IntProgress(min=0, max=1, value=1)
+        progress.bar_style = 'info'
+    else:
+        progress = widgets.IntProgress(min=0, max=size, value=0)
+    label = widgets.HTML()
+    box = widgets.VBox(children=[label, progress])
+    display(box)
+
+    index = 0
+    for index, record in enumerate(sequence, 1):
+        if index == 1 or index % every == 0:
+            if is_iterator:
+                label.value = '{name}: {index} / ?'.format(
+                    name=name,
+                    index=index
+                )
+            else:
+                progress.value = index
+                label.value = u'{name}: {index} / {size}'.format(
+                    name=name,
+                    index=index,
+                    size=size
+                )
+        yield record
+    progress.bar_style = 'success'
+    progress.value = index
+    label.value = "{name}: {index}".format(
+        name=name,
+        index=str(index or '?')
+    )
+
+
+def smoothListGaussian(list, degree=5):
+    window=degree*2-1
+    weight=np.array([1.0]*window)
+    weightGauss=[]
+
+    for i in range(window):
+        i=i-degree+1
+        frac=i/float(window)
+        gauss=1/(np.exp((4*(frac))**2))
+        weightGauss.append(gauss)
+
+    weight=np.array(weightGauss)*weight
+    smoothed=[0.0]*(len(list)-window)
+
+    for i in range(len(smoothed)):
+        smoothed[i]=sum(np.array(list[i:i+window])*weight)/sum(weight)
+
+    return smoothed
 
 
 def _make_logs_widget(log_path, layout):
@@ -89,7 +160,7 @@ def _make_ghost_axis(mpl_figure, rect, title):
     return ghost_ax
 
 
-def _make_figure(layer_dims, mode, ppc, dpi):
+def _make_figure(layer_dims, mode, ppc, dpi, fig_title):
     # Calculate figure size (in cell units)
     hdims, vdims = zip(*list(layer_dims.values()))
     max_width = max(hdims) + (1.8 * 4)
@@ -101,7 +172,7 @@ def _make_figure(layer_dims, mode, ppc, dpi):
     ratio = min(fig_width / fig_height, 1.5)
     fig_width = max(min(fig_width, 9), 6)
     fig_height = fig_width / ratio
-    return plt.figure(figsize=[fig_width, fig_height])
+    return plt.figure(num=fig_title, figsize=[fig_width, fig_height])
 
 
 def _divide_axes_grid(mpl_figure, divider, layer_name, inp_size, layer_size, mode, target=False):
@@ -117,7 +188,6 @@ def _divide_axes_grid(mpl_figure, divider, layer_name, inp_size, layer_size, mod
     '''
 
     # provide axes-grid coordinates, image sizes, and titles
-    t = int(target)
     ax_params = {
         'input_': ((0, 0), (1, inp_size), 'input'),
         'weights': ((0, 2), (layer_size, inp_size), 'W'),
@@ -125,7 +195,7 @@ def _divide_axes_grid(mpl_figure, divider, layer_name, inp_size, layer_size, mod
         'net_input': ((4, 2), (layer_size, 1), 'net'),
         'output': ((6, 2), (layer_size, 1), 'a')
     }
-    if t: ax_params['target'] = ((8, 2), (layer_size, 1), 't')
+    if target: ax_params['target'] = ((8, 2), (layer_size, 1), 't')
 
     # define padding size
     _ = Scaled(.8)
@@ -135,19 +205,20 @@ def _divide_axes_grid(mpl_figure, divider, layer_name, inp_size, layer_size, mod
     left_panel = [mat_w, _, cvec_w, _, cvec_w, _, cvec_w, _]
     cols =  left_panel + [cvec_w,_] if target else left_panel
 
+    t = int(target)
     if mode > 0:
         right_panel = [_, mat_w, _, cvec_w, _, cvec_w, _, cvec_w]
         gax_params = {
-            'gweights': ((9 + 2 * t, 2), (layer_size, inp_size), 'W\''),
-            'gbiases': ((11 + 2 * t, 2), (layer_size, 1), 'b\''),
-            'gnet_input': ((13 + 2 * t, 2), (layer_size, 1), 'net\''),
-            'goutput': ((15 + 2 * t, 2), (layer_size, 1), 'a\'')
+            'gweights': ((9 + 2*t, 2), (layer_size, inp_size), 'W\''),
+            'gbiases': ((11 + 2*t, 2), (layer_size, 1), 'b\''),
+            'gnet_input': ((13 + 2*t, 2), (layer_size, 1), 'net\''),
+            'goutput': ((15 + 2*t, 2), (layer_size, 1), 'a\'')
         }
         for k,v in gax_params.items(): ax_params[k] = v
-        if mode > 1:
+        if mode == 2:
             right_panel += [_, mat_w, _, cvec_w]
-            ax_params['sgweights'] = ((17 + 2 * t, 2), (layer_size, inp_size), 'sW\'')
-            ax_params['sgbiases'] = ((19 + 2 * t, 2), (layer_size, 1), 'sb\'')
+            ax_params['sgweights'] = ((17 + 2*t, 2), (layer_size, inp_size), 'sW\'')
+            ax_params['sgbiases'] = ((19 + 2*t, 2), (layer_size, 1), 'sb\'')
         cols += right_panel
 
     # define grid row sizes (top to bottom): weights, input
@@ -174,20 +245,15 @@ def _divide_axes_grid(mpl_figure, divider, layer_name, inp_size, layer_size, mod
 
 
 def _draw_layers(runlog_path, img_dicts, layer_names, colormap, vrange, tind, pind):
-    snap_ldicts = {}
 
-    # get required data
     snap = load_test_data(runlog_path=runlog_path)[tind]
-
-    for layer_name in layer_names:
-        snap_ldicts[layer_name] = snap[layer_name]
-        snap_ldicts[layer_name]['target'] = np.expand_dims(snap['target'], axis=1)
-
-    del snap # clean up
 
     for img_dict, layer_name in zip(img_dicts, layer_names):
         for k, img in img_dict.items():
-            data = snap_ldicts[layer_name][k]
+            if k == 'target':
+                data = np.expand_dims(snap['target'], axis=1)
+            else:
+                data = snap[layer_name][k]
             if k == 'weights' or k=='sgweights':
                 data = data.T
             if 'biases' in k:
@@ -202,10 +268,10 @@ def _draw_layers(runlog_path, img_dicts, layer_names, colormap, vrange, tind, pi
             img.norm.vmax = vrange[1]
 
 
-def view_layers(log_path, mode=0, ppc=20):
+def view_layers(logdir, mode=0, ppc=20):
     '''
     DOCUMENTATION
-    :param log_path: path to log directory that contains pickled run logs
+    :param logdir: path to log directory that contains pickled run logs
     :param mode: viewing mode index. Must be an int between 0 and 2
         0: limits the viewing to feedforward information only (weights, biases, net_input, output)
         1: same as 0, but also includes gradient information (gweights, gbiases, gnet_input, goutput)
@@ -215,14 +281,14 @@ def view_layers(log_path, mode=0, ppc=20):
 
     _widget_layout = widgets.Layout(width='100%')
 
-    run_widget = _make_logs_widget(log_path=log_path, layout=_widget_layout)
+    run_widget = _make_logs_widget(log_path=logdir, layout=_widget_layout)
     runlog_path = run_widget.value
     epochs, losses = get_data_by_key(runlog_path=runlog_path, keys=['enum','loss']).values()
     layer_names = get_layer_names(runlog_path=runlog_path)
     layer_names.reverse()
     layer_dims = get_layer_dims(runlog_path=runlog_path, layer_names=layer_names)
 
-    figure = _make_figure(layer_dims=layer_dims, mode=mode, ppc=ppc, dpi=96)
+    figure = _make_figure(layer_dims=layer_dims, mode=mode, ppc=ppc, dpi=96, fig_title=logdir)
 
     num_layers = len(layer_names)
     axes_dicts = []
@@ -231,7 +297,6 @@ def view_layers(log_path, mode=0, ppc=20):
         sp_divider = SubplotDivider(figure, num_layers, 1, i+1, aspect=True, anchor='NW')
         vdims = [dim[1] for dim in layer_dims.values()]
         sp_divider._subplotspec._gridspec._row_height_ratios = [vdim + 1.8 for vdim in vdims]
-
         axes_dicts.append(
             _divide_axes_grid(
                 mpl_figure=figure,
@@ -240,7 +305,7 @@ def view_layers(log_path, mode=0, ppc=20):
                 inp_size = layer_dims[layer_name][0],
                 layer_size = layer_dims[layer_name][1],
                 mode = mode,
-                target = bool(disp_targ))
+                target = disp_targ)
         )
     plt.tight_layout()
 
@@ -344,5 +409,46 @@ def view_layers(log_path, mode=0, ppc=20):
     display(controls_panel)
 
 
-def view_error(log_path):
-    pass
+def view_progress(logdir, gaussian_smoothing=0):
+    '''
+        'lr' stands for loss record
+    '''
+    lr_keys = []
+    lr_vals = []
+
+    for runlog in [filename for filename in os.listdir(logdir) if '.pkl' in filename]:
+        path = '/'.join([logdir, runlog])
+        lr_keys.append('run {}'.format(runlog.split('.')[0].split('_')[1]))
+        lr_vals.append(load_runlog(path)['loss_data'])
+
+    fig = plt.figure(num=logdir)
+    ax = fig.add_subplot(111)
+
+    inds = [int(s.split(' ')[-1]) for s in lr_keys]
+    handles = []
+
+    for i, (key, loss_rec) in enumerate(zip(lr_keys, lr_vals)):
+        if gaussian_smoothing:
+            loss_rec = smoothListGaussian(loss_rec, degree=gaussian_smoothing)
+            lr_vals[i] = loss_rec
+        lines, = ax.plot(loss_rec, alpha=.8)
+        handles.append(lines)
+
+    if len(lr_keys) > 1:
+        length = len(lr_vals[0])
+        if all([len(loss_rec)==length for loss_rec in lr_vals]):
+            mean_loss = np.mean(
+                np.vstack([loss_rec for loss_rec in lr_vals]), axis=0
+            )
+            mean_line, = ax.plot(mean_loss, ls='--', lw=1.5, c='black')
+            inds.append(inds[-1]+2)
+            handles.append(mean_line)
+            lr_keys.append('mean')
+    ax.yaxis.grid()
+    _ ,legend_keys, handles = zip(*sorted(zip(inds, lr_keys, handles)))
+
+    ax.legend(handles, legend_keys, bbox_to_anchor=(1.04, 1), loc="upper left")
+    ax.set_title('Training progress')
+    ax.set_ylabel('Loss')
+    ax.set_xlabel('Epoch')
+    plt.subplots_adjust(right=.8)

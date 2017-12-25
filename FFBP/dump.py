@@ -439,3 +439,21 @@ def use_exercise_params(use):
         tf.train.Saver(restore_dict, name='xor_exercise_saver').restore(
             tf.get_default_session(), 'temp/exercise_params_old/exercise_params'
         )
+
+# FFBP.constructors
+# ========================
+# FOR DEBUGGING =============================
+print('FEED DICT ITEMS ***'*3)
+for k,v in feed_dict.items():
+    print('{}:  {}'.format(k,v))
+
+print('FETCHES ITEMS ***'*3)
+for k, v in self._test_fetches.items():
+    if not isinstance(v, dict):
+        print('{}:  {}'.format(k, v))
+    else:
+        print(k.replace('_',' ').upper())
+        for kk,vv in v.items():
+            print('{}:  {}'.format(kk, vv))
+    print()
+# FOR DEBUGGING =============================

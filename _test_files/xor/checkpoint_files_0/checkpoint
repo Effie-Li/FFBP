@@ -1,0 +1,2 @@
+model_checkpoint_path: "/Users/alexten/Projects/pdpyflow/_test_files/xor/checkpoint_files_0/xor_model-470"
+all_model_checkpoint_paths: "/Users/alexten/Projects/pdpyflow/_test_files/xor/checkpoint_files_0/xor_model-470"

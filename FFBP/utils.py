@@ -28,6 +28,12 @@ def new_logdir():
     return logdir
 
 
+def load_runlog(runlog_path):
+    with open(runlog_path, 'rb') as snap_file:
+        test_data = pickle.load(snap_file)
+    return test_data
+
+
 def load_test_data(runlog_path):
     with open(runlog_path, 'rb') as snap_file:
         test_data = pickle.load(snap_file)['test_data']

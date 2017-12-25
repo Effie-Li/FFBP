@@ -14,7 +14,7 @@ class InputData(object):
     DOCUMENTATION
     '''
 
-    def __init__(self, path_to_data_file, inp_size, targ_size, num_epochs, batch_size, data_len, shuffle_seed=None):
+    def __init__(self, path_to_data_file, inp_size, targ_size, batch_size, data_len, shuffle_seed=None):
         # Store useful params
         self.path = path_to_data_file
         self.batch_size = batch_size
@@ -26,7 +26,7 @@ class InputData(object):
         filename_queue = tf.train.string_input_producer(string_tensor=[path_to_data_file], shuffle=False)
 
         # create reader and setup default values to read from files in the filename queue
-        reader = tf.TextLineReader(skip_header_lines=True, name='csv_reader')
+        reader = tf.TextLineReader(skip_header_lines=1, name='csv_reader')
         _, record_strings = reader.read_up_to(filename_queue, num_records=data_len)
         defaults = [[0.0] for x in range(sum(self.inp_size) + targ_size)]
         defaults.insert(0, [''])
@@ -49,9 +49,8 @@ class InputData(object):
         tensor_list = [pattern_labels] + input_patterns + [target_patterns]
         examples_slice = tf.train.slice_input_producer(
             tensor_list=tensor_list,
-            num_epochs=num_epochs,
             shuffle=True if shuffle_seed else False,
-            seed=shuffle_seed if shuffle_seed and shuffle_seed>=1 else None,
+            seed=shuffle_seed if shuffle_seed and shuffle_seed >= 1 else None,
             capacity=data_len
         )
 
@@ -68,7 +67,7 @@ class BasicLayer(object):
     DOCUMENTATION
     '''
 
-    def __init__(self, layer_name, layer_input, size, wrange, nonlin=None, bias=True, seed=None, sparse_inp=False):
+    def __init__(self, layer_name, layer_input, size, wrange, bias=True, nonlin=None, seed=None, sparse_inp=False):
         self.name = layer_name
         with tf.variable_scope(layer_name):
 
@@ -96,9 +95,10 @@ class BasicLayer(object):
                     shape=[size],
                     dtype=tf.float32
                 )
-                self.biases = tf.get_variable('biases', initializer=bias_init)
             else:
-                self.biases = tf.zeros(shape=[size], dtype=tf.float32, name='biases')
+                bias_init = tf.zeros(shape=[size], dtype=tf.float32)
+            self.biases = tf.get_variable('biases', initializer=bias_init, trainable=bool(bias))
+
 
         with tf.name_scope(layer_name):
             with tf.name_scope('net_input'):
@@ -113,8 +113,8 @@ class BasicLayer(object):
 
     def add_gradient_ops(self, loss):
         with tf.name_scope(self.name):
-            item_keys = ['net_input', 'output', 'weights']
-            items = [self.net_input, self.output, self.weights]
+            item_keys = ['net_input', 'output', 'weights', 'biases']
+            items = [self.net_input, self.output, self.weights, self.biases]
             grad_list = tf.gradients(loss, items)
             grad_list_with_keys = [val for pair in zip(item_keys, grad_list) for val in pair]
             self.gradient = {k: v for k, v in zip(*[iter(grad_list_with_keys)] * 2)}
@@ -140,7 +140,6 @@ class Model(object):
     def __init__(self, name, loss, layers, inp, targ, optimizer=None, train_data=None, test_data=None):
         self.name = name
         self.loss = loss
-        self.sum_loss = tf.reduce_sum(self.loss, name='train_loss')
         self.layers = layers
 
         self._global_step = tf.Variable(0, name='global_step', trainable=False)
@@ -166,14 +165,14 @@ class Model(object):
 
     def set_optimizer(self, optimizer):
         self.optimizer = optimizer
-        self._train_step = self.optimizer.minimize(loss=self.sum_loss, global_step=None)
+        self._train_step = self.optimizer.minimize(loss=self.loss, global_step=None)
 
     def train_setup(self, data, optimizer=None):
         if optimizer: self.set_optimizer(optimizer)
         if not self.optimizer: raise ValueError('optimizer is not provided')
         self.data['Train'] = data
         self._train_fetches = {
-            'loss': self.sum_loss,
+            'loss': self.loss,
             'train_step': self._train_step,
         }
 
@@ -203,30 +202,14 @@ class Model(object):
                 for placeholder, value in zip(self.placeholders, test_item):
                     feed_dict[placeholder] = value
 
-                # FOR DEBUGGING =============================
-                # print('FEED DICT ITEMS ***'*3)
-                # for k,v in feed_dict.items():
-                #     print('{}:  {}'.format(k,v))
-                #
-                # print('FETCHES ITEMS ***'*3)
-                # for k, v in self._test_fetches.items():
-                #     if not isinstance(v, dict):
-                #         print('{}:  {}'.format(k, v))
-                #     else:
-                #         print(k.replace('_',' ').upper())
-                #         for kk,vv in v.items():
-                #             print('{}:  {}'.format(kk, vv))
-                #     print()
-                # FOR DEBUGGING =============================
-
                 # Run graph to evaluate test fetches
-                test_out = session.run(
+                eval_dict = session.run(
                     fetches=self._test_fetches,
                     feed_dict=feed_dict
                 )
 
                 # Store snap items
-                for K, V in test_out.items():
+                for K, V in eval_dict.items():
                     if not isinstance(V, dict):
                         if K == 'enum':
                             snap['enum'] = V
@@ -239,10 +222,12 @@ class Model(object):
                                 layer_dict[k] = v
                             else:
                                 layer_dict[k].append(v)
-                loss_sum += np.squeeze(np.sum(test_out['loss']))
+                loss_sum += eval_dict['loss']
+
             # Combine snap items into numpy array
             for K, V in snap.items():
                 if K == 'enum': continue
+                elif K == 'loss': snap[K] = np.array(V)
                 elif isinstance(V, dict):
                     for k, v in V.items():
                         if k == 'weights' or k == 'biases': continue
@@ -269,11 +254,11 @@ class Model(object):
                 examples_batch = session.run(data.examples_batch)
                 feed_list = [val for pair in zip(self.inp + [self.targ], examples_batch[1:]) for val in pair]
                 feed_dict = dict(feed_list[i:i + 2] for i in range(0, len(feed_list), 2))
-                evaled_ops = session.run(
+                eval_dict = session.run(
                     fetches=self._train_fetches,
                     feed_dict=feed_dict
                 )
-                epoch_loss += evaled_ops['loss']
+                epoch_loss += eval_dict['loss']
 
         if verbose:
             print('Epoch {}: {}'.format(tf.train.global_step(session, self._global_step), epoch_loss))
@@ -334,6 +319,7 @@ class ModelSaver(object):
         save_to = '/'.join(['{}_{}'.format(self.ckptdir, run_ind), model.name])
         save_path = self.tf_saver.save(session, save_to, global_step=model._global_step)
         print("FFBP Saver: model saved to logdir")
+        return save_path
 
     def save_test(self, snap, run_ind):
         path = '/'.join([self.logdir, 'runlog_{}.pkl'.format(run_ind)])
@@ -346,6 +332,7 @@ class ModelSaver(object):
         except FileNotFoundError:
             with open(path, 'wb') as new_file:
                 pickle.dump(dict(test_data=[snap]), new_file)
+        return path
 
     def save_loss(self, loss, run_ind):
         path = '/'.join([self.logdir, 'runlog_{}.pkl'.format(run_ind)])
@@ -358,3 +345,7 @@ class ModelSaver(object):
         except FileNotFoundError:
             with open(path, 'wb') as new_file:
                 pickle.dump(dict(loss_data=[loss]), new_file)
+        return path
+
+    def list_runlogs(self):
+        return [filename for filename in os.listdir(self.logdir) if '.pkl' in filename]
