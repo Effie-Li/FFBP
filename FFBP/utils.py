@@ -28,6 +28,12 @@ def new_logdir():
     return logdir
 
 
+def list_pickles(logdir):
+    # return a list of .pkl files and a list of absolute paths to them
+    filenames = [filename for filename in os.listdir(logdir) if '.pkl' in filename]
+    paths = [os.path.join(logdir, filename) for filename in filenames]
+    return filenames, paths
+
 def load_runlog(runlog_path):
     with open(runlog_path, 'rb') as snap_file:
         test_data = pickle.load(snap_file)

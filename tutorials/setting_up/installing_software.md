@@ -7,7 +7,10 @@
 
 ## Introduction 
 
-In this class, we're going to use some special software, including [Python](https://www.python.org/), [TensorFlow](https://www.tensorflow.org/), [Jupyter Notebooks](http://jupyter.org/), and some custom software we've developed to make understanding neural networks easier. This document provides some (hopefully relatively painless) instructions for setting these things up. We highly recommend creating a [virtual environment](https://virtualenv.pypa.io/en/stable/) for the class software in order to prevent potential conflicts with whatever is already installed on your computer.
+In this class, we're going to use some special software, including [Python](https://www.python.org/), [TensorFlow](https://www.tensorflow.org/), [Jupyter Notebooks](http://jupyter.org/), and some custom software we've developed to make understanding neural networks easier. This document provides some (hopefully relatively painless) instructions for setting these things up. We highly recommend creating a [virtual environment](https://virtualenv.pypa.io/en/stable/) for the class software in order to prevent potential conflicts with whatever is already installed on your computer. A complete list of the required packages is can be found [here](https://github.com/alex-ten/pdpyflow/blob/master/tutorials/setting_up/requirements_list.md). Note that most of these are installed automatically as a result of installing the main software. If you do experience problems, check if they could be caused by using a version of software different from that specified in the list. You can check the versions of Python packages with `pip` by running:
+```
+pip list
+```
 
 ## Windows
 
@@ -67,6 +70,10 @@ Install [Jupyter Notebooks](http://jupyter.org/) using pip as follows:
 
 ```
 pip install jupyter
+```
+
+To ensure the intended presentation of visualization tools, overwrite the newest version of `ipywidgets` by an older version (`6.0.0`):
+```pip install --upgrade ipywidgets==6.0.0
 ```
 
 ### 5) Our software
@@ -154,6 +161,10 @@ sudo pip3 install jupyter
 sudo pip3 install numpy
 sudo pip3 install matplotlib
 ```
+To ensure the intended presentation of visualization tools, overwrite the newest version of `ipywidgets` by an older version (`6.0.0`):
+```sudo pip install --upgrade ipywidgets==6.0.0
+```
+
 
 ### 4) Our software
 

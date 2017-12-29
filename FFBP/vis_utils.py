@@ -11,6 +11,7 @@ from mpl_toolkits.axes_grid1.axes_size import Scaled
 
 from .utils import (
     load_test_data,
+    list_pickles,
     get_layer_dims,
     get_data_by_key,
     get_pattern_options,
@@ -136,11 +137,11 @@ def smoothListGaussian(list, degree=5):
     return smoothed
 
 
-def _make_logs_widget(log_path, layout):
-    filenames = [filename for filename in os.listdir(log_path) if '.pkl' in filename]
+def _make_logs_widget(logdir, layout):
+    filenames = [filename for filename in os.listdir(logdir) if '.pkl' in filename]
     runlogs = {}
     for filename in filenames:
-        runlogs[filename] = joinp(log_path, filename)
+        runlogs[filename] = joinp(logdir, filename)
     run_widget = widgets.Dropdown(
         options=runlogs,
         description='Run log: ',
@@ -279,20 +280,24 @@ def view_layers(logdir, mode=0, ppc=20):
     :return:
     '''
 
-    _widget_layout = widgets.Layout(width='100%')
+    # get runlog filenames and paths
+    FILENAMES, RUNLOG_PATHS = list_pickles(logdir)
 
-    run_widget = _make_logs_widget(log_path=logdir, layout=_widget_layout)
-    runlog_path = run_widget.value
-    epochs, losses = get_data_by_key(runlog_path=runlog_path, keys=['enum','loss']).values()
-    layer_names = get_layer_names(runlog_path=runlog_path)
+    # get testing epochs and losses data
+    EPOCHS, LOSSES = get_data_by_key(runlog_path=RUNLOG_PATHS[0], keys=['enum','loss']).values()
+
+    # get layer names and layer dims to set up figure
+    layer_names = get_layer_names(runlog_path=RUNLOG_PATHS[0])
     layer_names.reverse()
-    layer_dims = get_layer_dims(runlog_path=runlog_path, layer_names=layer_names)
+    layer_dims = get_layer_dims(runlog_path=RUNLOG_PATHS[0], layer_names=layer_names)
 
-    figure = _make_figure(layer_dims=layer_dims, mode=mode, ppc=ppc, dpi=96, fig_title=logdir)
+    # set up and make figure
+    figure = _make_figure(layer_dims=layer_dims, mode=mode, ppc=ppc, dpi=96, fig_title='view_layers: '+logdir)
 
     num_layers = len(layer_names)
-    axes_dicts = []
     disp_targs = [True] + [False for l in layer_names[1:]]
+
+    axes_dicts = []
     for i, (layer_name, disp_targ) in enumerate(zip(layer_names, disp_targs)):
         sp_divider = SubplotDivider(figure, num_layers, 1, i+1, aspect=True, anchor='NW')
         vdims = [dim[1] for dim in layer_dims.values()]
@@ -308,6 +313,15 @@ def view_layers(logdir, mode=0, ppc=20):
                 target = disp_targ)
         )
     plt.tight_layout()
+
+    _widget_layout = widgets.Layout(width='100%')
+
+    run_widget = widgets.Dropdown(
+        options=dict(zip(FILENAMES, RUNLOG_PATHS)),
+        description='Run log: ',
+        value=RUNLOG_PATHS[0],
+        layout=_widget_layout
+    )
 
     cmap_widget = widgets.Dropdown(
         options=sorted(['BrBG', 'bwr', 'coolwarm', 'PiYG',
@@ -332,29 +346,28 @@ def view_layers(logdir, mode=0, ppc=20):
     step_widget = widgets.IntSlider(
         value=0,
         min=0,
-        max=len(epochs) - 1,
+        max=len(EPOCHS) - 1,
         step=1,
         description='Step index: ',
         continuous_update=False,
         layout = _widget_layout
     )
 
-    pattern_options = get_pattern_options(runlog_path=runlog_path, tind=step_widget.value)
+    pattern_options = get_pattern_options(runlog_path=RUNLOG_PATHS[0], tind=step_widget.value)
     options_map = {}
     for i, pattern_option in enumerate(pattern_options):
         options_map[pattern_option] = i
-    pattern_widget = widgets.Select(
+    pattern_widget = widgets.Dropdown(
         options=options_map,
         value=0,
-        rows=min(10, len(pattern_options)),
         description='Pattern: ',
         disabled=False,
         layout = _widget_layout
     )
 
     loss_observer = LossDataObsever(
-        epoch_list=epochs,
-        loss_list=losses,
+        epoch_list=EPOCHS,
+        loss_list=LOSSES,
         tind=step_widget.value,
         pind=pattern_widget.value,
     )
@@ -421,7 +434,7 @@ def view_progress(logdir, gaussian_smoothing=0):
         lr_keys.append('run {}'.format(runlog.split('.')[0].split('_')[1]))
         lr_vals.append(load_runlog(path)['loss_data'])
 
-    fig = plt.figure(num=logdir)
+    fig = plt.figure(num='view_progress: ' + logdir)
     ax = fig.add_subplot(111)
 
     inds = [int(s.split(' ')[-1]) for s in lr_keys]

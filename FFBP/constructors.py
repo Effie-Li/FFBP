@@ -26,7 +26,7 @@ class InputData(object):
         filename_queue = tf.train.string_input_producer(string_tensor=[path_to_data_file], shuffle=False)
 
         # create reader and setup default values to read from files in the filename queue
-        reader = tf.TextLineReader(skip_header_lines=1, name='csv_reader')
+        reader = tf.TextLineReader(skip_header_lines=0, name='csv_reader')
         _, record_strings = reader.read_up_to(filename_queue, num_records=data_len)
         defaults = [[0.0] for x in range(sum(self.inp_size) + targ_size)]
         defaults.insert(0, [''])
