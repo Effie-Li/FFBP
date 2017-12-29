@@ -2,12 +2,15 @@ import os
 from os.path import join as joinp
 
 import ipywidgets as widgets
-import matplotlib.pyplot as plt
-import numpy as np
 from IPython.display import display
+
+import matplotlib as mpl; mpl.use('nbagg')
+import matplotlib.pyplot as plt
 from matplotlib.cm import get_cmap
 from mpl_toolkits.axes_grid1 import SubplotDivider, LocatableAxes
 from mpl_toolkits.axes_grid1.axes_size import Scaled
+
+import numpy as np
 
 from .utils import (
     load_test_data,
@@ -117,7 +120,7 @@ def prog_bar(sequence, every=None, size=None, name='Items'):
     )
 
 
-def smoothListGaussian(list, degree=5):
+def smooth_Gaussian(data, degree=5):
     window=degree*2-1
     weight=np.array([1.0]*window)
     weightGauss=[]
@@ -129,26 +132,12 @@ def smoothListGaussian(list, degree=5):
         weightGauss.append(gauss)
 
     weight=np.array(weightGauss)*weight
-    smoothed=[0.0]*(len(list)-window)
+    smoothed=[0.0]*(len(data) - window)
 
     for i in range(len(smoothed)):
-        smoothed[i]=sum(np.array(list[i:i+window])*weight)/sum(weight)
+        smoothed[i]= sum(np.array(data[i:i + window]) * weight) / sum(weight)
 
     return smoothed
-
-
-def _make_logs_widget(logdir, layout):
-    filenames = [filename for filename in os.listdir(logdir) if '.pkl' in filename]
-    runlogs = {}
-    for filename in filenames:
-        runlogs[filename] = joinp(logdir, filename)
-    run_widget = widgets.Dropdown(
-        options=runlogs,
-        description='Run log: ',
-        value=runlogs[filenames[0]],
-        layout=layout
-    )
-    return run_widget
 
 
 def _make_ghost_axis(mpl_figure, rect, title):
@@ -279,7 +268,7 @@ def view_layers(logdir, mode=0, ppc=20):
         2: same as 2, but also includes cumulative gradient information
     :return:
     '''
-
+    plt.ion()
     # get runlog filenames and paths
     FILENAMES, RUNLOG_PATHS = list_pickles(logdir)
 
@@ -426,23 +415,28 @@ def view_progress(logdir, gaussian_smoothing=0):
     '''
         'lr' stands for loss record
     '''
-    lr_keys = []
-    lr_vals = []
+    plt.ion() # turn on interactive mode
 
+    # loss records and corresponding run indices will be stored lists
+    lr_keys, lr_vals = [], []
+
+    # from each runlog file inside the logdir (ending '.pkl') pull loss data and make a corresponding string index
     for runlog in [filename for filename in os.listdir(logdir) if '.pkl' in filename]:
         path = '/'.join([logdir, runlog])
         lr_keys.append('run {}'.format(runlog.split('.')[0].split('_')[1]))
         lr_vals.append(load_runlog(path)['loss_data'])
 
+    # create new figure and axis
     fig = plt.figure(num='view_progress: ' + logdir)
     ax = fig.add_subplot(111)
+
 
     inds = [int(s.split(' ')[-1]) for s in lr_keys]
     handles = []
 
     for i, (key, loss_rec) in enumerate(zip(lr_keys, lr_vals)):
         if gaussian_smoothing:
-            loss_rec = smoothListGaussian(loss_rec, degree=gaussian_smoothing)
+            loss_rec = smooth_Gaussian(loss_rec, degree=gaussian_smoothing)
             lr_vals[i] = loss_rec
         lines, = ax.plot(loss_rec, alpha=.8)
         handles.append(lines)
