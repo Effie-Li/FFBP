@@ -477,3 +477,4 @@ def view_progress(logdir, gaussian_smoothing=0):
     ax.set_ylabel('Loss')
     ax.set_xlabel('Time' if dGs else 'Epoch')
     plt.subplots_adjust(right=.8)
+    return lr_keys, lr_vals, lr_inds
