@@ -422,7 +422,7 @@ def view_layers(logdir, mode=0, ppc=20):
     display(controls_panel)
 
 
-def view_progress(logdir, gaussian_smoothing=0):
+def view_progress(logdir, gaussian_smoothing=0, return_logs=False):
     '''
         'lr' stands for loss record
         'dGs' stands for degree of Gaussian smoothing
@@ -477,4 +477,5 @@ def view_progress(logdir, gaussian_smoothing=0):
     ax.set_ylabel('Loss')
     ax.set_xlabel('Time' if dGs else 'Epoch')
     plt.subplots_adjust(right=.8)
-    return lr_keys, lr_vals, lr_inds
+    if return_logs:
+        return lr_keys, lr_vals, lr_inds
