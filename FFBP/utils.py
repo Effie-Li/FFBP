@@ -34,6 +34,7 @@ def list_pickles(logdir):
     paths = [os.path.join(logdir, filename) for filename in filenames]
     return filenames, paths
 
+
 def load_runlog(runlog_path):
     with open(runlog_path, 'rb') as snap_file:
         test_data = pickle.load(snap_file)
