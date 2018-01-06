@@ -457,3 +457,10 @@ for k, v in self._test_fetches.items():
             print('{}:  {}'.format(kk, vv))
     print()
 # FOR DEBUGGING =============================
+
+vecs = ['input_', 'net_input', 'output', 'gnet_input', 'goutput', 'gweights', 'gbiases']
+
+if any([k == v for v in vecs]):
+    data = data[pind]
+    vecs.pop(vecs.index(k))
+    if k != 'input_': data = data.T
