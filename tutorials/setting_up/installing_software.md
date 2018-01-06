@@ -70,10 +70,10 @@ If you see something saying "Hello, TensorFlow!", you're good to go!
 
 ### 4) Jupyter
 
-Install [Jupyter Notebooks](http://jupyter.org/) using pip as follows:
+Install [Jupyter Notebooks](http://jupyter.org/), [Scipy](http://scipy.org), and [Matplotlib](http://matplotlib.org/) using pip as follows:
 
 ```
-pip install jupyter
+pip install jupyter scipy matplotlib
 ```
 
 To ensure the intended presentation of visualization tools, overwrite the newest version of `ipywidgets` by an older version (`6.0.0`):
@@ -165,12 +165,13 @@ print(sess.run(hello));"
 
 If you see something saying `Hello, TensorFlow!`, you're good to go!
 
-Next install [Jupyter](http://jupyter.org/), [Numpy](http://numpy.org/), and [Matplotlib](http://matplotlib.org/) using `pip3` as follows:
+Next install [Jupyter](http://jupyter.org/), [Numpy](http://numpy.org/), [Scipy](http://scipy.org), and [Matplotlib](http://matplotlib.org/) using `pip3` as follows:
 
 ```bash
 sudo pip3 install jupyter
 sudo pip3 install numpy
 sudo pip3 install matplotlib
+sudo pip3 install scipy
 ```
 To ensure the intended presentation of visualization tools, overwrite the newest version of `ipywidgets` by an older version (`6.0.0`):
 ```
@@ -253,6 +254,14 @@ source ~/Environments/pdpyflow_env/bin/activate
 
 and you should see the prompt changing to indicate the name of the active environment in parentheses (e.g. `(pdpyflow_env)`). When a virtual environment is activated, `pip` installations are made in the context of this environment. Thus, whenever you want to use the class software, you will need to make sure the associated environment is activated.
 
+If you want to make this easier, you can create a shorter alias for it, by adding the following to your `~/.bashrc` file:
+
+```bash
+alias actpdp='source ~/Environments/pdpyflow_env/bin/activate'
+```
+
+After creating the alias, you can simply type `actpdp` to activate the environment.
+
 To deactivate the environment simply enter `deactivate` in the terminal.
 
 
@@ -272,19 +281,18 @@ print(sess.run(hello));"
 ```
 If you see something saying "Hello, TensorFlow!", you're good to go!
 
-### 4) Jupyter
+### 4) Jupyter and other assorted packages
 
-Install [Jupyter Notebooks](http://jupyter.org/) using pip as follows:
+Install [Jupyter Notebooks](http://jupyter.org/), [Scipy](http://scipy.org), and [Matplotlib](http://matplotlib.org/) using pip as follows:
 
 ```bash
-sudo pip3 install jupyter
+sudo pip3 install jupyter matplotlib scipy
 ```
 
 To ensure the intended presentation of visualization tools, overwrite the newest version of `ipywidgets` by an older version (`6.0.0`):
 ```
 sudo pip3 install --upgrade ipywidgets==6.0.0
 ```
-
 
 ### 5) Our software
 
