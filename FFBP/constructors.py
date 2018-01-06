@@ -78,6 +78,8 @@ class BasicLayer(object):
                 self.input_ = layer_input
                 input_size = layer_input._shape[1]._value
 
+            if seed < 0: seed = None
+
             weight_init = tf.random_uniform(
                 minval=wrange[0],
                 maxval=wrange[1],
