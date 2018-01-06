@@ -191,10 +191,11 @@ class Model(object):
     def test_epoch(self, session, verbose=False):
         assert self.data['Test'] is not None, 'Provide test data to run a test epoch'
         data = self.data['Test']
+        assert data.batch_size == 1, 'batch_size of test data must be 1'
         snap = defaultdict(list)
         with tf.name_scope('Test'):
             loss_sum = 0
-            for i in range(data.data_len):
+            for i in range(data.data_len // data.batch_size):
 
                 # Make feed dict
                 test_item = session.run(data.examples_batch)
@@ -218,7 +219,9 @@ class Model(object):
                     else:
                         layer_dict = snap.setdefault(K, defaultdict(list))
                         for k, v in V.items():
-                            if k == 'weights' or k == 'biases':
+                            if k == 'weights':
+                                layer_dict[k] = v.T
+                            elif k == 'biases':
                                 layer_dict[k] = v
                             else:
                                 layer_dict[k].append(v)
@@ -231,13 +234,13 @@ class Model(object):
                 elif isinstance(V, dict):
                     for k, v in V.items():
                         if k == 'weights' or k == 'biases': continue
-                        else: snap[K][k] = np.stack(v, axis=0)
+                        else: snap[K][k] = np.squeeze(np.stack(v, axis=0))
                 else:
                     snap[K] = np.concatenate(V, axis=0)
 
             # Store summary values
             for layer in self.layers:
-                snap[layer.name]['sgweights'] = np.sum(snap[layer.name]['gweights'], axis=0)
+                snap[layer.name]['sgweights'] = np.sum(snap[layer.name]['gweights'], axis=0).T
                 snap[layer.name]['sgbiases'] = np.sum(snap[layer.name]['gbiases'], axis=0)
             snap['loss_sum'] = loss_sum
 
@@ -262,9 +265,9 @@ class Model(object):
 
         if verbose:
             print('Epoch {}: {}'.format(tf.train.global_step(session, self._global_step), epoch_loss))
-
         session.run(self._step_incrementer)
-        return epoch_loss
+        enum = session.run(self._global_step)
+        return epoch_loss, enum
 
 
 class ModelSaver(object):
@@ -321,7 +324,7 @@ class ModelSaver(object):
         print("FFBP Saver: model saved to logdir")
         return save_path
 
-    def save_test(self, snap, run_ind):
+    def log_test(self, snap, run_ind):
         path = '/'.join([self.logdir, 'runlog_{}.pkl'.format(run_ind)])
         try:
             with open(path, 'rb') as old_file:
@@ -334,17 +337,18 @@ class ModelSaver(object):
                 pickle.dump(dict(test_data=[snap]), new_file)
         return path
 
-    def save_loss(self, loss, run_ind):
+    def log_loss(self, loss, enum, run_ind):
         path = '/'.join([self.logdir, 'runlog_{}.pkl'.format(run_ind)])
         try:
             with open(path, 'rb') as old_file:
                 runlog = pickle.load(old_file)
-            with open(path, 'wb') as old_file:
-                runlog.setdefault('loss_data', []).append(loss)
-                pickle.dump(runlog, old_file)
+            with open(path, 'wb') as updated_file:
+                runlog.setdefault('loss_data', {'vals':[],'enums':[]})['vals'].append(loss)
+                runlog.setdefault('loss_data', {'vals':[],'enums':[]})['enums'].append(enum)
+                pickle.dump(runlog, updated_file)
         except FileNotFoundError:
             with open(path, 'wb') as new_file:
-                pickle.dump(dict(loss_data=[loss]), new_file)
+                pickle.dump(dict(loss_data={'vals':[loss],'enums':[enum]}), new_file)
         return path
 
     def list_runlogs(self):

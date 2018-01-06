@@ -47,9 +47,10 @@ class FigureObserver(object):
 
 
 class LossDataObsever(object):
-    def __init__(self, epoch_list, loss_list, tind=0, pind=0,
+    def __init__(self, epoch_list, loss_list, loss_sum_list, tind=0, pind=0,
                  epoch_label='<center><samp> Epoch: {:4d} </samp></center>',
-                 loss_label='<center><samp> Loss: {:10.4} </samp></center>'):
+                 loss_label='<center><samp> Pattern loss: {:10.4} </samp></center>',
+                 loss_sum_label='<center><samp> Epoch loss: {:10.4} </samp></center>'):
         self.tind, self.pind = tind, pind
 
         self.epoch_list = epoch_list
@@ -60,14 +61,39 @@ class LossDataObsever(object):
         self.loss_label = loss_label
         self.loss_widget = widgets.HTML(value=self.loss_label.format(loss_list[self.tind][self.pind]))
 
+        self.loss_sum_list = loss_sum_list
+        self.loss_sum_label = loss_sum_label
+        self.loss_sum_widget = widgets.HTML(value=self.loss_sum_label.format(loss_sum_list[self.tind]))
+
     def on_epoch_change(self, change):
         self.tind = change['new']
         self.epoch_widget.value = self.epoch_label.format(self.epoch_list[self.tind])
         self.loss_widget.value = self.loss_label.format(self.loss_list[self.tind][self.pind])
+        self.loss_sum_widget.value = self.loss_sum_label.format(self.loss_sum_list[self.tind])
 
     def on_pattern_change(self, change):
         self.pind = change['new']
         self.loss_widget.value = self.loss_label.format(self.loss_list[self.tind][self.pind])
+
+
+def smooth_Gaussian(data, degree=5):
+    window=degree*2-1
+    weight=np.array([1.0]*window)
+    weightGauss=[]
+
+    for i in range(window):
+        i=i-degree+1
+        frac=i/float(window)
+        gauss=1/(np.exp((4*(frac))**2))
+        weightGauss.append(gauss)
+
+    weight=np.array(weightGauss)*weight
+    smoothed=[0.0]*(len(data) - window)
+
+    for i in range(len(smoothed)):
+        smoothed[i]= sum(np.array(data[i:i + window]) * weight) / sum(weight)
+
+    return smoothed
 
 
 def prog_bar(sequence, every=None, size=None, name='Items'):
@@ -120,26 +146,6 @@ def prog_bar(sequence, every=None, size=None, name='Items'):
     )
 
 
-def smooth_Gaussian(data, degree=5):
-    window=degree*2-1
-    weight=np.array([1.0]*window)
-    weightGauss=[]
-
-    for i in range(window):
-        i=i-degree+1
-        frac=i/float(window)
-        gauss=1/(np.exp((4*(frac))**2))
-        weightGauss.append(gauss)
-
-    weight=np.array(weightGauss)*weight
-    smoothed=[0.0]*(len(data) - window)
-
-    for i in range(len(smoothed)):
-        smoothed[i]= sum(np.array(data[i:i + window]) * weight) / sum(weight)
-
-    return smoothed
-
-
 def _make_ghost_axis(mpl_figure, rect, title):
     ghost_ax = mpl_figure.add_axes(rect)
     [ghost_ax.spines[side].set_visible(False) for side in ['right','top','bottom','left']]
@@ -152,7 +158,7 @@ def _make_ghost_axis(mpl_figure, rect, title):
 
 def _make_figure(layer_dims, mode, ppc, dpi, fig_title):
     # Calculate figure size (in cell units)
-    hdims, vdims = zip(*list(layer_dims.values()))
+    vdims, hdims = zip(*list(layer_dims.values()))
     max_width = max(hdims) + (1.8 * 4)
     fig_width = max_width + int(mode > 0) * (.8 + max_width) + int(mode > 1) * (1.8 + (max(hdims)))
     fig_height = sum(vdims) + (1.8 * len(vdims))
@@ -235,23 +241,24 @@ def _divide_axes_grid(mpl_figure, divider, layer_name, inp_size, layer_size, mod
 
 
 def _draw_layers(runlog_path, img_dicts, layer_names, colormap, vrange, tind, pind):
-
     snap = load_test_data(runlog_path=runlog_path)[tind]
+    with_pind = ('input_', 'net_input', 'output', 'gnet_input', 'goutput', 'gweights', 'gbiases', 'target')
 
     for img_dict, layer_name in zip(img_dicts, layer_names):
         for k, img in img_dict.items():
+
             if k == 'target':
-                data = np.expand_dims(snap['target'], axis=1)
+                data = snap['target']
             else:
                 data = snap[layer_name][k]
-            if k == 'weights' or k=='sgweights':
-                data = data.T
-            if 'biases' in k:
+
+            if any([k==i for i in ('biases', 'sgbiases')]):
                 data = np.expand_dims(data, axis=1)
-            if data.ndim > 2:
+            elif any([k == i for i in with_pind]):
                 data = data[pind]
-                if k != 'input_':
-                    data = data.T
+                if data.ndim < 2: data = np.expand_dims(data, axis=1)
+                if any([k==i for i in ('input_', 'gweights')]): data = data.T
+
             img.set_data(data)
             img.cmap = get_cmap(colormap)
             img.norm.vmin = vrange[0]
@@ -273,7 +280,7 @@ def view_layers(logdir, mode=0, ppc=20):
     FILENAMES, RUNLOG_PATHS = list_pickles(logdir)
 
     # get testing epochs and losses data
-    EPOCHS, LOSSES = get_data_by_key(runlog_path=RUNLOG_PATHS[0], keys=['enum','loss']).values()
+    EPOCHS, LOSSES, LOSS_SUMS = get_data_by_key(runlog_path=RUNLOG_PATHS[0], keys=['enum','loss', 'loss_sum']).values()
 
     # get layer names and layer dims to set up figure
     layer_names = get_layer_names(runlog_path=RUNLOG_PATHS[0])
@@ -289,15 +296,15 @@ def view_layers(logdir, mode=0, ppc=20):
     axes_dicts = []
     for i, (layer_name, disp_targ) in enumerate(zip(layer_names, disp_targs)):
         sp_divider = SubplotDivider(figure, num_layers, 1, i+1, aspect=True, anchor='NW')
-        vdims = [dim[1] for dim in layer_dims.values()]
+        vdims = [dim[0] for dim in layer_dims.values()]
         sp_divider._subplotspec._gridspec._row_height_ratios = [vdim + 1.8 for vdim in vdims]
         axes_dicts.append(
             _divide_axes_grid(
                 mpl_figure=figure,
                 divider = sp_divider,
                 layer_name = layer_name.upper().replace('_',' '),
-                inp_size = layer_dims[layer_name][0],
-                layer_size = layer_dims[layer_name][1],
+                inp_size = layer_dims[layer_name][1],
+                layer_size = layer_dims[layer_name][0],
                 mode = mode,
                 target = disp_targ)
         )
@@ -357,6 +364,7 @@ def view_layers(logdir, mode=0, ppc=20):
     loss_observer = LossDataObsever(
         epoch_list=EPOCHS,
         loss_list=LOSSES,
+        loss_sum_list=LOSS_SUMS,
         tind=step_widget.value,
         pind=pattern_widget.value,
     )
@@ -392,7 +400,10 @@ def view_layers(logdir, mode=0, ppc=20):
         widgets.Box(children=[controls_dict['runlog_path'], controls_dict['pind']], layout=row_layout),
         widgets.Box(children=[controls_dict['colormap'], controls_dict['vrange']], layout=row_layout),
         widgets.Box(children=[controls_dict['tind']], layout=row_layout),
-        widgets.Box(children=[loss_observer.epoch_widget, loss_observer.loss_widget, fig_observer.widget], layout=stretch_layout)
+        widgets.Box(children=[loss_observer.epoch_widget,
+                              loss_observer.loss_sum_widget,
+                              loss_observer.loss_widget,
+                              fig_observer.widget], layout=stretch_layout)
     ]
 
     controls_panel = widgets.Box(
@@ -414,17 +425,24 @@ def view_layers(logdir, mode=0, ppc=20):
 def view_progress(logdir, gaussian_smoothing=0):
     '''
         'lr' stands for loss record
+        'dGs' stands for degree of Gaussian smoothing
     '''
     plt.ion() # turn on interactive mode
+    dGs = gaussian_smoothing
 
     # loss records and corresponding run indices will be stored lists
-    lr_keys, lr_vals = [], []
+    lr_keys, lr_vals, lr_inds = [], [], []
 
     # from each runlog file inside the logdir (ending '.pkl') pull loss data and make a corresponding string index
     for runlog in [filename for filename in os.listdir(logdir) if '.pkl' in filename]:
         path = '/'.join([logdir, runlog])
         lr_keys.append('run {}'.format(runlog.split('.')[0].split('_')[1]))
-        lr_vals.append(load_runlog(path)['loss_data'])
+        loss_log = load_runlog(path)['loss_data']
+        lr_vals.append(loss_log['vals'])
+        lr_inds.append(loss_log['enums'])
+        if len(loss_log['vals']) <= dGs*2-1:
+            msg = 'Cannot apply Gaussian smoothing with degree {}, on list of length {}. Degree must be less then (lenght+1/2)'
+            raise ValueError(msg.format(dGs, len(loss_log['vals'])))
 
     # create new figure and axis
     fig = plt.figure(num='view_progress: ' + logdir)
@@ -434,11 +452,11 @@ def view_progress(logdir, gaussian_smoothing=0):
     inds = [int(s.split(' ')[-1]) for s in lr_keys]
     handles = []
 
-    for i, (key, loss_rec) in enumerate(zip(lr_keys, lr_vals)):
-        if gaussian_smoothing:
-            loss_rec = smooth_Gaussian(loss_rec, degree=gaussian_smoothing)
+    for i, (key, loss_rec, rec_inds) in enumerate(zip(lr_keys, lr_vals, lr_inds)):
+        if dGs:
+            loss_rec = smooth_Gaussian(loss_rec, degree=dGs)
             lr_vals[i] = loss_rec
-        lines, = ax.plot(loss_rec, alpha=.8)
+        lines, = ax.plot([i for i in range(len(loss_rec))] if dGs else rec_inds, loss_rec, alpha=.8)
         handles.append(lines)
 
     if len(lr_keys) > 1:
@@ -447,7 +465,7 @@ def view_progress(logdir, gaussian_smoothing=0):
             mean_loss = np.mean(
                 np.vstack([loss_rec for loss_rec in lr_vals]), axis=0
             )
-            mean_line, = ax.plot(mean_loss, ls='--', lw=1.5, c='black')
+            mean_line, = ax.plot([i for i in range(len(mean_loss))] if dGs else lr_inds[0], mean_loss, ls='--', lw=1.5, c='black')
             inds.append(inds[-1]+2)
             handles.append(mean_line)
             lr_keys.append('mean')
@@ -457,5 +475,5 @@ def view_progress(logdir, gaussian_smoothing=0):
     ax.legend(handles, legend_keys, bbox_to_anchor=(1.04, 1), loc="upper left")
     ax.set_title('Training progress')
     ax.set_ylabel('Loss')
-    ax.set_xlabel('Epoch')
+    ax.set_xlabel('Time' if dGs else 'Epoch')
     plt.subplots_adjust(right=.8)
