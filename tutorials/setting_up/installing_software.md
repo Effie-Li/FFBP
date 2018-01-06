@@ -7,10 +7,14 @@
 
 ## Introduction 
 
-In this class, we're going to use some special software, including [Python](https://www.python.org/), [TensorFlow](https://www.tensorflow.org/), [Jupyter Notebooks](http://jupyter.org/), and some custom software we've developed to make understanding neural networks easier. This document provides some (hopefully relatively painless) instructions for setting these things up. We highly recommend creating a [virtual environment](https://virtualenv.pypa.io/en/stable/) for the class software in order to prevent potential conflicts with whatever is already installed on your computer. A complete list of the required packages is can be found [here](https://github.com/alex-ten/pdpyflow/blob/master/tutorials/setting_up/requirements_list.md). Note, that most of these are installed automatically as a result of installing the main software. If you do experience problems, see if they can be solved by switching to a different version of software, as specified in the list. You can check the versions of Python packages with `pip` by running:
+In this class, we're going to use some special software, including [Python](https://www.python.org/), [TensorFlow](https://www.tensorflow.org/), [Jupyter Notebooks](http://jupyter.org/), and some custom software we've developed to make understanding neural networks easier. This document provides some (hopefully relatively painless) instructions for setting these things up. We highly recommend creating a [virtual environment](https://virtualenv.pypa.io/en/stable/) for the class software in order to prevent potential conflicts with whatever is already installed on your computer. A complete list of the required packages can be found [here](https://github.com/alex-ten/pdpyflow/blob/master/tutorials/setting_up/requirements_list.md). Note, that most of these are installed automatically as a result of installing the main software. If you do experience problems, see if they can be solved by switching to a different version of software, as specified in the list. You can check the versions of Python packages with `pip` by running:
+
 ```
 pip list
 ```
+
+If you have other difficulties, contact the class TA, Andrew Lampinen, lampinen@stanford.edu for assistance; or (especially if you are using a Mac) contact the developer of the pdpyflow software, Alex Ten, tenalexander1991@gmail.com . 
+
 
 ## Windows
 
@@ -93,7 +97,7 @@ cd pdpyflow; jupyter notebook
 
 ## Mac
 
-Mac OS comes Python 2.7 and pip preinstalled. By downloading and installing a new version of Python (3.6.3) you should end up with mutliple Python interpreters on your machine. This might create confusion when you use pip to install various requirements as each Python installation has its own pip executable associated with it. You can check the location(s) of existing interpreters by using `which -a` command, for example
+Mac OS comes with Python 2.7 and pip preinstalled. By downloading and installing a new version of Python (3.6.4) you should end up with mutliple Python interpreters on your machine. This might create confusion when you use pip to install various packages as each Python installation has its own pip executable associated with it. You can check the location(s) of existing interpreters by using `which -a` command, for example
 
 ```bash
 which -a python
@@ -130,7 +134,13 @@ Activate the environment by running
 source ~/Environments/pdpyflow_env/bin/activate
 ```
 
-and you should see the prompt changing to indicate the name of the active environment in parentheses (e.g. `(pdpyflow_env)`). When a virtual environment is activated, `pip` installations are made in the context of this environment. Thus, whenever you want to use the class software, you will need to make sure the associated environment is activated.
+and you should see the prompt changing to indicate the name of the active environment in parentheses (e.g. `(pdpyflow_env)`). When a virtual environment is activated, `pip` installations are made in the context of this environment. Thus, whenever you want to use the class software, you will need to make sure the associated environment is activated. For convenience, you can alias the activation command by adding it to your login shell profile script (see [this page](http://www.dowdandassociates.com/blog/content/howto-set-an-environment-variable-in-mac-os-x-terminal-only/) for more info). Bash is the default login shell on Macs, so you can simply add something like
+
+```
+alias actpdp='source ~/Environments/pdpyflow_env/bin/activate'
+```
+
+to your `~/.bash_profile` file, then rerun the login script (i.e. run `source ~/.bash_profile` in the terminal) and you should have a `actpdp` shortcut at your disposal. Try entering it in your terminal and see if it activates the environment correctly.
 
 To deactivate the environment simply enter `deactivate` in the terminal.
 
