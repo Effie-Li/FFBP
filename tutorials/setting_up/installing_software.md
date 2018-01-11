@@ -19,7 +19,7 @@ If you have other difficulties, contact the class TA, Andrew Lampinen, lampinen@
 ## Windows
 
 ### 1) Python
-Go to <https://www.python.org/downloads/windows/> and download the newest version of Python 3 (3.6.3 as of this writing) executable installer for your operating system. Run the file. Check the box that says "Add python 3.x.x to the path" and then click install now.
+Go to <https://www.python.org/downloads/windows/> and download the newest *64-bit* version of Python 3 (3.6.3 as of this writing) executable installer for your operating system. Run the file. Check the box that says "Add python 3.x.x to the path" and then click install now.
 
 To test open your Command Prompt (search "cmd" on the start bar) and run
 ```
