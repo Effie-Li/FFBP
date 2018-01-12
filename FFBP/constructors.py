@@ -237,7 +237,10 @@ class Model(object):
                 elif isinstance(V, dict):
                     for k, v in V.items():
                         if k == 'weights' or k == 'biases': continue
-                        else: snap[K][k] = np.squeeze(np.stack(v, axis=0))
+                        elif k == 'gweights' or k == 'gbiases':
+                            snap[K][k] = np.stack(v, axis=0)
+                        else:
+                            snap[K][k] = np.concatenate(v, axis=0)
                 else:
                     snap[K] = np.concatenate(V, axis=0)
 
