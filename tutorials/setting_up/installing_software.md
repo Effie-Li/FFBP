@@ -202,7 +202,7 @@ rm master.zip
 mv pdpyflow-master pdpyflow
 ```
 
-You need to add a `$PYTHONPATH` variable to your virtual environment sourse file and set it to be the path to where our software was installed. Run
+You need to add a `$PYTHONPATH` variable to your virtual environment source file and set it to be the path to where our software was installed. Run
 
 ```bash
 echo 'export PYTHONPATH=$PATH:~/Documents/Psych209/pdpyflow' >> ~/Environments/pdpyflow_env/bin/activate
