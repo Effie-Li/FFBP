@@ -45,7 +45,7 @@ In the example above, a virtual environment named `pdpyflow_env` is added to the
 Activate the environment by running
 
 ```bash
-%userprofile%\Environments\pdpyflow_env\bin\activate
+%userprofile%\Environments\pdpyflow_env\Scripts\activate
 ```
 
 and you should see the prompt changing to indicate the name of the active environment in parentheses (e.g. `(pdpyflow_env)`). When a virtual environment is activated, `pip` installations are made in the context of this environment. Thus, whenever you want to use the class software, you will need to make sure the associated environment is activated.
@@ -60,13 +60,9 @@ pip install tensorflow
 ```
 To test the installation, run:
 ```bash
-python -c "\
-import tensorflow as tf;\
-hello = tf.constant('Hello, TensorFlow!');\
-sess = tf.Session();\
-print(sess.run(hello));"
+python -c "import tensorflow as tf; hello = tf.constant('Hello, TensorFlow!'); sess = tf.Session(); print(sess.run(hello));"
 ```
-If you see something saying "Hello, TensorFlow!", you're good to go!
+If you see something saying "Hello, TensorFlow!" (after some other lines), you're good to go!
 
 ### 4) Jupyter
 
@@ -163,7 +159,7 @@ sess = tf.Session();\
 print(sess.run(hello));"
 ```
 
-If you see something saying `Hello, TensorFlow!`, you're good to go!
+If you see something saying `Hello, TensorFlow!` (after some other lines), you're good to go!
 
 Next install [Jupyter](http://jupyter.org/), [Numpy](http://numpy.org/), [Scipy](http://scipy.org), and [Matplotlib](http://matplotlib.org/) using `pip3` as follows:
 
@@ -279,7 +275,7 @@ hello = tf.constant('Hello, TensorFlow!');\
 sess = tf.Session();\
 print(sess.run(hello));"
 ```
-If you see something saying "Hello, TensorFlow!", you're good to go!
+If you see something saying "Hello, TensorFlow!" (after some other lines), you're good to go!
 
 ### 4) Jupyter and other assorted packages
 
