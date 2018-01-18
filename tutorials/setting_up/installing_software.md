@@ -72,11 +72,22 @@ Install [Jupyter Notebooks](http://jupyter.org/), [Scipy](http://scipy.org), and
 pip install jupyter scipy matplotlib
 ```
 
-To ensure the intended presentation of visualization tools, overwrite the newest version of `ipywidgets` by an older version (`6.0.0`):
+To ensure the intended presentation of visualization tools, overwrite the newest version of `ipywidgets` by the older version 6.0.0:
 ```
 pip install --upgrade ipywidgets==6.0.0
 ```
 
+Then, enable the widgets [extension](https://github.com/ipython-contrib/jupyter_contrib_nbextensions) (independently provided JavaScript code) by running:
+
+```bash
+jupyter nbextension enable --py widgetsnbextension
+
+```
+However, you will need to execute this command each time before you start a notebook session. To avoid this, you can add the command to the environment activation script, so it will run automatically each time you activate the environment:
+
+```bash
+echo 'jupyter nbextension enable --py widgetsnbextension' >> ~/Environments/pdpyflow_env/bin/activate
+```
 ### 5) Our software
 
 We will describe how to install our software as a directory we will call ‘the pdpyflow directory’.  You can place this in whatever parent directory you choose.  We recommend the directory your Command Prompt start in which should be C:\Users\username  where ‘username’ is your user name on your system.  If you wish to use a different directory, you can use the cd and mkdir commands to change directories or make a new one if desired.
@@ -199,11 +210,21 @@ sudo pip3 install numpy
 sudo pip3 install matplotlib
 sudo pip3 install scipy
 ```
-To ensure the intended presentation of visualization tools, overwrite the newest version of `ipywidgets` by an older version (`6.0.0`):
+To ensure the intended presentation of visualization tools, overwrite the newest version of `ipywidgets` by the older version 6.0.0:
 ```
 sudo pip install --upgrade ipywidgets==6.0.0
 ```
+Then, enable the widgets [extension](https://github.com/ipython-contrib/jupyter_contrib_nbextensions) (independently provided JavaScript code) by running:
 
+```bash
+jupyter nbextension enable --py widgetsnbextension
+
+```
+However, you will need to execute this command each time before you start a notebook session. To avoid this, you can add the command to the environment activation script, so it will run automatically each time you activate the environment:
+
+```bash
+echo 'jupyter nbextension enable --py widgetsnbextension' >> ~/Environments/pdpyflow_env/bin/activate
+```
 
 ### 4) Our software
 
@@ -228,13 +249,7 @@ rm master.zip
 mv pdpyflow-master pdpyflow
 ```
 
-You need to add a `$PYTHONPATH` variable to your virtual environment source file and set it to be the path to where our software was installed. Run
-
-```bash
-echo 'export PYTHONPATH=$PATH:~/Documents/Psych209/pdpyflow' >> ~/Environments/pdpyflow_env/bin/activate
-```
-
-which will append `export PYTHONPATH=$PATH:~/Documents/Psych209/pdpyflow` to the activation source file, which will in turn fix the `$PYTHONPATH` variable as needed. (Re)activate the environment to execute path changes (see step 2) and you should be all set. To test out the last few installs, run
+You should be all set. To test out the last few installs, run
 
 ```bash
 cd pdpyflow; jupyter notebook
@@ -343,11 +358,21 @@ Install [Jupyter Notebooks](http://jupyter.org/), [Scipy](http://scipy.org), and
 sudo pip3 install jupyter matplotlib scipy
 ```
 
-To ensure the intended presentation of visualization tools, overwrite the newest version of `ipywidgets` by an older version (`6.0.0`):
+To ensure the intended presentation of visualization tools, overwrite the newest version of `ipywidgets` by the older version 6.0.0:
 ```
-sudo pip3 install --upgrade ipywidgets==6.0.0
+sudo pip install --upgrade ipywidgets==6.0.0
 ```
+Then, enable the widgets [extension](https://github.com/ipython-contrib/jupyter_contrib_nbextensions) (independently provided JavaScript code) by running:
 
+```bash
+jupyter nbextension enable --py widgetsnbextension
+
+```
+However, you will need to execute this command each time before you start a notebook session. To avoid this, you can add the command to the environment activation script, so it will run automatically each time you activate the environment:
+
+```bash
+echo 'jupyter nbextension enable --py widgetsnbextension' >> ~/Environments/pdpyflow_env/bin/activate
+```
 ### 5) Our software
 
 To install our software (and also get the homeworks and other class materials), first navigate to the directory where you will keep class materials, e.g.
