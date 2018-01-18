@@ -261,8 +261,8 @@ def _draw_layers(runlog_path, img_dicts, layer_names, colormap, vrange, tind, pi
 
             img.set_data(data)
             img.cmap = get_cmap(colormap)
-            img.norm.vmin = vrange[0]
-            img.norm.vmax = vrange[1]
+            img.norm.vmin = -vrange
+            img.norm.vmax = vrange
 
 
 def view_layers(logdir, mode=0, ppc=20):
@@ -329,11 +329,11 @@ def view_layers(logdir, mode=0, ppc=20):
         layout = _widget_layout
     )
 
-    vrange_widget = widgets.IntRangeSlider(
-        value=[-1, 1],
-        min=-5,
-        max=5,
-        step=1,
+    vrange_widget = widgets.FloatSlider(
+        value=1.0,
+        min=0,
+        max=8,
+        step=.1,
         description='V-range: ',
         continuous_update=False,
         layout = _widget_layout
@@ -443,7 +443,8 @@ def view_progress(logdir, gaussian_smoothing=0, return_logs=False):
         if len(loss_log['vals']) <= dGs*2-1:
             msg = 'Cannot apply Gaussian smoothing with degree {}, on list of length {}. Degree must be less then (lenght+1/2)'
             raise ValueError(msg.format(dGs, len(loss_log['vals'])))
-
+    print(lr_keys)
+    print(len(lr_vals))
     # create new figure and axis
     fig = plt.figure(num='view_progress: ' + logdir)
     ax = fig.add_subplot(111)
