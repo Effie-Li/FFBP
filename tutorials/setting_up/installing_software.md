@@ -386,6 +386,7 @@ git clone https://github.com/alex-ten/pdpyflow.git
 ```
 
 otherwise run
+
 ```bash
 wget https://github.com/alex-ten/pdpyflow/archive/master.zip
 unzip master.zip
@@ -394,6 +395,7 @@ mv pdpyflow-master pdpyflow
 ```
 
 You should be all set now! To test out the last few installs, run
+
 ```bash
 cd pdpyflow; jupyter notebook
 ```
