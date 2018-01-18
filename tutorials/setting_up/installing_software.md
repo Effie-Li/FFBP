@@ -79,17 +79,47 @@ pip install --upgrade ipywidgets==6.0.0
 
 ### 5) Our software
 
-To install our software (and also get the homeworks and other class materials), if you use [git](https://git-scm.com/), navigate to the directory where you want to keep your course materials and run
+We will describe how to install our software as a directory we will call ‘the pdpyflow directory’.  You can place this in whatever parent directory you choose.  We recommend the directory your Command Prompt start in which should be C:\Users\username  where ‘username’ is your user name on your system.  If you wish to use a different directory, you can use the cd and mkdir commands to change directories or make a new one if desired.
+There are two methods for installing the software.  If you use [git](https://git-scm.com/), navigate to the directory where you want to keep your course materials and run
 ```
 git clone https://github.com/alex-ten/pdpyflow.git
 ```
-otherwise download <https://github.com/alex-ten/pdpyflow/archive/master.zip> and extract it in your desired class directory. 
+If you do not use git, download <https://github.com/alex-ten/pdpyflow/archive/master.zip> and extract it, specifying your desired parent as the target (e.g. C:\Users\username).  The folder that is created will be called ‘pdpyflow-master’.  You can rename it to pdpyflow, or just remember that ‘pdpyflow-master’ is the name of your pdpyflow directory.
 
-You should be all set now! To test out the last few installs, navigate to your course directory, and then run
+You should be all set to test out the software now!  In your Command Prompt window, navigate to your pdpyflow directory, then run
+
 ```bash
-cd pdpyflow; jupyter notebook
+jupyter notebook
 ```
-(If a browser window doesn't open automatically, you may need to copy and paste the link shown.) Use this browser to open some of the .ipynb files in the tutorials/getting_started folder and try them out!
+(If a browser window doesn't open automatically, you may need to copy and paste the link shown.) 
+
+You can now do any of the following: navigate to the tutorials directory, where you will find this tutorial under ‘setting up’, a general introduction to Tensorflow under ‘getting\_started’, and a suite of tutorials under ‘building\_models’ that explain how to build your own model within the PdPyFlow framework.  For now, try running the ‘getting\_started’ notebook – it will orient you to tensorflow.
+
+Once we release the assignment, you can also navigate to the xor directory, where you will find the xor\_exercise and xor\_visualize notebooks.  The use of these notebooks will be described in the assignment.
+
+### 6) Using the jupyter notebook.
+
+Using the notebook is pretty intuitive.  The most basic uses are just paging around and reading the notebook, as you would any web page, or running the notebook which you do by selecting ‘Restart and Run All’ in the Kernel menu at the top of the note book.  The notebook consists of cells which may contain code or text.  To insert a new cell, use the insert menu.  To edit the content of a cell, click in the box, and edit as you normally edit text.  To run the block, click to the left of the block, and then press ctrl-enter.  The important note here is that a code block generally depends on previous code blocks.  If your new or modified code block doesn’t run, use ‘Restart and Run All’.
+
+For more on using Jupyter notebook, you can start at <https://jupyter-notebook-beginner-guide.readthedocs.io/en/latest/>.
+
+### 7) Returning to PdPyFlow
+
+The instructions above get you set up for your first use, and luckily, most of what you’ve done only has to happen once.  Once you’ve closed the software, there are a few simple steps to getting in started up again.  This is a small subset of the steps you’ve done before:
+
+* open your Command Prompt (search “cmd” on the start bar)
+
+* activate the pdpyflow environment:
+
+```bash
+%userprofile%\Environments\pdpyflow_env\Scripts\activate
+```
+
+* navigate to your pdpyflow directory, then run
+
+```bash
+jupyter notebook
+```
 
 ## Mac
 
@@ -210,7 +240,35 @@ which will append `export PYTHONPATH=$PATH:~/Documents/Psych209/pdpyflow` to the
 cd pdpyflow; jupyter notebook
 ```
 
-(If a browser window doesn't open automatically, you may need to copy and paste the link shown.) Use this browser to open some of the .ipynb files in the tutorials/getting_started folder and try them out!
+(If a browser window doesn't open automatically, you may need to copy and paste the link shown.)
+
+You can now do any of the following: navigate to the tutorials directory, where you will find this tutorial under ‘setting up’, a general introduction to Tensorflow under ‘getting\_started’, and a suite of tutorials under ‘building\_models’ that explain how to build your own model within the PdPyFlow framework.  For now, try running the ‘getting\_started’ notebook – it will orient you to tensorflow.
+
+Once we release the assignment, you can also navigate to the xor directory, where you will find the xor\_exercise and xor\_visualize notebooks.  The use of these notebooks will be described in the assignment.
+
+### 6) Using the jupyter notebook.
+
+Using the notebook is pretty intuitive.  The most basic uses are just paging around and reading the notebook, as you would any web page, or running the notebook which you do by selecting ‘Restart and Run All’ in the Kernel menu at the top of the note book.  The notebook consists of cells which may contain code or text.  To insert a new cell, use the insert menu.  To edit the content of a cell, click in the box, and edit as you normally edit text.  To run the block, click to the left of the block, and then press ctrl-enter.  The important note here is that a code block generally depends on previous code blocks.  If your new or modified code block doesn’t run, use ‘Restart and Run All’.
+
+For more on using Jupyter notebook, you can start at <https://jupyter-notebook-beginner-guide.readthedocs.io/en/latest/>.
+
+### 7) Returning to PdPyFlow
+
+The instructions above get you set up for your first use, and luckily, most of what you’ve done only has to happen once.  Once you’ve closed the software, there are a few simple steps to getting in started up again.  This is a small subset of the steps you’ve done before:
+
+* open your terminal 
+
+* activate the pdpyflow environment:
+
+```bash
+~/Environments/pdpyflow_env/bin/activate
+```
+
+* navigate to your pdpyflow directory, then run
+
+```bash
+jupyter notebook
+```
 
 ## Linux
 
@@ -314,4 +372,32 @@ You should be all set now! To test out the last few installs, run
 ```bash
 cd pdpyflow; jupyter notebook
 ```
-(If a browser window doesn't open automatically, you may need to copy and paste the link shown.) Use this browser to open some of the .ipynb files in the tutorials/getting_started folder and try them out!
+(If a browser window doesn't open automatically, you may need to copy and paste the link shown.) 
+
+You can now do any of the following: navigate to the tutorials directory, where you will find this tutorial under ‘setting up’, a general introduction to Tensorflow under ‘getting\_started’, and a suite of tutorials under ‘building\_models’ that explain how to build your own model within the PdPyFlow framework.  For now, try running the ‘getting\_started’ notebook – it will orient you to tensorflow.
+
+Once we release the assignment, you can also navigate to the xor directory, where you will find the xor\_exercise and xor\_visualize notebooks.  The use of these notebooks will be described in the assignment.
+
+### 6) Using the jupyter notebook.
+
+Using the notebook is pretty intuitive.  The most basic uses are just paging around and reading the notebook, as you would any web page, or running the notebook which you do by selecting ‘Restart and Run All’ in the Kernel menu at the top of the note book.  The notebook consists of cells which may contain code or text.  To insert a new cell, use the insert menu.  To edit the content of a cell, click in the box, and edit as you normally edit text.  To run the block, click to the left of the block, and then press ctrl-enter.  The important note here is that a code block generally depends on previous code blocks.  If your new or modified code block doesn’t run, use ‘Restart and Run All’.
+
+For more on using Jupyter notebook, you can start at <https://jupyter-notebook-beginner-guide.readthedocs.io/en/latest/>.
+
+### 7) Returning to PdPyFlow
+
+The instructions above get you set up for your first use, and luckily, most of what you’ve done only has to happen once.  Once you’ve closed the software, there are a few simple steps to getting in started up again.  This is a small subset of the steps you’ve done before:
+
+* open your terminal 
+
+* activate the pdpyflow environment:
+
+```bash
+~/Environments/pdpyflow_env/bin/activate
+```
+
+* navigate to your pdpyflow directory, then run
+
+```bash
+jupyter notebook
+```
