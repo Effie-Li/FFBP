@@ -1,6 +1,7 @@
 import os
 import pickle
 import numpy as np
+import tensorflow as tf
 from collections import OrderedDict
 
 
@@ -93,3 +94,13 @@ def get_layer_names(runlog_path):
         if isinstance(v, dict):
             names.append(k)
     return names
+
+
+def clipped(x):
+    # this handles cases when y * tf.log(y') outputs NaN
+    return tf.clip_by_value(x, 1e-10, 1.0)
+
+
+def cross_entropy(target, activation, name='cross_entropy'):
+    return -tf.reduce_sum(target * tf.log(clipped(activation)) + (1 - target) * tf.log(clipped(1 - activation)),
+                          name=name)
