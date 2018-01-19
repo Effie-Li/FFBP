@@ -443,8 +443,7 @@ def view_progress(logdir, gaussian_smoothing=0, return_logs=False):
         if len(loss_log['vals']) <= dGs*2-1:
             msg = 'Cannot apply Gaussian smoothing with degree {}, on list of length {}. Degree must be less then (lenght+1/2)'
             raise ValueError(msg.format(dGs, len(loss_log['vals'])))
-    print(lr_keys)
-    print(len(lr_vals))
+
     # create new figure and axis
     fig = plt.figure(num='view_progress: ' + logdir)
     ax = fig.add_subplot(111)
