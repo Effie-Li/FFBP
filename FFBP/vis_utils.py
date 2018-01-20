@@ -460,15 +460,13 @@ def view_progress(logdir, gaussian_smoothing=0, return_logs=False):
         handles.append(lines)
 
     if len(lr_keys) > 1:
-        length = len(lr_vals[0])
-        if all([len(loss_rec)==length for loss_rec in lr_vals]):
-            mean_loss = np.mean(
-                np.vstack([loss_rec for loss_rec in lr_vals]), axis=0
-            )
-            mean_line, = ax.plot([i for i in range(len(mean_loss))] if dGs else lr_inds[0], mean_loss, ls='--', lw=1.5, c='black')
-            inds.append(inds[-1]+2)
-            handles.append(mean_line)
-            lr_keys.append('mean')
+        mean_loss = np.mean(
+            np.vstack([loss_rec for loss_rec in lr_vals]), axis=0
+        )
+        mean_line, = ax.plot([i for i in range(len(mean_loss))] if dGs else lr_inds[0], mean_loss, ls='--', lw=1.5, c='black')
+        inds.append(inds[-1]+2)
+        handles.append(mean_line)
+        lr_keys.append('mean')
     ax.yaxis.grid()
     _ ,legend_keys, handles = zip(*sorted(zip(inds, lr_keys, handles)))
 
