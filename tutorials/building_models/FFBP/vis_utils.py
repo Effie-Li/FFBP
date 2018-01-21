@@ -75,6 +75,11 @@ class LossDataObsever(object):
         self.pind = change['new']
         self.loss_widget.value = self.loss_label.format(self.loss_list[self.tind][self.pind])
 
+    def new_runlog(self, epoch_list, loss_list, loss_sum_list):
+        self.epoch_list = epoch_list
+        self.loss_list = loss_list
+        self.loss_sum_list = loss_sum_list
+
 
 def smooth_Gaussian(data, degree=5):
     window=degree*2-1
@@ -242,6 +247,10 @@ def _divide_axes_grid(mpl_figure, divider, layer_name, inp_size, layer_size, mod
 
 def _draw_layers(runlog_path, img_dicts, layer_names, colormap, vrange, tind, pind):
     snap = load_test_data(runlog_path=runlog_path)[tind]
+    # if len(snaps) <= tind:
+    #     tind = 0
+    #
+    # snap = snaps[tind]
     with_pind = ('input_', 'net_input', 'output', 'gnet_input', 'goutput', 'gweights', 'gbiases', 'target')
 
     for img_dict, layer_name in zip(img_dicts, layer_names):
@@ -277,7 +286,7 @@ def view_layers(logdir, mode=0, ppc=20):
     '''
     plt.ion()
     # get runlog filenames and paths
-    FILENAMES, RUNLOG_PATHS = list_pickles(logdir)
+    FILENAMES, RUNLOG_PATHS = [sorted(l) for l in list_pickles(logdir)]
 
     # get testing epochs and losses data
     EPOCHS, LOSSES, LOSS_SUMS = get_data_by_key(runlog_path=RUNLOG_PATHS[0], keys=['enum','loss', 'loss_sum']).values()
@@ -373,6 +382,17 @@ def view_layers(logdir, mode=0, ppc=20):
 
     step_widget.observe(handler=loss_observer.on_epoch_change, names='value')
     pattern_widget.observe(handler=loss_observer.on_pattern_change, names='value')
+
+    def on_runlog_change(change):
+        if change['type'] == 'change' and change['name'] == 'value':
+            newEPOCHS, newLOSSES, newLOSS_SUMS = get_data_by_key(runlog_path=change['new'],
+                                                        keys=['enum', 'loss', 'loss_sum']).values()
+            step_widget.max = len(newEPOCHS) - 1
+            step_widget.value = 0
+            pattern_widget.value = 0
+            loss_observer.new_runlog(newEPOCHS, newLOSSES, newLOSS_SUMS)
+
+    run_widget.observe(on_runlog_change)
 
     controls_dict = dict(
         runlog_path=run_widget,
