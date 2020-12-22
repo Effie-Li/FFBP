@@ -1,9 +1,13 @@
 import os
 import pickle
 import numpy as np
-import tensorflow as tf
+#import tensorflow as tf
 from collections import OrderedDict
 
+"""
+Author: Alex Ten
+Modified 12/2018 klh
+"""
 
 def snap2pickle(logdir, snap, run_index):
     # Deprecated: this function is defined as ModelSaver method in FFBP.constructors
@@ -70,7 +74,7 @@ def get_pattern_options(runlog_path, tind, input_dtype=int):
     pattern_labels, pattern_vectors = [], []
 
     for label, vector in zip(labels, vectors):
-        pattern_labels.append(label.decode('utf-8'))
+        pattern_labels.append(label)
 
         vector_string = np.array2string(vector.astype(input_dtype), separator=',', suppress_small=True)
         pattern_vectors.append(vector_string.replace('[','').replace(']',''))

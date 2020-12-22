@@ -22,6 +22,11 @@ from .utils import (
     load_runlog
 )
 
+"""
+Author: Alex Ten
+Modified 12/2018 klh
+"""
+
 
 class FigureObserver(object):
     def __init__(self, mpl_figure):
@@ -193,15 +198,15 @@ def _divide_axes_grid(mpl_figure, divider, layer_name, inp_size, layer_size, mod
         'input_': ((0, 0), (1, inp_size), 'input'),
         'weights': ((0, 2), (layer_size, inp_size), 'W'),
         'biases': ((2, 2), (layer_size, 1), 'b'),
-        'net_input': ((4, 2), (layer_size, 1), 'net'),
-        'output': ((6, 2), (layer_size, 1), 'a')
+        'net': ((4, 2), (layer_size, 1), 'net'),
+        'act': ((6, 2), (layer_size, 1), 'a')
     }
     if target: ax_params['target'] = ((8, 2), (layer_size, 1), 't')
 
     # define padding size
     _ = Scaled(.8)
 
-    # define grid column sizes (left to right): weights, biases, net_input, output, gweight, gbiases, gnet_input, goutput
+    # define grid column sizes (left to right): weights, biases, net, act, gweight, gbiases, gnet, gact
     mat_w, cvec_w = Scaled(inp_size), Scaled(1)
     left_panel = [mat_w, _, cvec_w, _, cvec_w, _, cvec_w, _]
     cols =  left_panel + [cvec_w,_] if target else left_panel
@@ -212,8 +217,8 @@ def _divide_axes_grid(mpl_figure, divider, layer_name, inp_size, layer_size, mod
         gax_params = {
             'gweights': ((9 + 2*t, 2), (layer_size, inp_size), 'W\''),
             'gbiases': ((11 + 2*t, 2), (layer_size, 1), 'b\''),
-            'gnet_input': ((13 + 2*t, 2), (layer_size, 1), 'net\''),
-            'goutput': ((15 + 2*t, 2), (layer_size, 1), 'a\'')
+            'gnet': ((13 + 2*t, 2), (layer_size, 1), 'net\''),
+            'gact': ((15 + 2*t, 2), (layer_size, 1), 'a\'')
         }
         for k,v in gax_params.items(): ax_params[k] = v
         if mode == 2:
@@ -251,7 +256,7 @@ def _draw_layers(runlog_path, img_dicts, layer_names, colormap, vrange, tind, pi
     #     tind = 0
     #
     # snap = snaps[tind]
-    with_pind = ('input_', 'net_input', 'output', 'gnet_input', 'goutput', 'gweights', 'gbiases', 'target')
+    with_pind = ('input_', 'net', 'act', 'gnet', 'gact', 'gweights', 'gbiases', 'target')
 
     for img_dict, layer_name in zip(img_dicts, layer_names):
         for k, img in img_dict.items():
@@ -279,8 +284,8 @@ def view_layers(logdir, mode=0, ppc=20):
     DOCUMENTATION
     :param logdir: path to log directory that contains pickled run logs
     :param mode: viewing mode index. Must be an int between 0 and 2
-        0: limits the viewing to feedforward information only (weights, biases, net_input, output)
-        1: same as 0, but also includes gradient information (gweights, gbiases, gnet_input, goutput)
+        0: limits the viewing to feedforward information only (weights, biases, net, act)
+        1: same as 0, but also includes gradient information (gweights, gbiases, gnet, gact)
         2: same as 2, but also includes cumulative gradient information
     :return:
     '''
