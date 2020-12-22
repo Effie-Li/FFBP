@@ -7,7 +7,8 @@ from IPython.display import display
 import matplotlib as mpl; mpl.use('nbagg')
 import matplotlib.pyplot as plt
 from matplotlib.cm import get_cmap
-from mpl_toolkits.axes_grid1 import SubplotDivider, LocatableAxes
+from mpl_toolkits.axes_grid1 import SubplotDivider
+from mpl_toolkits.axes_grid1.mpl_axes import Axes as LocatableAxes
 from mpl_toolkits.axes_grid1.axes_size import Scaled
 
 import numpy as np
@@ -25,6 +26,7 @@ from .utils import (
 """
 Author: Alex Ten
 Modified 12/2018 klh
+Modified 12/2020 el
 """
 
 
@@ -204,7 +206,7 @@ def _divide_axes_grid(mpl_figure, divider, layer_name, inp_size, layer_size, mod
     if target: ax_params['target'] = ((8, 2), (layer_size, 1), 't')
 
     # define padding size
-    _ = Scaled(.8)
+    _ = Scaled(.2)
 
     # define grid column sizes (left to right): weights, biases, net, act, gweight, gbiases, gnet, gact
     mat_w, cvec_w = Scaled(inp_size), Scaled(1)
@@ -445,6 +447,214 @@ def view_layers(logdir, mode=0, ppc=20):
 
     widgets.interactive_output(f=_draw_layers, controls=controls_dict)
     display(controls_panel)
+
+def view_layers_colab(logdir, mode=0, ppc=80, show_values=True):
+    '''
+    Temporary solution to get around colab not supporting interactive plot
+    
+    :param logdir: path to log directory that contains pickled run logs
+    :param mode: viewing mode index. Must be an int between 0 and 2
+        0: limits the viewing to feedforward information only (weights, biases, net, act)
+        1: same as 0, but also includes gradient information (gweights, gbiases, gnet, gact)
+        2: same as 2, but also includes cumulative gradient information
+    :return:
+    '''
+    
+    def _draw_static_layers(runlog_path,
+                            colormap,
+                            vrange,
+                            tind,
+                            pind,
+                            show_values):
+    
+        # get layer names and layer dims to set up figure
+        layer_names = get_layer_names(runlog_path=runlog_path)
+        layer_names.reverse()
+        layer_dims = get_layer_dims(runlog_path=runlog_path, layer_names=layer_names)
+        
+        # set up and make figure
+        figure = _make_figure(layer_dims=layer_dims, mode=mode, ppc=ppc, dpi=96, fig_title='view_layers: '+logdir)
+
+        num_layers = len(layer_names)
+        disp_targs = [True] + [False for l in layer_names[1:]]
+        snap = load_test_data(runlog_path=runlog_path)[tind]
+        with_pind = ('input_', 'net', 'act', 'gnet', 'gact', 'gweights', 'gbiases', 'target')
+
+        img_dicts = []
+        for i, (layer_name, disp_targ) in enumerate(zip(layer_names, disp_targs)):
+            sp_divider = SubplotDivider(figure, num_layers, 1, i+1, aspect=True, anchor='NW')
+            vdims = [dim[0] for dim in layer_dims.values()]
+            sp_divider._subplotspec._gridspec._row_height_ratios = [vdim + 1.8 for vdim in vdims]
+            img_dicts.append(
+                _divide_axes_grid(
+                    mpl_figure=figure,
+                    divider = sp_divider,
+                    layer_name = layer_name.upper().replace('_',' '),
+                    inp_size = layer_dims[layer_name][1],
+                    layer_size = layer_dims[layer_name][0],
+                    mode = mode,
+                    target = disp_targ)
+            )
+
+        values_dict = {}
+        for img_dict, layer_name in zip(img_dicts, layer_names):
+            values_dict[layer_name] = {}
+            for k, img in img_dict.items():
+
+                if k == 'target':
+                    data = snap['target']
+                else:
+                    data = snap[layer_name][k]
+
+                if any([k==i for i in ('biases', 'sgbiases')]):
+                    data = np.expand_dims(data, axis=1)
+                elif any([k == i for i in with_pind]):
+                    data = data[pind]
+                    if data.ndim < 2: data = np.expand_dims(data, axis=1)
+                    if any([k==i for i in ('input_',)]): data = data.T
+
+                img.set_data(data)
+                img.cmap = get_cmap(colormap)
+                img.norm.vmin = -vrange
+                img.norm.vmax = vrange
+                if show_values:
+                    for (i, j), z in np.ndenumerate(data):
+                        c = 'white' if abs(z) > vrange*0.7 else 'black'
+                        img.axes.text(j, i, '{:0.3f}'.format(z),
+                                      size=12, color=c, ha='center', va='center')
+                item_name = 'input' if k == 'input_' else img.axes.get_title()
+                values_dict[layer_name][item_name] = data
+    
+        figure.tight_layout()
+        cbax = figure.add_axes([1.02, 0.3, 0.03, 0.6]) 
+        sm = plt.cm.ScalarMappable(cmap=colormap, norm=mpl.colors.Normalize(vmin=-vrange, vmax=vrange))
+        plt.colorbar(sm, cbax)
+        plt.show()
+        
+    
+    # get runlog filenames and paths
+    FILENAMES, RUNLOG_PATHS = [sorted(l) for l in list_pickles(logdir)]
+
+    # get testing epochs and losses data
+    EPOCHS, LOSSES, LOSS_SUMS = get_data_by_key(runlog_path=RUNLOG_PATHS[0], keys=['enum','loss', 'loss_sum']).values()
+
+    _widget_layout = widgets.Layout(width='100%')
+
+    run_widget = widgets.Dropdown(
+        options=dict(zip(FILENAMES, RUNLOG_PATHS)),
+        description='Run log: ',
+        value=RUNLOG_PATHS[0],
+        layout=_widget_layout
+    )
+
+    cmap_widget = widgets.Dropdown(
+        options=sorted(['BrBG', 'bwr', 'coolwarm', 'PiYG',
+                        'PRGn', 'PuOr', 'RdBu', 'RdGy',
+                        'RdYlBu', 'RdYlGn', 'seismic']),
+        description='Colors: ',
+        value='coolwarm',
+        disabled=False,
+        layout = _widget_layout
+    )
+
+    vrange_widget = widgets.FloatSlider(
+        value=1.0,
+        min=0,
+        max=8,
+        step=.1,
+        description='V-range: ',
+        continuous_update=False,
+        layout = _widget_layout
+    )
+
+    step_widget = widgets.IntSlider(
+        value=0,
+        min=0,
+        max=len(EPOCHS) - 1,
+        step=1,
+        description='Step index: ',
+        continuous_update=False,
+        layout = _widget_layout
+    )
+
+    pattern_options = get_pattern_options(runlog_path=RUNLOG_PATHS[0], tind=step_widget.value)
+    options_map = {}
+    for i, pattern_option in enumerate(pattern_options):
+        options_map[pattern_option] = i
+    pattern_widget = widgets.Dropdown(
+        options=options_map,
+        value=0,
+        description='Pattern: ',
+        disabled=False,
+        layout = _widget_layout
+    )
+
+    loss_observer = LossDataObsever(
+        epoch_list=EPOCHS,
+        loss_list=LOSSES,
+        loss_sum_list=LOSS_SUMS,
+        tind=step_widget.value,
+        pind=pattern_widget.value,
+    )
+
+    step_widget.observe(handler=loss_observer.on_epoch_change, names='value')
+    pattern_widget.observe(handler=loss_observer.on_pattern_change, names='value')
+
+    def on_runlog_change(change):
+        if change['type'] == 'change' and change['name'] == 'value':
+            newEPOCHS, newLOSSES, newLOSS_SUMS = get_data_by_key(runlog_path=change['new'],
+                                                        keys=['enum', 'loss', 'loss_sum']).values()
+            step_widget.max = len(newEPOCHS) - 1
+            step_widget.value = 0
+            pattern_widget.value = 0
+            loss_observer.new_runlog(newEPOCHS, newLOSSES, newLOSS_SUMS)
+
+    run_widget.observe(on_runlog_change)
+
+    controls_dict = dict(
+        runlog_path=run_widget,
+        colormap=cmap_widget,
+        vrange=vrange_widget,
+        tind=step_widget,
+        pind=pattern_widget,
+        show_values=widgets.fixed(show_values),
+    )
+
+    row_layout = widgets.Layout(
+        display = 'flex',
+        flex_flow = 'row',
+        justify_content = 'center'
+    )
+
+    stretch_layout = widgets.Layout(
+        display='flex',
+        flex_flow='row',
+        justify_content = 'space-around'
+    )
+
+    control_panel_rows = [
+        widgets.Box(children=[controls_dict['runlog_path'], controls_dict['pind']], layout=row_layout),
+        widgets.Box(children=[controls_dict['colormap'], controls_dict['vrange']], layout=row_layout),
+        widgets.Box(children=[controls_dict['tind']], layout=row_layout),
+        widgets.Box(children=[loss_observer.epoch_widget,
+                              loss_observer.loss_sum_widget,
+                              loss_observer.loss_widget], layout=stretch_layout)
+    ]
+
+    controls_panel = widgets.Box(
+        children=control_panel_rows,
+        layout = widgets.Layout(
+            display='flex',
+            flex_flow='column',
+            padding='5px',
+            border='ridge 1px',
+            align_items='stretch',
+            width='100%'
+        )
+    )
+
+    plot = widgets.interactive_output(f=_draw_static_layers, controls=controls_dict)
+    display(controls_panel, plot)
 
 
 def view_progress(logdir, gaussian_smoothing=0, return_logs=False):
